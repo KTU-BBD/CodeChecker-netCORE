@@ -11,6 +11,14 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-CodeChecker-ebd9b832-c8e7-4b68-8137-dfe3d16b557f</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\Angular\contest.js" />
+    <Content Include="wwwroot\Angular\Contest\app-contest.js" />
+    <Content Include="wwwroot\Angular\Contest\contest.js" />
+    <Content Include="wwwroot\Html\contest.js" />
+    <Content Include="wwwroot\Html\Contest\Contest.html" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
@@ -32,6 +40,10 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Contest\" />
+    <Folder Include="Views\Shared\Partials\" />
   </ItemGroup>
 
 </Project>

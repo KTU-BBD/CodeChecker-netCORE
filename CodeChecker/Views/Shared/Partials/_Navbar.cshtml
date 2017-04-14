@@ -1,0 +1,63 @@
+<section id="header">
+    <div class="clearfix">
+        <div class="logo pull-left">
+            <a class="logo-text" href="/">
+                WAT
+            </a>
+        </div>
+        <div class="pull-right">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <ul class="top-menu">
+                    <li><a href="@Url.Action("Login", "Account")">Login</a></li>
+                    <li><a href="@Url.Action("Register", "Account")">Register</a></li>
+                </ul>
+
+            }
+            else
+            {
+                <ul class="top-menu">
+                    @if (ViewContext.HttpContext.User.IsInRole("ADMIN"))
+                    {
+                        <li><a href="@Url.Action("Contest", "Contest")"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                    }
+                    <li><span class="text-hover-underline">@User.Identity.Name</span></li>
+                    <li><a href="@Url.Action("LogOff", "Account")"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                </ul>
+            }
+        </div>
+    </div>
+</section>
+<section id="menu">
+    <ul class="menu">
+        <li class="current active">
+            <a href="@Url.Action("Index", "Home")">Home</a>
+        </li>
+        <li>
+            <a href="@Url.Action("About", "Home")">About</a>
+        </li>
+        <li class="parent">
+            <a href="@Url.Action("Index", "Home")">Pages</a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="/">Testimonials</a>
+                </li>
+                <li>
+                    <a href="/">Pricing</a>
+                </li>
+                <li>
+                    <a href="/">Tests</a>
+                </li>
+                <li>
+                    <a href="/">More tests boyy</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/">Blog</a>
+        </li>
+        <li>
+            <a href="@Url.Action("Contact", "Home")">Contacts</a>
+        </li>
+    </ul>
+</section>

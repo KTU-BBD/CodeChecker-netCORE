@@ -1,0 +1,12 @@
+﻿<form novalidate name="codeForm" ng-submit="vm.addCode()">
+    <div class="form-group">
+        <label for="language">Select language</label>
+        <input class="form-control" type="text" id="language" name="language" ng-model="vm.code.language" required ng-minlength="5" />
+        <label for="code">Code</label>
+        <input class="form-control" type="text" id="qweqweqwe" name="qwer" ng-model="vm.code.code" required ng-minlength="5" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-success btn-sm"
+               ng-disabled="codeForm.$invalid" />
+    </div>
+</form>

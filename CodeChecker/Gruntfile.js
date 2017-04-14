@@ -19,7 +19,7 @@
                 files: {
                     "<%= config.JS_DEPLOY_PATH  %>/plugins.js": [
                         "<%= config.VENDOR_PATH  %>/angular/angular.js",
-                        "<%= config.VENDOR_PATH  %>/angular-ui-router/release/angular-ui-router.js"
+                        "<%= config.VENDOR_PATH  %>/angular-route/angular-route.js"
                     ]
                 }
             },
