@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeChecker", "CodeChecker\CodeChecker.csproj", "{804F8B5B-40AF-4E5C-A70C-BD3B52C72532}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCheckerTest", "CodeCheckerTest\CodeCheckerTest.csproj", "{2B89628B-C349-422A-8D33-7625CE10985E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{D424E5E5-D79B-4EF0-94C5-F73531800F96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{804F8B5B-40AF-4E5C-A70C-BD3B52C72532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{804F8B5B-40AF-4E5C-A70C-BD3B52C72532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{804F8B5B-40AF-4E5C-A70C-BD3B52C72532}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B89628B-C349-422A-8D33-7625CE10985E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B89628B-C349-422A-8D33-7625CE10985E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B89628B-C349-422A-8D33-7625CE10985E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B89628B-C349-422A-8D33-7625CE10985E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D424E5E5-D79B-4EF0-94C5-F73531800F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D424E5E5-D79B-4EF0-94C5-F73531800F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D424E5E5-D79B-4EF0-94C5-F73531800F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D424E5E5-D79B-4EF0-94C5-F73531800F96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
