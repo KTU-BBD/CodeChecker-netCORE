@@ -38,7 +38,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>CodeChecker</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="xunit" Version="2.3.0-beta1-build3642" />
