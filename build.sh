@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
+export FrameworkPathOverride=/usr/lib/mono/4.5/
 dotnet restore && dotnet restore Tests
-cd /usr/lib/mono/
-ls < cat
 cd Tests
-
 dotnet xunit
