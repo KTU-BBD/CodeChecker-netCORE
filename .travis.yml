@@ -4,4 +4,7 @@ sudo: required
 mono: 3.12.0
 dotnet: 1.0.1
 script:
+  - cd /usr/lib/mono/
+  - ls
   - ./build.sh
+
