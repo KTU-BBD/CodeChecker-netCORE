@@ -22,7 +22,11 @@
                         <li><a href="@Url.Action("Contest", "Contest")"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
                     }
                     <li><span class="text-hover-underline">@User.Identity.Name</span></li>
-                    <li><form name="submitForm" method="post"><a href="@Url.Action("Logout", "Account")" ><i class="fa fa-sign-out" aria-hidden="true"></i></a></form></li>
+                    <li>@using (Html.BeginForm("Logout", "Account"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+                    }</li>
                 </ul>
             }
         </div>
