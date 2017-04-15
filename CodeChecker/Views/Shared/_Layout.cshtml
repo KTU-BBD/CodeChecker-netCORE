@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CodeChecker</title>
 
-    <link rel="stylesheet" href="~/static/css/plugins.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/static/css/styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/static/css/plugins.front.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/static/css/styles.front.css" asp-append-version="true" />
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body class="@ViewData["Body"]" ng-app="@ViewData["NgApp"]">
@@ -26,7 +26,7 @@
         <hr />
         @Html.Partial("Partials/_Footer")
         </div>
-        <script src="~/static/js/plugins.js" asp-append-version="true"></script>
+        <script src="~/static/js/plugins.front.js" asp-append-version="true"></script>
         @RenderSection("Scripts", required: false)
 </body>
 </html>

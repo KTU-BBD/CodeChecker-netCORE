@@ -8,6 +8,18 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^2.2.0",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt-contrib-watch": "^1.0.0",
+    "del": "^2.2.2",
+    "browser-sync": "^2.16.0",
+    "gulp": "^3.9.1",
+    "gulp-bower-src": "^0.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "main-bower-files": "^2.13.1",
+    "run-sequence": "^1.2.2"
   }
 }

@@ -15,33 +15,56 @@
             SCSS_ASSET_PATH: "Sass",
         },
         concat: {
-            jsDepepndencies: {
+            jsDepepndenciesFront: {
                 files: {
-                    "<%= config.JS_DEPLOY_PATH  %>/plugins.js": [
+                    "<%= config.JS_DEPLOY_PATH  %>/plugins.front.js": [
                         "<%= config.VENDOR_PATH  %>/angular/angular.js",
                         "<%= config.VENDOR_PATH  %>/angular-route/angular-route.js"
                     ]
                 }
             },
-            cssDependencies: {
+            cssDependenciesFront: {
                 files: {
-                    "<%= config.CSS_DEPLOY_PATH  %>/plugins.css": [
+                    "<%= config.CSS_DEPLOY_PATH  %>/plugins.front.css": [
                         "<%= config.VENDOR_PATH  %>/bootstrap/dist/css/bootstrap.css",
                         "<%= config.VENDOR_PATH  %>/bootstrap/dist/css/bootstrap-theme.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css"
                     ]
                 }
+            },
+            cssDependenciesAdmin: {
+                files: {
+                    "<%= config.CSS_DEPLOY_PATH  %>/plugins.admin.css": [
+                        "<%= config.VENDOR_PATH  %>/simple-line-icons/css/simple-line-icons.css",
+                        "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css"
+                    ]
+                }
+            },
+            jsDepepndenciesAdmin: {
+                files: {
+                    "<%= config.JS_DEPLOY_PATH  %>/plugins.admin.js": [
+                        "<%= config.VENDOR_PATH  %>/jquery/dist/jquery.js",
+                        "<%= config.VENDOR_PATH  %>/tether/dist/js/tether.js",
+                        "<%= config.VENDOR_PATH  %>/bootstrap/dist/js/bootstrap.js",
+                        "<%= config.VENDOR_PATH  %>/angular/angular.js",
+                        "<%= config.VENDOR_PATH  %>/angular-ui-router/release/angular-ui-router.js",
+                        "<%= config.VENDOR_PATH  %>/oclazyload/dist/ocLazyLoad.js",
+                        "<%= config.VENDOR_PATH  %>/angular-breadcrumb/dist/angular-breadcrumb.js",
+                        "<%= config.VENDOR_PATH  %>/angular-loading-bar/build/loading-bar.js"
+                    ]
+                }
             }
         },
         sass: {
-            dist: {
-                options: {
-                    style: "expanded"
-                },
-                files: {
-                    "<%= config.CSS_DEPLOY_PATH %>/styles.css": "<%= config.SCSS_ASSET_PATH %>/styles.scss"
+                dist: {
+                    options: {
+                        style: "expanded"
+                    },
+                    files: {
+                        "<%= config.CSS_DEPLOY_PATH %>/styles.front.css": "<%= config.SCSS_ASSET_PATH %>/Front/styles.scss",
+                        "<%= config.CSS_DEPLOY_PATH %>/styles.back.css": "<%= config.SCSS_ASSET_PATH %>/Admin/style.scss"
+                    }
                 }
-            }
         },
         copy: {
             fa_fonts: {
@@ -52,6 +75,12 @@
             },
             bs_fonts: {
                 cwd: "<%= config.VENDOR_PATH  %>/bootstrap/fonts/",
+                src: "**/*",
+                dest: "<%= config.FONT_DEPLOY_PATH  %>",
+                expand: true
+            },
+            sl_fonts: {
+                cwd: "<%= config.VENDOR_PATH  %>/simple-line-icons/fonts/",
                 src: "**/*",
                 dest: "<%= config.FONT_DEPLOY_PATH  %>",
                 expand: true
