@@ -19,35 +19,31 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             _roleManager = roleManager;
             _context = context;
         }
-
+        
         public  async Task SeedDatabase()
         {
-            if (_userManager.FindByEmailAsync("Arvydas@Daubaris.lt") == null)
-            {
-                var userArvydas = new ApplicationUser()
-                {
-                    UserName = "Arvydas",
-                    Email = "Arvydas@Daubaris.lt"
-                };
-                await _userManager.CreateAsync(userArvydas, "P@ssw0rd!");
-                _userManager.AddToRoleAsync(userArvydas, "Administrator").Wait();
-            }
-
-            if (_userManager.FindByEmailAsync("Erlandas.Trumpickas@gmail.com") == null)
-            {
-                var userErlandas = new ApplicationUser()
-                {
-                    UserName = "Erlandas",
-                    Email = "Erlandas.Trumpickas@gmail.com"
-                };
-                await _userManager.CreateAsync(userErlandas, "P@ssw0rd!");
-                _userManager.AddToRoleAsync(userErlandas, "Administrator").Wait();
-            }
+            
 
             if (_context.Users.Any())
             {
                 return;   // DB has been seeded
             }
+           
+            var userArvydas = new ApplicationUser()
+            {
+                UserName = "Arvydas",
+                Email = "Arvydas@Daubaris.lt"
+            };
+            await _userManager.CreateAsync(userArvydas, "P@ssw0rd!");
+            _userManager.AddToRoleAsync(userArvydas, "Administrator").Wait();
+           
+            var userErlandas = new ApplicationUser()
+            {
+                UserName = "Erlandas",
+                Email = "Erlandas.Trumpickas@gmail.com"
+            };
+            await _userManager.CreateAsync(userErlandas, "P@ssw0rd!");
+            _userManager.AddToRoleAsync(userErlandas, "Administrator").Wait();
             
             for (int i = 0; i < 100; i++)
             {
