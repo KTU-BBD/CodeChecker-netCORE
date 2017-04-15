@@ -1,0 +1,37 @@
+﻿#sidebar {
+    .sidebox {
+        border: 1px solid $c_gray;
+        border-radius: $s_radius;
+        margin-bottom: 30px;
+
+
+        .title {
+            padding: 5px 10px;
+        }
+
+        table.table {
+            border-left: none;
+            border-right: none;
+            margin-bottom: 0;
+            border-bottom: none;
+
+            thead:first-child > tr:first-child > th {
+                border-bottom-width: 1px;
+            }
+
+            td, th {
+                &:first-child {
+                    border-left: none;
+                }
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+
+            tr:last-child td {
+                border-bottom: none;
+            }
+        }
+    }
+}
