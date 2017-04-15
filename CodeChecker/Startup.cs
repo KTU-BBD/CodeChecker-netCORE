@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CodeChecker.Data;
 using CodeChecker.Models;
+using CodeChecker.Models.AccountViewModels;
 using CodeChecker.Services;
 using CodeChecker.Models.Models.DatabaseSeeders;
 
@@ -48,7 +45,24 @@ namespace CodeChecker
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
+
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ApplicationUser, ApplicationUserViewModel>();
+            });
+
+            var mapper = config.CreateMapper();
+
+            services.AddSingleton(mapper);
             services.AddMvc();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    "CanUseAdminPanel",
+                    policy => policy.RequireRole("Administrator", "Moderator", "Contributor")
+                );
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -56,7 +70,8 @@ namespace CodeChecker
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, BaseSeeder seeder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+            BaseSeeder seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
