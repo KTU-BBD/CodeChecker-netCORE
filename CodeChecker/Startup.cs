@@ -73,7 +73,6 @@ namespace CodeChecker
             }
 
             app.UseStaticFiles();
-
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
@@ -84,7 +83,7 @@ namespace CodeChecker
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-//            seeder.EnsureSeedData().Wait();
+            seeder.EnsureSeedData().Wait();
         }
     }
 }
