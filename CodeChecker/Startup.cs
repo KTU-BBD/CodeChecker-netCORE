@@ -56,9 +56,9 @@ namespace CodeChecker
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, UserSeeder seeder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+            UserSeeder seeder)
         {
-            
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -85,7 +85,7 @@ namespace CodeChecker
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            seeder.EnsureSeedData().Wait();
+//            seeder.EnsureSeedData().Wait();
         }
     }
 }
