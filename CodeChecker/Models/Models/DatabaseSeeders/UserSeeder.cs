@@ -1,8 +1,6 @@
 ﻿using CodeChecker.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,34 +20,51 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             _context = context;
         }
 
-        public async Task EnsureSeedData()
+        public  async Task SeedDatabase()
         {
-            if (!_roleManager.RoleExistsAsync("Administrator").Result)
+            if (_userManager.FindByEmailAsync("Arvydas@Daubaris.lt") == null)
             {
-                IdentityRole role = new IdentityRole();
-                role.Name = "Administrator";
-
-                await _roleManager.CreateAsync(role);
+                var userArvydas = new ApplicationUser()
+                {
+                    UserName = "Arvydas",
+                    Email = "Arvydas@Daubaris.lt"
+                };
+                await _userManager.CreateAsync(userArvydas, "P@ssw0rd!");
+                _userManager.AddToRoleAsync(userArvydas, "Administrator").Wait();
             }
-            if (!_roleManager.RoleExistsAsync("SimpleUser").Result)
+
+            if (_userManager.FindByEmailAsync("Erlandas.Trumpickas@gmail.com") == null)
             {
-                IdentityRole role = new IdentityRole();
-                role.Name = "SimpleUser";
-
-                await _roleManager.CreateAsync(role);
+                var userErlandas = new ApplicationUser()
+                {
+                    UserName = "Erlandas",
+                    Email = "Erlandas.Trumpickas@gmail.com"
+                };
+                await _userManager.CreateAsync(userErlandas, "P@ssw0rd!");
+                _userManager.AddToRoleAsync(userErlandas, "Administrator").Wait();
             }
-            for (int i = 0; i < 10000; i++)
+
+            if (_context.Users.Any())
+            {
+                return;   // DB has been seeded
+            }
+            
+            for (int i = 0; i < 100; i++)
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = "Euzabiejus" + i.ToString("00000"),
-                    Email = $"erlandas{i.ToString("00000")}@gmail.com"
+                    UserName = Faker.Internet.UserName(),
+                    Email = Faker.Internet.Email()
                 };
-               await  _userManager.CreateAsync(user, "P@ssw0rd!");
-                if(i < 10)
-                _userManager.AddToRoleAsync(user,"Administrator").Wait();
-                else
-                    _userManager.AddToRoleAsync(user,"SimpleUser").Wait();
+                await _userManager.CreateAsync(user, "P@ssw0rd!");
+                if (i < 5)
+                    _userManager.AddToRoleAsync(user, "Administrator").Wait();
+                else if (i >= 5 && i < 10)
+                    _userManager.AddToRoleAsync(user, "Moderator").Wait();
+                else if (i >= 10 && i < 30)
+                    _userManager.AddToRoleAsync(user, "Contributor").Wait();
+                else 
+                    _userManager.AddToRoleAsync(user, "User").Wait();
             }
             await _context.SaveChangesAsync();
         }

@@ -20,7 +20,6 @@
     <Content Include="wwwroot\Html\Contest\Contest.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="angularjs" Version="1.6.3" />
     <PackageReference Include="AutoMapper" Version="6.0.2" />
     <PackageReference Include="Faker.NETCore" Version="1.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -47,6 +46,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controllers\api\" />
+    <Folder Include="Controllers\admin\" />
     <Folder Include="Views\Contest\" />
     <Folder Include="Views\Shared\Partials\" />
   </ItemGroup>
