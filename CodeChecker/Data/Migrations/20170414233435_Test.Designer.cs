@@ -8,9 +8,10 @@ using CodeChecker.Data;
 namespace CodeChecker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170414233435_Test")]
+    partial class Test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -64,48 +65,6 @@ namespace CodeChecker.Data.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("CodeChecker.Models.Models.Assignment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ContestId");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("CreatorId");
-
-                    b.Property<DateTime>("DeletedAt");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("InputType");
-
-                    b.Property<int>("MaxPoints");
-
-                    b.Property<int>("MemoryLimit");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("OutputType");
-
-                    b.Property<int>("SolvedCount");
-
-                    b.Property<int>("TimeLimit");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.Property<bool>("isActive");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContestId");
-
-                    b.HasIndex("CreatorId");
-
-                    b.ToTable("Assignment");
                 });
 
             modelBuilder.Entity("CodeChecker.Models.Models.Contest", b =>
@@ -175,13 +134,13 @@ namespace CodeChecker.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AssignmentId");
+                    b.Property<int?>("TaskId");
 
                     b.Property<string>("Text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssignmentId");
+                    b.HasIndex("TaskId");
 
                     b.ToTable("Input");
                 });
@@ -207,13 +166,13 @@ namespace CodeChecker.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AssignmentId");
-
                     b.Property<int?>("ContestId");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Language");
+
+                    b.Property<int?>("TaskId");
 
                     b.Property<int>("TimeMs");
 
@@ -223,9 +182,9 @@ namespace CodeChecker.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssignmentId");
-
                     b.HasIndex("ContestId");
+
+                    b.HasIndex("TaskId");
 
                     b.HasIndex("UserId");
 
@@ -244,20 +203,62 @@ namespace CodeChecker.Data.Migrations
                     b.ToTable("Tag");
                 });
 
+            modelBuilder.Entity("CodeChecker.Models.Models.Task", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ContestId");
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("CreatorId");
+
+                    b.Property<DateTime>("DeletedAt");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("InputType");
+
+                    b.Property<int>("MaxPoints");
+
+                    b.Property<int>("MemoryLimit");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("OutputType");
+
+                    b.Property<int>("SolvedCount");
+
+                    b.Property<int>("TimeLimit");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<bool>("isActive");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContestId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Task");
+                });
+
             modelBuilder.Entity("CodeChecker.Models.Models.TaskTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AssignmentId");
-
                     b.Property<int?>("TagId");
+
+                    b.Property<int?>("TaskId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssignmentId");
-
                     b.HasIndex("TagId");
+
+                    b.HasIndex("TaskId");
 
                     b.ToTable("TaskTag");
                 });
@@ -369,17 +370,6 @@ namespace CodeChecker.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CodeChecker.Models.Models.Assignment", b =>
-                {
-                    b.HasOne("CodeChecker.Models.Models.Contest", "Contest")
-                        .WithMany("Assignments")
-                        .HasForeignKey("ContestId");
-
-                    b.HasOne("CodeChecker.Models.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-                });
-
             modelBuilder.Entity("CodeChecker.Models.Models.ContestCreator", b =>
                 {
                     b.HasOne("CodeChecker.Models.Models.Contest", "Contest")
@@ -404,9 +394,9 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Input", b =>
                 {
-                    b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
+                    b.HasOne("CodeChecker.Models.Models.Task", "Task")
                         .WithMany()
-                        .HasForeignKey("AssignmentId");
+                        .HasForeignKey("TaskId");
                 });
 
             modelBuilder.Entity("CodeChecker.Models.Models.Output", b =>
@@ -418,28 +408,39 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Submission", b =>
                 {
-                    b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
-                        .WithMany("Submissions")
-                        .HasForeignKey("AssignmentId");
-
                     b.HasOne("CodeChecker.Models.Models.Contest", "Contest")
                         .WithMany()
                         .HasForeignKey("ContestId");
+
+                    b.HasOne("CodeChecker.Models.Models.Task", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskId");
 
                     b.HasOne("CodeChecker.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("CodeChecker.Models.Models.Task", b =>
+                {
+                    b.HasOne("CodeChecker.Models.Models.Contest")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ContestId");
+
+                    b.HasOne("CodeChecker.Models.ApplicationUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+                });
+
             modelBuilder.Entity("CodeChecker.Models.Models.TaskTag", b =>
                 {
-                    b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
-                        .WithMany()
-                        .HasForeignKey("AssignmentId");
-
                     b.HasOne("CodeChecker.Models.Models.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId");
+
+                    b.HasOne("CodeChecker.Models.Models.Task", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

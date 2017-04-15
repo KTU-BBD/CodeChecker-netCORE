@@ -8,9 +8,10 @@ using CodeChecker.Data;
 namespace CodeChecker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170415011035_AddMgckDrawFieldsAssignments")]
+    partial class AddMgckDrawFieldsAssignments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
