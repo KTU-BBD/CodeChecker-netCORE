@@ -13,19 +13,35 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Angular\Contest\**" />
+    <Compile Remove="wwwroot\Html\Contest\**" />
+    <Content Remove="wwwroot\Angular\Contest\**" />
+    <Content Remove="wwwroot\Html\Contest\**" />
+    <EmbeddedResource Remove="wwwroot\Angular\Contest\**" />
+    <EmbeddedResource Remove="wwwroot\Html\Contest\**" />
+    <None Remove="wwwroot\Angular\Contest\**" />
+    <None Remove="wwwroot\Html\Contest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\Angular\Admin\app.js" />
     <Content Include="wwwroot\Angular\Admin\controllers.js" />
-    <Content Include="wwwroot\Angular\Admin\controllers\charts.js" />
-    <Content Include="wwwroot\Angular\Admin\controllers\main.js" />
-    <Content Include="wwwroot\Angular\Admin\controllers\widgets.js" />
-    <Content Include="wwwroot\Angular\Admin\demo\routes.js" />
+    <Content Include="wwwroot\Angular\Admin\Controllers\charts.js" />
+    <Content Include="wwwroot\Angular\Admin\Controllers\main.js" />
+    <Content Include="wwwroot\Angular\Admin\Controllers\widgets.js" />
+    <Content Include="wwwroot\Angular\Admin\Demo\routes.js" />
     <Content Include="wwwroot\Angular\Admin\directives.js" />
+    <Content Include="wwwroot\Angular\Admin\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Angular\Admin\routes.js" />
     <Content Include="wwwroot\Angular\contest.js" />
-    <Content Include="wwwroot\Angular\Contest\app-contest.js" />
-    <Content Include="wwwroot\Angular\Contest\contest.js" />
+    <Content Include="wwwroot\Angular\Front\app-index.js" />
+    <Content Include="wwwroot\Angular\Front\Controllers\indexController.js" />
+    <Content Include="wwwroot\Angular\Front\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Html\contest.js" />
-    <Content Include="wwwroot\Html\Contest\Contest.html" />
+    <Content Include="wwwroot\Html\Front\DirectiveView\topUsers_directive.html" />
+    <Content Include="wwwroot\Html\Front\DirectiveView\topUsers_diretive.html" />
+    <Content Include="wwwroot\Html\Front\Index\newsWrapper.html" />
+    <Content Include="wwwroot\Html\Front\topUsers_diretive.html" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.0.2" />
@@ -59,7 +75,6 @@
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Contest\" />
     <Folder Include="Views\Shared\Partials\" />
-    <Folder Include="wwwroot\Angular\Front\" />
     <Folder Include="wwwroot\Html\Admin\" />
   </ItemGroup>
   <ItemGroup>

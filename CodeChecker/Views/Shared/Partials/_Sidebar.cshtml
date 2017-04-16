@@ -1,75 +1,12 @@
 <section id="sidebar">
     <div class="sidebox">
-        <div class="title">Top rated</div>
-        <div class="content">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>User</th>
-                        <th>Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="sidebox">
-        <div class="title">Top rated</div>
-        <div class="content">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>User</th>
-                        <th>Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <top-users></top-users>
     </div>
 </section>
+@section Scripts {
+    @{
+        <script type="text/javascript" src="~/Angular/Front/app-index.js"></script>
+        <script type="text/javascript" src="~/Angular/Front/Controllers/indexController.js"></script>
+        <script type="text/javascript" src="~/Angular/Front/Directives/topUsers_directive.js"></script>
+    }
+}

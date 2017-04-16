@@ -1,6 +1,7 @@
 ﻿using CodeChecker.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,29 +29,35 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             {
                 return;   // DB has been seeded
             }
-           
+            Random rnd = new Random();
+            int score = rnd.Next(8000, 9000);
             var userArvydas = new ApplicationUser()
             {
                 UserName = "Arvydas",
-                Email = "Arvydas@Daubaris.lt"
+                Email = "Arvydas@Daubaris.lt",
+                Rating = score
             };
             await _userManager.CreateAsync(userArvydas, "P@ssw0rd!");
             _userManager.AddToRoleAsync(userArvydas, "Administrator").Wait();
-           
+
+            score = rnd.Next(9000, 10000);
             var userErlandas = new ApplicationUser()
             {
                 UserName = "Erlandas",
-                Email = "Erlandas.Trumpickas@gmail.com"
+                Email = "Erlandas.Trumpickas@gmail.com",
+                Rating = score
             };
             await _userManager.CreateAsync(userErlandas, "P@ssw0rd!");
             _userManager.AddToRoleAsync(userErlandas, "Administrator").Wait();
             
             for (int i = 0; i < 100; i++)
             {
+                score = rnd.Next(0, 3000);
                 var user = new ApplicationUser()
                 {
                     UserName = Faker.Internet.UserName(),
-                    Email = Faker.Internet.Email()
+                    Email = Faker.Internet.Email(),
+                    Rating = score
                 };
                 await _userManager.CreateAsync(user, "P@ssw0rd!");
                 if (i < 5)
