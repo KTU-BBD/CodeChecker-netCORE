@@ -58,7 +58,4 @@
     <Folder Include="wwwroot\Angular\Front\" />
     <Folder Include="wwwroot\Html\Admin\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Repositories\" />
-  </ItemGroup>
 </Project>
