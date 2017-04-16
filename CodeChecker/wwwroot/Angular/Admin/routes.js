@@ -28,6 +28,7 @@ angular
   .state('app.main', {
     url: '/dashboard',
     templateUrl: 'Html/Admin/main.html',
+//    controller: 'DashboardController',
     //page title goes here
     ncyBreadcrumb: {
       label: 'Home',
