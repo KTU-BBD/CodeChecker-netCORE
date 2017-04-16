@@ -73,4 +73,16 @@
     <Folder Include="Views\Shared\Partials\" />
     <Folder Include="wwwroot\Html\Admin\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="wwwroot\Angular\Contest\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="wwwroot\Angular\Contest\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="wwwroot\Angular\Contest\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\Angular\contest.js" />
+  </ItemGroup>
 </Project>
