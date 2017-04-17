@@ -11,9 +11,10 @@ using CodeChecker.Models.AssetViewModels;
 using CodeChecker.Models.Models;
 using CodeChecker.Services;
 using CodeChecker.Models.Models.DatabaseSeeders;
+using CodeChecker.Services.FileUpload;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
-using CodeChecker.Services.FileUpload;
+
 
 namespace CodeChecker
 {
@@ -58,9 +59,10 @@ namespace CodeChecker
             {
                 cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
                 cfg.CreateMap<Asset, AssetProfileViewModel>();
-                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
                 cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
             });
+
+           
 
             var mapper = config.CreateMapper();
 

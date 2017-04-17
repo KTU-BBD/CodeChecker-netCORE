@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CodeChecker.Models;
+using CodeChecker.Models.Models;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
 using Microsoft.AspNetCore.Identity;
