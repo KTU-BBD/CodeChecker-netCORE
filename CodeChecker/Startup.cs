@@ -13,6 +13,8 @@ using CodeChecker.Models.Models;
 using CodeChecker.Services;
 using CodeChecker.Models.Models.DatabaseSeeders;
 using CodeChecker.Services.FileUpload;
+using CodeChecker.Models.Repositories;
+using CodeChecker.Models.UserViewModels;
 
 namespace CodeChecker
 {
@@ -51,8 +53,12 @@ namespace CodeChecker
 
             services.AddTransient<FileUploadService>();
 
+            services.AddScoped<ApplicationUserRepository>();
+
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
+                cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, ApplicationUserViewModel>();
                 cfg.CreateMap<Asset, AssetProfileViewModel>();
             });

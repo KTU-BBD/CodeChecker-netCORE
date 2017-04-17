@@ -3,14 +3,20 @@
     ViewData["NgApp"] = "app-index";
 }
 
-<div class="row">
-    <div ng-view></div>
-
+<div class="row" >
+   
+    <div class="col-md-9" ng-view></div>
+    
+    <div class="col-md-3" ng-controller="sidebarController as sc">
+        <top-users display-when="sc.notBusy"></top-users>
+    </div>
 </div>
 @section Scripts {
     @{
         <script type="text/javascript" src="~/Angular/Front/app-index.js"></script>
         <script type="text/javascript" src="~/Angular/Front/Controllers/indexController.js"></script>
+
         <script type="text/javascript" src="~/Angular/Front/Directives/topUsers_directive.js"></script>
+        <script type="text/javascript" src="~/Angular/Front/Modules/topUsersSidebarModule.js"></script>
     }
 }

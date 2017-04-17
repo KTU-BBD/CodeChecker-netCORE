@@ -11,15 +11,14 @@
     <link rel="stylesheet" href="~/static/css/styles.front.css" asp-append-version="true" />
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
-<body class="@ViewData["Body"]" ng-app="@ViewData["NgApp"]" ng-cloak>
+<body class="@ViewData["Body"]" ng-app="@ViewData["NgApp"]">
+
     <div class="container body-content">
+        
         @Html.Partial("Partials/_Navbar")
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 @RenderBody()
-            </div>
-            <div class="col-md-3">
-                @Html.Partial("Partials/_Sidebar")
             </div>
         </div>
         <hr />

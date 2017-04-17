@@ -4,7 +4,7 @@ using CodeChecker.Models.AssetViewModels;
 
 namespace CodeChecker.Models.AccountViewModels
 {
-    public class ApplicationUserViewModel
+    public class AdminPanelUserViewModel
     {
         public string UserName { get; set; }
         public string Email { get; set; }
