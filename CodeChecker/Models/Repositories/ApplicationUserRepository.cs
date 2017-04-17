@@ -1,10 +1,7 @@
 ﻿using System.Linq;
 using CodeChecker.Data;
-<<<<<<< HEAD
 using System.Collections.Generic;
-=======
 using CodeChecker.Models.Models;
->>>>>>> 60e89ec293aada283f5eca63bc3e7c25cbedea92
 
 namespace CodeChecker.Models.Repositories
 {

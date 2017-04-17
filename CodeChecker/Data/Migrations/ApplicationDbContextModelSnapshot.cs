@@ -26,8 +26,6 @@ namespace CodeChecker.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("DateJoined");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -49,11 +47,8 @@ namespace CodeChecker.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-<<<<<<< HEAD
-=======
                     b.Property<int?>("ProfileImageId");
 
->>>>>>> 60e89ec293aada283f5eca63bc3e7c25cbedea92
                     b.Property<int>("Rating");
 
                     b.Property<string>("SecurityStamp");

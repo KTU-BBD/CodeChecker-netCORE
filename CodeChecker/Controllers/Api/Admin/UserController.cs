@@ -31,7 +31,7 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userr = _context.Users.Include(u => u.ProfileImage).First(u => u.Id == user.Id);
-            var userViewModel = _mapper.Map<ApplicationUserViewModel>(userr);
+            var userViewModel = _mapper.Map<AdminPanelUserViewModel>(userr);
 
             userViewModel.Roles = await _userManager.GetRolesAsync(user);
 

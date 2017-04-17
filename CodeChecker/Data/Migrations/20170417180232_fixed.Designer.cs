@@ -8,8 +8,8 @@ using CodeChecker.Data;
 namespace CodeChecker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170417132235_PluralityAndAssets")]
-    partial class PluralityAndAssets
+    [Migration("20170417180232_fixed")]
+    partial class @fixed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,8 +26,6 @@ namespace CodeChecker.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<DateTime>("DateJoined");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
