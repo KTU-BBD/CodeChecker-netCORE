@@ -2,7 +2,7 @@
 
 namespace CodeChecker.Controllers.Api.Front
 {
-    [Route("/api/front/[controller]/[action]/{id?}")]
+    [Route("/api/front/[controller]/[action]/")]
     public class FrontBaseController : Controller
     {
     }

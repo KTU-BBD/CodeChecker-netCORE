@@ -1,4 +1,13 @@
-﻿<section id="sidebar">
+﻿<section id="sidebar" ng-show="!show">
+    <div class="sidebox">
+        <div>
+            <div class="text-center">
+                <i class="fa fa-circle-o-notch fa-spin"></i>Loading...
+            </div>
+        </div>
+     </div>
+</section>
+<section id="sidebar" ng-show="show"  ng-controller="sidebarController as sc">
     <div class="sidebox">
         <div class="title">Top rated</div>
         <div class="content">
@@ -11,31 +20,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
+                    <tr ng-repeat="user in sc.topUsers">
+                        <td>{{$index + 1}}</td>
+                        <td>{{user.userName}}</td>
+                        <td>{{user.rating}}</td>
                     </tr>
                     <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
+                        <td>All...</td>
+                        <td>{{user.userName}}</td>
+                        <td>{{user.rating}}</td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
+                   
                 </tbody>
             </table>
         </div>
     </div>
-
     <div class="sidebox">
         <div class="title">Top rated</div>
         <div class="content">
@@ -48,26 +47,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
+                    <tr ng-repeat="user in sc.topUsers">
+                        <td>{{$index + 1}}</td>
+                        <td>{{user.userName}}</td>
+                        <td>{{user.rating}}</td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>John doe badboy</td>
-                        <td>9999</td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>

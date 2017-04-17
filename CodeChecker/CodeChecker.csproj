@@ -29,15 +29,12 @@
     <Content Include="wwwroot\Angular\Admin\directives.js" />
     <Content Include="wwwroot\Angular\Admin\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Angular\Admin\routes.js" />
-    <Content Include="wwwroot\Angular\contest.js" />
     <Content Include="wwwroot\Angular\Front\app-index.js" />
     <Content Include="wwwroot\Angular\Front\Controllers\indexController.js" />
     <Content Include="wwwroot\Angular\Front\Directives\topUsers_directive.js" />
-    <Content Include="wwwroot\Html\contest.js" />
+    <Content Include="wwwroot\Angular\Front\Modules\topUsersSidebarModule.js" />
     <Content Include="wwwroot\Html\Front\DirectiveView\topUsers_directive.html" />
-    <Content Include="wwwroot\Html\Front\DirectiveView\topUsers_diretive.html" />
     <Content Include="wwwroot\Html\Front\Index\newsWrapper.html" />
-    <Content Include="wwwroot\Html\Front\topUsers_diretive.html" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.0.2" />

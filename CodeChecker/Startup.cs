@@ -10,6 +10,8 @@ using CodeChecker.Models;
 using CodeChecker.Models.AccountViewModels;
 using CodeChecker.Services;
 using CodeChecker.Models.Models.DatabaseSeeders;
+using CodeChecker.Models.Repositories;
+using CodeChecker.Models.UserViewModels;
 
 namespace CodeChecker
 {
@@ -45,10 +47,11 @@ namespace CodeChecker
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
-
+            services.AddScoped<ApplicationUserRepository>();
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<ApplicationUser, ApplicationUserViewModel>();
+                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
+                cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
             });
 
             var mapper = config.CreateMapper();
