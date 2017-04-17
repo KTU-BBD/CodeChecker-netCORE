@@ -53,15 +53,14 @@ namespace CodeChecker
 
             services.AddTransient<FileUploadService>();
 
-            services.AddScoped<ApplicationUserRepository>();
-
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
                 cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
-                cfg.CreateMap<ApplicationUser, ApplicationUserViewModel>();
                 cfg.CreateMap<Asset, AssetProfileViewModel>();
             });
+
+            services.AddScoped<ApplicationUserRepository>();
 
             var mapper = config.CreateMapper();
 
