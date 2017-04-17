@@ -18,7 +18,6 @@
     <None Remove="wwwroot\Angular\Contest\**" />
     <None Remove="wwwroot\Html\Contest\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="wwwroot\Angular\Admin\app.js" />
     <Content Include="wwwroot\Angular\Admin\controllers.js" />
@@ -71,7 +70,12 @@
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Contest\" />
     <Folder Include="Views\Shared\Partials\" />
+    <Folder Include="wwwroot\Angular\Front\Controllers" />
+    <Folder Include="wwwroot\Angular\Front\Directives" />
+    <Folder Include="wwwroot\assets" />
     <Folder Include="wwwroot\Html\Admin\" />
+    <Folder Include="wwwroot\Html\Front\DirectiveView" />
+    <Folder Include="wwwroot\Html\Front\Index" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="wwwroot\Angular\Contest\**" />

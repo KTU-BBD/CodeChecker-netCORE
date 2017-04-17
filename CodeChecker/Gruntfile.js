@@ -12,7 +12,7 @@
             CSS_DEPLOY_PATH: "wwwroot/static/css",
             FONT_DEPLOY_PATH: "wwwroot/static/fonts",
             VENDOR_PATH: "bower_components",
-            SCSS_ASSET_PATH: "Sass",
+            SCSS_ASSET_PATH: "Sass"
         },
         concat: {
             jsDepepndenciesFront: {
@@ -46,6 +46,7 @@
                         "<%= config.VENDOR_PATH  %>/jquery/dist/jquery.js",
                         "<%= config.VENDOR_PATH  %>/angular/angular.js",
                         "<%= config.VENDOR_PATH  %>/tether/dist/js/tether.js",
+                        "<%= config.VENDOR_PATH  %>/ng-file-upload/ng-file-upload.js",
                         "<%= config.VENDOR_PATH  %>/bootstrap/dist/js/bootstrap.js",
                         "<%= config.VENDOR_PATH  %>/angular-resource/angular-resource.js",
                         "<%= config.VENDOR_PATH  %>/angular-ui-router/release/angular-ui-router.js",

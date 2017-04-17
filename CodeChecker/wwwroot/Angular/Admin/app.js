@@ -18,13 +18,22 @@ angular
         'oc.lazyLoad',
         'ncy-angular-breadcrumb',
         'angular-loading-bar',
-        'ngResource'
+        'ngResource',
+        'ngFileUpload'
 
     ])
     .service('Auth', function($resource, $rootScope) {
         this.getCurrentUser = function() {
             if (!$rootScope.currentUser) {
-                $rootScope.currentUser = $resource('/api/admin/util/currentUser').get();
+                $rootScope.currentUser = $resource('/api/admin/user/current').get();
+                $rootScope.currentUser.$promise.then(function(data) {
+                    $rootScope.currentUser = data;
+                    if (!data.profileImage) {
+                        $rootScope.currentUser.avatar = "/assets/default.png";
+                    } else {
+                        $rootScope.currentUser.avatar = "/assets/" + data.profileImage.name;
+                    }
+                });
             }
 
             return $rootScope.currentUser;

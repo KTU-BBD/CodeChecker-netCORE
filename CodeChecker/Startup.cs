@@ -8,8 +8,11 @@ using Microsoft.Extensions.Logging;
 using CodeChecker.Data;
 using CodeChecker.Models;
 using CodeChecker.Models.AccountViewModels;
+using CodeChecker.Models.AssetViewModels;
+using CodeChecker.Models.Models;
 using CodeChecker.Services;
 using CodeChecker.Models.Models.DatabaseSeeders;
+using CodeChecker.Services.FileUpload;
 
 namespace CodeChecker
 {
@@ -46,9 +49,12 @@ namespace CodeChecker
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
 
+            services.AddTransient<FileUploadService>();
+
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ApplicationUser, ApplicationUserViewModel>();
+                cfg.CreateMap<Asset, AssetProfileViewModel>();
             });
 
             var mapper = config.CreateMapper();

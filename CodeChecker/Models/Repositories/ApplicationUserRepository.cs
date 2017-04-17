@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using CodeChecker.Data;
+using CodeChecker.Models.Models;
 
 namespace CodeChecker.Models.Repositories
 {

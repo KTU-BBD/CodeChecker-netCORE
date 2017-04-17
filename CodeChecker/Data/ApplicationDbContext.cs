@@ -16,22 +16,14 @@ namespace CodeChecker.Data
         {
         }
          public DbSet<Contest> Contests { get; set; }
-         public DbSet<ContestCreator> ContestCreator { get; set; }
-         public DbSet<ContestParticipant> ContestParticipant { get; set; }
-         public DbSet<Input> Input { get; set; }
-         public DbSet<Output> Output { get; set; }
-         public DbSet<Submission> Submission { get; set; }
-         public DbSet<Tag> Tag { get; set; }
-         public DbSet<Assignment> Assignment { get; set; }
-         public DbSet<TaskTag> TaskTag { get; set; }
-
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
-        }
+         public DbSet<ContestCreator> ContestCreators { get; set; }
+         public DbSet<ContestParticipant> ContestParticipants { get; set; }
+         public DbSet<Input> Inputs { get; set; }
+         public DbSet<Output> Outputs { get; set; }
+         public DbSet<Submission> Submissions { get; set; }
+         public DbSet<Tag> Tags { get; set; }
+         public DbSet<Assignment> Assignments { get; set; }
+         public DbSet<TaskTag> TaskTags { get; set; }
+         public DbSet<Asset> Assets { get; set; }
     }
 }
