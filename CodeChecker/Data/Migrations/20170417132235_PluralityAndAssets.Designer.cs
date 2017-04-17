@@ -8,9 +8,10 @@ using CodeChecker.Data;
 namespace CodeChecker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170417132235_PluralityAndAssets")]
+    partial class PluralityAndAssets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -49,11 +50,8 @@ namespace CodeChecker.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-<<<<<<< HEAD
-=======
                     b.Property<int?>("ProfileImageId");
 
->>>>>>> 60e89ec293aada283f5eca63bc3e7c25cbedea92
                     b.Property<int>("Rating");
 
                     b.Property<string>("SecurityStamp");

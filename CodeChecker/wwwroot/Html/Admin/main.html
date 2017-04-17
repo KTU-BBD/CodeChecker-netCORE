@@ -1,3 +1,18 @@
-<div class="animated fadeIn">
-Empty page
+<div class="animated fadeIn" >
+    <form ng-submit="uploadFile()">
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" ng-model="model.fileDescription" />
+                <input type="number" ng-model="model.rating" />
+                <input type="checkbox" ng-model="model.isAGoodFile" />
+                <input type="file" ng-file-select="onFileSelect($files)">
+
+                <button type="submit" class="btn btn-default btn-lg">
+                    <i class="fa fa-cloud-upload"></i>
+                    &nbsp;
+                    <span>Upload File</span>
+                </button>
+            </div>
+        </div>
+    </form>
 </div>

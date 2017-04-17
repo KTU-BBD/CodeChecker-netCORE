@@ -8,10 +8,16 @@ using Microsoft.Extensions.Logging;
 using CodeChecker.Data;
 using CodeChecker.Models;
 using CodeChecker.Models.AccountViewModels;
+using CodeChecker.Models.AssetViewModels;
+using CodeChecker.Models.Models;
 using CodeChecker.Services;
 using CodeChecker.Models.Models.DatabaseSeeders;
+<<<<<<< HEAD
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
+=======
+using CodeChecker.Services.FileUpload;
+>>>>>>> 60e89ec293aada283f5eca63bc3e7c25cbedea92
 
 namespace CodeChecker
 {
@@ -47,11 +53,21 @@ namespace CodeChecker
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
+<<<<<<< HEAD
             services.AddScoped<ApplicationUserRepository>();
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
                 cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
+=======
+
+            services.AddTransient<FileUploadService>();
+
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ApplicationUser, ApplicationUserViewModel>();
+                cfg.CreateMap<Asset, AssetProfileViewModel>();
+>>>>>>> 60e89ec293aada283f5eca63bc3e7c25cbedea92
             });
 
             var mapper = config.CreateMapper();

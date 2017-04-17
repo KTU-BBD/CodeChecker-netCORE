@@ -23,8 +23,6 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
         
         public  async Task SeedDatabase()
         {
-            
-
             if (_context.Users.Any())
             {
                 return;   // DB has been seeded
