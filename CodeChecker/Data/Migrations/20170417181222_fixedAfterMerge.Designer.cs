@@ -8,8 +8,8 @@ using CodeChecker.Data;
 namespace CodeChecker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170417180232_fixed")]
-    partial class @fixed
+    [Migration("20170417181222_fixedAfterMerge")]
+    partial class fixedAfterMerge
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
