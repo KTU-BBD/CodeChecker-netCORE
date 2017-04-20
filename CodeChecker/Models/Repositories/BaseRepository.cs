@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using CodeChecker.Data;
 using CodeChecker.Models.Models;
@@ -10,11 +12,21 @@ namespace CodeChecker.Models.Repositories
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<T> entities;
+        public const int MaxPerPage = 100;
 
         protected BaseRepository(ApplicationDbContext context)
         {
             _context = context;
             entities = _context.Set<T>();
+        }
+
+        /// <summary>
+        /// Max count of objects per page
+        /// </summary>
+        /// <returns></returns>
+        protected virtual int GetMaxPerPage()
+        {
+            return MaxPerPage;
         }
 
         /// <summary>
@@ -25,6 +37,11 @@ namespace CodeChecker.Models.Repositories
         public T Get(long id)
         {
             return entities.FirstOrDefault(e => e.Id == id);
+        }
+
+        public IQueryable<T> Query()
+        {
+            return entities;
         }
 
         /// <summary>
@@ -96,6 +113,18 @@ namespace CodeChecker.Models.Repositories
                 (entity as SoftDeletable).DeletedAt = null;
                 Update(entity);
             }
+        }
+
+        public IEnumerable<T> GetPagedData(int currentPage = 0, int countPerPage = MaxPerPage)
+        {
+            if (countPerPage > GetMaxPerPage())
+            {
+                countPerPage = GetMaxPerPage();
+            }
+
+            var offset = countPerPage * currentPage;
+
+            return Query().Skip(offset).Take(countPerPage);
         }
 
         private void Save()

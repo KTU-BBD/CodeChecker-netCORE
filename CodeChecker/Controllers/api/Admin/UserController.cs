@@ -19,23 +19,17 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly IMapper _mapper;
         private readonly FileUploadService _uploadService;
         private readonly ApplicationDbContext _context;
-        private readonly ApplicationUserRepository _userRepo;
         private readonly AssetsRepository _assetsRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper, FileUploadService uploadService, ApplicationDbContext context, ApplicationUserRepository userRepo, AssetsRepository assetsRepo)
+        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper, FileUploadService uploadService, ApplicationDbContext context, AssetsRepository assetsRepo)
         {
             _userManager = userManager;
             _mapper = mapper;
             _uploadService = uploadService;
             _context = context;
-            _userRepo = userRepo;
             _assetsRepo = assetsRepo;
         }
 
-        /// <summary>
-        /// Returns currently logged in user information
-        /// </summary>
-        /// <returns></returns>
         public async Task<IActionResult> Current()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -47,11 +41,6 @@ namespace CodeChecker.Controllers.Api.Admin
             return Ok(userViewModel);
         }
 
-        /// <summary>
-        /// Profile Editing request
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ChangeProfile(IFormFile file)
         {
@@ -68,16 +57,9 @@ namespace CodeChecker.Controllers.Api.Admin
             return BadRequest();
         }
 
-        public IActionResult Users()
-        {
-            return Ok(_context.Users.ToListAsync());
-        }
-
         public IActionResult Assets()
         {
-            var asset = _assetsRepo.Get(1);
-            _assetsRepo.Recover(asset);
-            return Ok(asset);
+            return Ok(_assetsRepo.GetPagedData(1));
         }
     }
 }

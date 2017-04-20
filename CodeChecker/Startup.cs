@@ -15,7 +15,6 @@ using CodeChecker.Services.FileUpload;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
 
-
 namespace CodeChecker
 {
     public class Startup
@@ -100,7 +99,8 @@ namespace CodeChecker
 
         private void Services(IServiceCollection services)
         {
-            services.AddTransient<FileUploadService>();
+            services.AddTransient<FileUploadService>();;
+
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
