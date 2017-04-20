@@ -7,6 +7,7 @@ namespace CodeChecker.Models.Models
     public class ApplicationUser : IdentityUser
     {
         public int Rating { get; set; }
+        public DateTime DeletedAt { get; set; }
         public Asset ProfileImage { get; set; }
     }
 }

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace CodeChecker.Models.Models
 {
-    public class Tag
+    public class Tag : BaseModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

@@ -50,36 +50,13 @@ namespace CodeChecker
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
-            services.AddScoped<ApplicationUserRepository>();
-            
 
-            services.AddTransient<FileUploadService>();
+            Repositories(services);
+            Services(services);
+            Mapper(services);
+            Policies(services);
 
-            var config = new AutoMapper.MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
-                cfg.CreateMap<Asset, AssetProfileViewModel>();
-                cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
-            });
-
-           
-
-            var mapper = config.CreateMapper();
-
-            services.AddSingleton(mapper);
             services.AddMvc();
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(
-                    "CanUseAdminPanel",
-                    policy => policy.RequireRole("Administrator", "Moderator", "Contributor")
-                );
-            });
-
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,7 +88,46 @@ namespace CodeChecker
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
             seeder.EnsureSeedData().Wait();
         }
+
+        private void Repositories(IServiceCollection services)
+        {
+            services.AddScoped<ApplicationUserRepository>();
+            services.AddScoped<AssetsRepository>();
+        }
+
+        private void Services(IServiceCollection services)
+        {
+            services.AddTransient<FileUploadService>();
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+        }
+
+        private void Mapper(IServiceCollection services)
+        {
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
+                cfg.CreateMap<Asset, AssetProfileViewModel>();
+                cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
+            });
+
+            var mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+        }
+
+        private void Policies(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    "CanUseAdminPanel",
+                    policy => policy.RequireRole("Administrator", "Moderator", "Contributor")
+                );
+            });
+        }
+
     }
 }

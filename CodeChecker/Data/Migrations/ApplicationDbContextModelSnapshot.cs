@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CodeChecker.Data;
 
-namespace CodeChecker.Data.Migrations
+namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -25,6 +25,8 @@ namespace CodeChecker.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<DateTime>("DeletedAt");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -47,7 +49,7 @@ namespace CodeChecker.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int?>("ProfileImageId");
+                    b.Property<long?>("ProfileImageId");
 
                     b.Property<int>("Rating");
 
@@ -74,12 +76,12 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Asset", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<DateTime>("DeletedAt");
+                    b.Property<DateTime?>("DeletedAt");
 
                     b.Property<string>("Mimetype");
 
@@ -96,10 +98,10 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Assignment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ContestId");
+                    b.Property<long?>("ContestId");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -110,6 +112,8 @@ namespace CodeChecker.Data.Migrations
                     b.Property<string>("Description");
 
                     b.Property<string>("InputType");
+
+                    b.Property<bool>("IsActive");
 
                     b.Property<int>("MaxPoints");
 
@@ -125,8 +129,6 @@ namespace CodeChecker.Data.Migrations
 
                     b.Property<DateTime>("UpdatedAt");
 
-                    b.Property<bool>("isActive");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ContestId");
@@ -138,8 +140,12 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Contest", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime?>("DeletedAt");
 
                     b.Property<int>("Duration");
 
@@ -157,6 +163,8 @@ namespace CodeChecker.Data.Migrations
 
                     b.Property<int>("UnsuccessfulSubmit");
 
+                    b.Property<DateTime>("UpdatedAt");
+
                     b.HasKey("Id");
 
                     b.ToTable("Contests");
@@ -167,7 +175,7 @@ namespace CodeChecker.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ContestId");
+                    b.Property<long?>("ContestId");
 
                     b.Property<string>("UserId");
 
@@ -185,7 +193,7 @@ namespace CodeChecker.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ContestId");
+                    b.Property<long?>("ContestId");
 
                     b.Property<string>("UserId");
 
@@ -200,12 +208,16 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Input", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AssignmentId");
+                    b.Property<long?>("AssignmentId");
+
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Text");
+
+                    b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
 
@@ -216,12 +228,16 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Output", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("InputId");
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<long?>("InputId");
 
                     b.Property<string>("Text");
+
+                    b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
 
@@ -232,18 +248,20 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Submission", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AssignmentId");
+                    b.Property<long?>("AssignmentId");
 
-                    b.Property<int?>("ContestId");
+                    b.Property<long?>("ContestId");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Language");
 
                     b.Property<int>("TimeMs");
+
+                    b.Property<DateTime>("UpdatedAt");
 
                     b.Property<string>("UserId");
 
@@ -262,10 +280,14 @@ namespace CodeChecker.Data.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.Tag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatedAt");
+
                     b.Property<string>("Name");
+
+                    b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
 
@@ -277,9 +299,9 @@ namespace CodeChecker.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AssignmentId");
+                    b.Property<long?>("AssignmentId");
 
-                    b.Property<int?>("TagId");
+                    b.Property<long?>("TagId");
 
                     b.HasKey("Id");
 

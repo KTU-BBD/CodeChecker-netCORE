@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CodeChecker.Models.Models
 {
-    public class Contest
+    public class Contest : SoftDeletable
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime StartAt { get; set; }
         public int Duration { get; set; }

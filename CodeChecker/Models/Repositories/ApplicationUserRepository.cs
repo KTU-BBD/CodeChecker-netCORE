@@ -9,14 +9,8 @@ namespace CodeChecker.Models.Repositories
     {
         private ApplicationDbContext _context;
 
-        public ApplicationUserRepository(ApplicationDbContext context)
+        public ApplicationUserRepository()
         {
-            _context = context;
-        }
-
-        public ApplicationUser GetUser(string userName)
-        {
-            return _context.Users.First(x => x.UserName == userName);
         }
 
         public List<ApplicationUser> GetTopUsers(int num)
