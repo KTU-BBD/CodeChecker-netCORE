@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using CodeChecker.Models.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeChecker.Controllers.Api.Admin
@@ -7,6 +10,5 @@ namespace CodeChecker.Controllers.Api.Admin
     [Route("/api/admin/[controller]/[action]/{id?}")]
     public class AdminBaseController : Controller
     {
-
     }
 }

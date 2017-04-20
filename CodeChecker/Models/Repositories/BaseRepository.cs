@@ -115,8 +115,13 @@ namespace CodeChecker.Models.Repositories
             }
         }
 
-        public IEnumerable<T> GetPagedData(int currentPage = 0, int countPerPage = MaxPerPage)
+        public IQueryable<T> GetPagedData(int currentPage = 0, int countPerPage = MaxPerPage)
         {
+            if (currentPage < 0)
+            {
+                currentPage = 0;
+            }
+
             if (countPerPage > GetMaxPerPage())
             {
                 countPerPage = GetMaxPerPage();

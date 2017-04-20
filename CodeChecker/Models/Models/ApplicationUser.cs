@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Models
@@ -9,5 +10,11 @@ namespace CodeChecker.Models.Models
         public int Rating { get; set; }
         public DateTime DeletedAt { get; set; }
         public Asset ProfileImage { get; set; }
+        public ICollection<ContestCreator> ContestCreators { get; set; }
+
+        public override string ToString()
+        {
+            return UserName;
+        }
     }
 }
