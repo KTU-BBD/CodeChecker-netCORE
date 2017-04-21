@@ -8,12 +8,14 @@ using Microsoft.Extensions.Logging;
 using CodeChecker.Data;
 using CodeChecker.Models.AccountViewModels;
 using CodeChecker.Models.AssetViewModels;
+using CodeChecker.Models.ContestViewModels;
 using CodeChecker.Models.Models;
 using CodeChecker.Services;
 using CodeChecker.Models.Models.DatabaseSeeders;
 using CodeChecker.Services.FileUpload;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
+using Newtonsoft.Json;
 
 namespace CodeChecker
 {
@@ -55,7 +57,8 @@ namespace CodeChecker
             Mapper(services);
             Policies(services);
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,12 +97,15 @@ namespace CodeChecker
         private void Repositories(IServiceCollection services)
         {
             services.AddScoped<ApplicationUserRepository>();
-            services.AddScoped<AssetsRepository>();
+            services.AddScoped<AssetRepository>();
+            services.AddScoped<ContestRepository>();
+            services.AddScoped<ContestCreatorRepository>();
+            services.AddScoped<ContestParticipantRepository>();
         }
 
         private void Services(IServiceCollection services)
         {
-            services.AddTransient<FileUploadService>();;
+            services.AddTransient<FileUploadService>();
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -110,8 +116,14 @@ namespace CodeChecker
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
-                cfg.CreateMap<Asset, AssetProfileViewModel>();
                 cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, UserIdViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
+                cfg.CreateMap<Asset, AssetProfileViewModel>();
+                cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
+                cfg.CreateMap<Contest, ViewContestViewModel>();
+                cfg.CreateMap<Contest, ContestViewModel>();
+                cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
             });
 
             var mapper = config.CreateMapper();
@@ -128,6 +140,5 @@ namespace CodeChecker
                 );
             });
         }
-
     }
 }

@@ -19,17 +19,18 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly IMapper _mapper;
         private readonly FileUploadService _uploadService;
         private readonly ApplicationDbContext _context;
-        private readonly AssetsRepository _assetsRepo;
+        private readonly AssetRepository _assetRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper, FileUploadService uploadService, ApplicationDbContext context, AssetsRepository assetsRepo)
+        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
         {
             _userManager = userManager;
             _mapper = mapper;
             _uploadService = uploadService;
             _context = context;
-            _assetsRepo = assetsRepo;
+            _assetRepo = assetRepo;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Current()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -59,7 +60,7 @@ namespace CodeChecker.Controllers.Api.Admin
 
         public IActionResult Assets()
         {
-            return Ok(_assetsRepo.GetPagedData(1));
+            return Ok(_assetRepo.GetPagedData(1));
         }
     }
 }
