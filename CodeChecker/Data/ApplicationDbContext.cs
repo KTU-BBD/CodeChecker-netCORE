@@ -31,6 +31,9 @@ namespace CodeChecker.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Contest>()
+                .HasIndex(x => x.Name).IsUnique(true);
+
             modelBuilder.Entity<ContestCreator>()
                 .HasKey(x => new {x.ContestId, x.UserId});
 

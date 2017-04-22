@@ -1,5 +1,5 @@
 ﻿(function () {
-    "use strsct";
+    "use strict";
     angular.module("sidebarModule", ["topUsers"])
         .controller("sidebarController", sidebarController);
 
@@ -7,8 +7,8 @@
     var sc = this;
     sc.notBusy = false;
     var apiUrl = "/api/front/User/GetTopUsers/10";
-   // sc.alert = function () { window.alert(); }
-    sc.errorMessage = "";
+    sc.errorMessage = "aaaaa";
+    $scope.test = "test"
     sc.topUsers = [];
     $http.get(apiUrl)
         .then(function (response) {
@@ -19,6 +19,5 @@
             sc.notBusy = true;
         });
     }
-    
 })();
 
