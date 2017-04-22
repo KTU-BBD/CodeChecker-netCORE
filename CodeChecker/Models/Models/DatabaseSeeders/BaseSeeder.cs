@@ -10,12 +10,14 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
         private readonly UserSeeder _userSeeder;
         private readonly RoleSeeder _roleSeeder;
         private readonly AssetSeeder _assetSeeder;
+        private readonly ContestSeeder _contestSeeder;
 
         public BaseSeeder(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             _userSeeder = new UserSeeder(userManager, roleManager, context);
             _roleSeeder = new RoleSeeder(roleManager);
             _assetSeeder = new AssetSeeder(context);
+            _contestSeeder = new ContestSeeder(context);
         }
 
         // Do not change the order of called methods
@@ -24,6 +26,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             await _assetSeeder.SeedDatabase();
             await _roleSeeder.SeedDatabase();
             await _userSeeder.SeedDatabase();
+            await _contestSeeder.SeedDatabase();
         }
     }
 }
