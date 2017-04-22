@@ -8,5 +8,7 @@ namespace CodeChecker.Models.Repositories
         public ContestRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodeChecker.Controllers.Api.Admin
 {
     [Authorize("CanUseAdminPanel")]
-    [Route("/api/admin/[controller]/[action]/{id?}")]
+    [Route("/api/admin/[controller]/[action]/")]
     public class AdminBaseController : Controller
     {
     }

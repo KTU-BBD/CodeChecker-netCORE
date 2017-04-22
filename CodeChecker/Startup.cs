@@ -16,6 +16,8 @@ using CodeChecker.Services.FileUpload;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using AutoMapper;
 
 namespace CodeChecker
 {
@@ -54,11 +56,27 @@ namespace CodeChecker
 
             Repositories(services);
             Services(services);
-            Mapper(services);
             Policies(services);
 
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+           
+            //var config = new AutoMapper.MapperConfiguration(cfg =>
+            //{
+            //    cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
+            //    cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
+            //    cfg.CreateMap<List<ApplicationUser>, List<TopUserViewModel>>();
+            //    cfg.CreateMap<ApplicationUser, UserIdViewModel>().ReverseMap();
+            //    cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
+            //    cfg.CreateMap<Asset, AssetProfileViewModel>();
+            //    cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
+            //    cfg.CreateMap<Contest, ViewContestViewModel>();
+            //    cfg.CreateMap<Contest, ContestViewModel>();
+            //    cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
+            //});
 
+            //var mapper = config.CreateMapper();
+            //services.AddSingleton(mapper);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +96,20 @@ namespace CodeChecker
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
+                cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
+                cfg.CreateMap<List<ApplicationUser>, List<TopUserViewModel>>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, UserIdViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
+                cfg.CreateMap<Asset, AssetProfileViewModel>();
+                cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
+                cfg.CreateMap<Contest, ViewContestViewModel>();
+                cfg.CreateMap<Contest, ContestViewModel>();
+                cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
+            });
 
             app.UseStaticFiles();
             app.UseIdentity();
@@ -111,24 +143,7 @@ namespace CodeChecker
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        private void Mapper(IServiceCollection services)
-        {
-            var config = new AutoMapper.MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
-                cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
-                cfg.CreateMap<ApplicationUser, UserIdViewModel>().ReverseMap();
-                cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
-                cfg.CreateMap<Asset, AssetProfileViewModel>();
-                cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
-                cfg.CreateMap<Contest, ViewContestViewModel>();
-                cfg.CreateMap<Contest, ContestViewModel>();
-                cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
-            });
-
-            var mapper = config.CreateMapper();
-            services.AddSingleton(mapper);
-        }
+        
 
         private void Policies(IServiceCollection services)
         {

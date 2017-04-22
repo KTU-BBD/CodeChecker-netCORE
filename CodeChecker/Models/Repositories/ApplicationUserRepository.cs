@@ -14,7 +14,7 @@ namespace CodeChecker.Models.Repositories
             _context = context;
         }
 
-        public List<ApplicationUser> GetTopUsers(int num)
+        public IEnumerable<ApplicationUser> GetTopUsers(int num)
         {
             return _context.Users.OrderByDescending(x => x.Rating).Take(num).ToList();
         }
