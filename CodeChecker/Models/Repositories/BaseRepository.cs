@@ -131,18 +131,18 @@ namespace CodeChecker.Models.Repositories
             var offset = filter.Count * (filter.Page - 1);
 
             var queryuilder = Query();
-
             foreach (var item in filter.Filter)
             {
                 if (item.Key != "null" && item.Value != "null")
                 {
                     var type = typeof(T);
                     var property = type.GetProperty(item.Key);
-                    if (property.ToString().Contains(typeof(string).ToString()))
+
+                    if (property.ToString().Contains(typeof(string).Name))
                     {
                         queryuilder = queryuilder.Where($"{item.Key}.Contains(@0)", System.Net.WebUtility.UrlDecode(item.Value));
                     }
-                    else if (property.ToString().Contains(typeof(Int64).ToString()))
+                    else if (property.ToString().Contains(typeof(long).Name))
                     {
                         queryuilder = queryuilder.Where($"{item.Key} = {item.Value}");
                     }
