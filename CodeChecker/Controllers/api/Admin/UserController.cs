@@ -4,7 +4,6 @@ using AutoMapper;
 using CodeChecker.Data;
 using CodeChecker.Models.AccountViewModels;
 using CodeChecker.Models.Models;
-using CodeChecker.Models.Repositories;
 using CodeChecker.Services.FileUpload;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,18 +18,15 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly IMapper _mapper;
         private readonly FileUploadService _uploadService;
         private readonly ApplicationDbContext _context;
-        private readonly AssetRepository _assetRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
+        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper, FileUploadService uploadService, ApplicationDbContext context)
         {
             _userManager = userManager;
             _mapper = mapper;
             _uploadService = uploadService;
             _context = context;
-            _assetRepo = assetRepo;
         }
 
-        [HttpGet]
         public async Task<IActionResult> Current()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
