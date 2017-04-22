@@ -140,7 +140,7 @@ namespace CodeChecker.Models.Repositories
                     var property = type.GetProperty(item.Key);
                     if (property.ToString().Contains(typeof(string).ToString()))
                     {
-                        queryuilder = queryuilder.Where($"{item.Key}.Contains(@0)", item.Value);
+                        queryuilder = queryuilder.Where($"{item.Key}.Contains(@0)", System.Net.WebUtility.UrlDecode(item.Value));
                     }
                     else if (property.ToString().Contains(typeof(Int64).ToString()))
                     {

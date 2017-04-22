@@ -14,15 +14,12 @@ namespace CodeChecker.Controllers.Api.Admin
     public class ContestController : AdminBaseController
     {
         private readonly ContestRepository _contestRepo;
-        private readonly IMapper _mapper;
         private readonly ApplicationUserRepository _userRepo;
         private readonly ContestCreatorRepository _contestCreatorRepo;
 
-        public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
-            IMapper mapper, ApplicationUserRepository userRepo, ContestCreatorRepository contestCreatorRepo)
+        public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo, ContestCreatorRepository contestCreatorRepo)
         {
             _contestRepo = contestRepo;
-            _mapper = mapper;
             _userRepo = userRepo;
             _contestCreatorRepo = contestCreatorRepo;
         }
@@ -38,7 +35,7 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             if (ModelState.IsValid)
             {
-                var newContest = _mapper.Map<Contest>(contest);
+                var newContest = Mapper.Map<Contest>(contest);
                 _contestRepo.Insert(newContest);
 
                 var assignedUsers = _userRepo.GetByIds(contest.Creators);

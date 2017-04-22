@@ -59,7 +59,7 @@ namespace CodeChecker
             Policies(services);
 
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-           
+
             //var config = new AutoMapper.MapperConfiguration(cfg =>
             //{
             //    cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
