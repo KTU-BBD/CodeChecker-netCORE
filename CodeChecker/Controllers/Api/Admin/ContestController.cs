@@ -6,6 +6,7 @@ using CodeChecker.Models.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -62,6 +63,20 @@ namespace CodeChecker.Controllers.Api.Admin
             }
 
             return BadRequest(ModelState);
+        }
+
+        [HttpPost("{id}")]
+        public IActionResult GetByID(long id)
+        {
+            try
+            {
+                var contest = _contestRepo.Get(id);
+                return Ok(contest);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }
