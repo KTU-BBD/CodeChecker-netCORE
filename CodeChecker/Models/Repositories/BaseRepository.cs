@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using CodeChecker.Data;
 using CodeChecker.Models.Models;
+using CodeChecker.Models.ServiceViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
+using System.Reflection;
 
 namespace CodeChecker.Models.Repositories
 {
@@ -115,21 +116,45 @@ namespace CodeChecker.Models.Repositories
             }
         }
 
-        public IQueryable<T> GetPagedData(int currentPage = 0, int countPerPage = MaxPerPage)
+        public IQueryable<T> GetPagedData(DataFilterViewModel filter)
         {
-            if (currentPage < 0)
+            if (filter.Page < 1)
             {
-                currentPage = 0;
+                filter.Page = 1;
             }
 
-            if (countPerPage > GetMaxPerPage())
+            if (filter.Count > GetMaxPerPage())
             {
-                countPerPage = GetMaxPerPage();
+                filter.Count = GetMaxPerPage();
             }
 
-            var offset = countPerPage * currentPage;
+            var offset = filter.Count * (filter.Page - 1);
 
-            return Query().Skip(offset).Take(countPerPage);
+            var queryuilder = Query();
+
+            foreach (var item in filter.Filter)
+            {
+                if (item.Key != "null" && item.Value != "null")
+                {
+                    var type = typeof(T);
+                    var property = type.GetProperty(item.Key);
+                    if (property.ToString().Contains(typeof(string).ToString()))
+                    {
+                        queryuilder = queryuilder.Where($"{item.Key}.Contains(@0)", item.Value);
+                    }
+                    else if (property.ToString().Contains(typeof(Int64).ToString()))
+                    {
+                        queryuilder = queryuilder.Where($"{item.Key} = {item.Value}");
+                    }
+                }
+            }
+
+            foreach (var item in filter.Sorting)
+            {
+                queryuilder = queryuilder.OrderBy($"{item.Key} {item.Value}");
+            }
+
+            return queryuilder.Skip(offset).Take(filter.Count);
         }
 
         private void Save()

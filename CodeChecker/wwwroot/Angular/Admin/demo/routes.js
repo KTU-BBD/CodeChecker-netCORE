@@ -95,4 +95,13 @@ angular
       label: 'Charts'
     }
   })
+  .state('app.contests', {
+      url: '/contests',
+      templateUrl: 'Html/Admin/pages/contest/main.html',
+      ncyBreadcrumb: {
+          label: 'Contest'
+      },
+      controller: 'ContestViewController',
+      controllerAs: 'contest'
+  })
 }]);
