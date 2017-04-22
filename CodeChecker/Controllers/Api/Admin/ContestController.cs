@@ -3,6 +3,7 @@ using AutoMapper;
 using CodeChecker.Models.ContestViewModels;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Repositories;
+using CodeChecker.Models.ServiceViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,13 +27,9 @@ namespace CodeChecker.Controllers.Api.Admin
         }
 
         [HttpGet("")]
-        public IActionResult All(int page = 0, int perPage = 100)
+        public IActionResult All([FromQuery] DataFilterViewModel filterData)
         {
-            var results = _contestRepo.GetPagedData(page, perPage)
-                .Include(c => c.ContestCreators)
-                .ThenInclude(u => u.User)
-                .First();
-            return Ok(_mapper.Map<ViewContestViewModel>(results));
+            return Ok(_contestRepo.GetPagedData(filterData));
         }
 
         [HttpPost("")]

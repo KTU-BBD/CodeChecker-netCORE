@@ -57,10 +57,5 @@ namespace CodeChecker.Controllers.Api.Admin
 
             return BadRequest();
         }
-
-        public IActionResult Assets()
-        {
-            return Ok(_assetRepo.GetPagedData(1));
-        }
     }
 }

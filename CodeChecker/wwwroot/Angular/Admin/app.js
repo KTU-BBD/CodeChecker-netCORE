@@ -19,7 +19,8 @@ angular
         'ncy-angular-breadcrumb',
         'angular-loading-bar',
         'ngResource',
-        'ngFileUpload'
+        'ngFileUpload',
+        'ngTable'
 
     ])
     .service('Auth', function($resource, $rootScope) {
