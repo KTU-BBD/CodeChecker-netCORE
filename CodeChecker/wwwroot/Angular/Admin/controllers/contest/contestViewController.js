@@ -3,7 +3,7 @@ angular
     .module('app')
     .controller('ContestViewController',['NgTableParams', '$scope', '$resource',function (NgTableParams, $scope, $resource) {
             // Clone data array
-            var Api = $resource('/api/admin/contest/all');
+            var Api = $resource('/api/admin/contest/view/');
             this.tableParams = new NgTableParams({}, {
                 getData: function(params) {
                     // ajax request to api

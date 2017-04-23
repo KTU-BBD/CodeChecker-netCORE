@@ -2,6 +2,7 @@
 using CodeChecker.Data;
 using System.Collections.Generic;
 using CodeChecker.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Repositories
 {
@@ -22,6 +23,19 @@ namespace CodeChecker.Models.Repositories
         public ApplicationUser GetById(string id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public ApplicationUser GetUserWithContest(ApplicationUser user)
+        {
+            if (user == null)
+            {
+                return user;
+            }
+
+            return _context.Users
+                .Include(u => u.ContestParticipants)
+                .Include(u => u.ContestCreators)
+                .First(u => u.Id == user.Id);
         }
 
         public IEnumerable<ApplicationUser> GetByIds(ICollection<string> list)

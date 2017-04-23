@@ -1,9 +1,15 @@
-﻿namespace CodeChecker.Models.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CodeChecker.Models.Models
 {
     public class ContestParticipant
     {
-        public int Id { get; set; } // Many-to-many relationship, I think ID is not needed
+        [ForeignKey("User")]
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
+
+        [ForeignKey("Contest")]
+        public long ContestId { get; set; }
         public Contest Contest { get; set; }
     }
 }
