@@ -1,14 +1,12 @@
-﻿<section id="sidebar" ng-show="!show">
-    <div class="sidebox">
+﻿<section id="sidebar" ng-show="show" ng-controller="sidebarController as sc">
+    <div class="sidebox"  ng-show="!show">
         <div>
             <div class="text-center">
                 <i class="fa fa-circle-o-notch fa-spin"></i>Loading...
             </div>
         </div>
-     </div>
-</section>
-<section id="sidebar" ng-show="show" ng-controller="sidebarController as sc">
-    <div class="sidebox">
+    </div>
+    <div class="sidebox" ng-show="show">
         <div class="title">Top rated</div>
         
         <div class="content">

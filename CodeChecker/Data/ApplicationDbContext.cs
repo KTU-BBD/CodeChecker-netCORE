@@ -32,7 +32,7 @@ namespace CodeChecker.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Contest>()
-                .HasIndex(x => x.Name).IsUnique(true);
+                .HasIndex(x => x.Name).IsUnique();
 
             modelBuilder.Entity<ContestCreator>()
                 .HasKey(x => new {x.ContestId, x.UserId});
@@ -46,6 +46,24 @@ namespace CodeChecker.Data
                 .HasOne(cc => cc.User)
                 .WithMany(c => c.ContestCreators)
                 .HasForeignKey(cc => cc.UserId);
+
+
+
+            modelBuilder.Entity<ContestParticipant>()
+                .HasKey(x => new {x.ContestId, x.UserId});
+
+            modelBuilder.Entity<ContestParticipant>()
+                .HasOne(cc => cc.Contest)
+                .WithMany(c => c.ContestParticipants)
+                .HasForeignKey(cc => cc.ContestId);
+
+            modelBuilder.Entity<ContestParticipant>()
+                .HasOne(cc => cc.User)
+                .WithMany(c => c.ContestParticipants)
+                .HasForeignKey(cc => cc.UserId);
+
+
+
         }
     }
 }

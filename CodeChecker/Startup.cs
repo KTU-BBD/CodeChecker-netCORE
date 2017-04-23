@@ -109,6 +109,7 @@ namespace CodeChecker
                 cfg.CreateMap<Contest, ViewContestViewModel>();
                 cfg.CreateMap<Contest, ContestViewModel>();
                 cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
+                cfg.CreateMap<ContestCreator, ContestContributorViewModel>();
             });
 
             app.UseStaticFiles();

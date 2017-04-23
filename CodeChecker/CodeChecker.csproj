@@ -75,14 +75,11 @@
   <ItemGroup>
     <Folder Include="Controllers\Api\" />
     <Folder Include="Data\Migrations" />
-    <Folder Include="Models\ContestViewModels" />
     <Folder Include="Models\Models\Enums" />
     <Folder Include="Sass\Admin\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Contest\" />
     <Folder Include="Views\Shared\Partials\" />
-    <Folder Include="wwwroot\Angular\Front\Controllers" />
-    <Folder Include="wwwroot\Angular\Front\Directives" />
     <Folder Include="wwwroot\assets" />
     <Folder Include="wwwroot\Html\Admin\" />
     <Folder Include="wwwroot\Html\Front\DirectiveView" />

@@ -11,6 +11,7 @@ namespace CodeChecker.Models.Models
         public DateTime DeletedAt { get; set; }
         public Asset ProfileImage { get; set; }
         public ICollection<ContestCreator> ContestCreators { get; set; }
+        public ICollection<ContestParticipant> ContestParticipants { get; set; }
 
         public override string ToString()
         {

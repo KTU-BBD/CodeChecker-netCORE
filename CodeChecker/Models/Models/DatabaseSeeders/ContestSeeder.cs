@@ -29,7 +29,6 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                 var contest = new Contest()
                 {
                     Name = Faker.Company.Name(),
-                    IsPublic = i % 2 == 0,
                     Password = i % 2 == 1 ? "password" : null,
                     StartAt = startAt,
                     EndAt = startAt.AddHours(new Random().Next(2, 50)),
