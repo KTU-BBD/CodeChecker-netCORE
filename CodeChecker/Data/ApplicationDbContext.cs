@@ -24,7 +24,7 @@ namespace CodeChecker.Data
         public DbSet<Submission> Submissions { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
-        public DbSet<TaskTag> TaskTags { get; set; }
+        public DbSet<AssignmentTag> AssignmentTags { get; set; }
         public DbSet<Asset> Assets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
