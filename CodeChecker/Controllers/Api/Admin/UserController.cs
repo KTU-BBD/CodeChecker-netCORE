@@ -20,7 +20,7 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly ApplicationDbContext _context;
         private readonly AssetRepository _assetRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
+        public UserController(UserManager<ApplicationUser> userManager,FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
         {
             _userManager = userManager;
             _uploadService = uploadService;

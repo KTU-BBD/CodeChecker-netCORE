@@ -20,7 +20,9 @@ angular
         'angular-loading-bar',
         'ngResource',
         'ngFileUpload',
-        'ngTable'
+        'ngTable',
+        'ui.bootstrap.datetimepicker',
+        'toastr'
 
     ])
     .service('Auth', function($resource, $rootScope) {
