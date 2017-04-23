@@ -1,13 +1,25 @@
-@*@{
+@{
+    ViewData["Title"] = "Contests";
     ViewData["NgApp"] = "app-contest";
 }
 
-<div class="row" ng-app="app-contest">
-    <div ng-view></div>
-    <div>{{2+2}}</div>
+<div class="row">
+    <div class="col-md-9" ng-view></div>
+
+    <div class="col-md-3" ng-controller="sidebarController as sc">
+        <top-users display-when="sc.notBusy"></top-users>
+    </div>
 </div>
 
 @section Scripts {
-    <script type="text/javascript" src="~/Angular/Contest/app-contest.js"></script>
-    <script type="text/javascript" src="~/Angular/Contest/contest.js"></script>
-}*@
+
+    <script type="text/javascript" src="~/Angular/Front/Directives/topUsers_directive.js"></script>
+    <script type="text/javascript" src="~/Angular/Front/Modules/topUsersSidebarModule.js"></script>
+
+    <script type="text/javascript" src="~/Angular/Front/Directives/disableOnClick_directive.js"></script>
+    <script type="text/javascript" src="~/Angular/Front/Modules/disableOnClickModule.js"></script>
+
+    <script type="text/javascript" src="~/Angular/Front/app-contest.js"></script>
+    <script type="text/javascript" src="~/Angular/Front/Controllers/contestController.js"></script>
+    <script type="text/javascript" src="~/Angular/Front/Controllers/contestViewController.js"></script>
+}

@@ -1,12 +1,31 @@
-﻿<form novalidate name="codeForm" ng-submit="vm.addCode()">
-    <div class="form-group">
-        <label for="language">Select language</label>
-        <input class="form-control" type="text" id="language" name="language" ng-model="vm.code.language" required ng-minlength="5" />
-        <label for="code">Code</label>
-        <input class="form-control" type="text" id="qweqweqwe" name="qwer" ng-model="vm.code.code" required ng-minlength="5" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Add" class="btn btn-success btn-sm"
-               ng-disabled="codeForm.$invalid" />
-    </div>
-</form>
+﻿<div class="content">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Contributors</th>
+            <th>Starts at</th>
+            <th>Time left</th>
+            <th>Length</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="contest in contests" id="contest-{{contest.id}}">
+            <td>{{contest.name}}</td>
+            <td>
+                <div class="author" ng-repeat="author in contest.contestCreators">
+                {{author.user.userName}}
+                </div>
+            </td>
+            <td>{{contest.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</td>
+            <td><timer end-time="contest.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer></td>
+            <td>{{contest.endAt | amDifference : contest.startAt | amDateFormat : 'hh:mm'}}</td>
+            <td>
+                <button ng-show="{{!contest.joined}}" class="btn btn-success join" ng-disabled="contest.joined" ng-click="joinContest(contest.id)">Join contest</button>
+                <a class="btn btn-info enter" ng-show="{{contest.joined}}" ng-href="Contest#!/{{contest.id}}">View contest</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

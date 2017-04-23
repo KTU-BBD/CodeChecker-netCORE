@@ -19,16 +19,22 @@
             jsDepepndenciesFront: {
                 files: {
                     "<%= config.JS_DEPLOY_PATH  %>/plugins.front.js": [
+                        "<%= config.VENDOR_PATH  %>/jquery/dist/jquery.js",
                         "<%= config.VENDOR_PATH  %>/angular/angular.js",
-                        "<%= config.VENDOR_PATH  %>/angular-route/angular-route.js"
+                        "<%= config.VENDOR_PATH  %>/moment/min/moment.min.js",
+                        "<%= config.VENDOR_PATH  %>/angular-animate/angular-animate.js",
+                        "<%= config.VENDOR_PATH  %>/angular-moment/angular-moment.js",
+                        "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.tpls.js",
+                        "<%= config.VENDOR_PATH  %>/angular-timer/dist/angular-timer.js",
+                        "<%= config.VENDOR_PATH  %>/angular-route/angular-route.js",
+                        "<%= config.VENDOR_PATH  %>/humanize-duration/humanize-duration.js"
                     ]
                 }
             },
             cssDependenciesFront: {
                 files: {
                     "<%= config.CSS_DEPLOY_PATH  %>/plugins.front.css": [
-                        "<%= config.VENDOR_PATH  %>/bootstrap/dist/css/bootstrap.css",
-                        "<%= config.VENDOR_PATH  %>/bootstrap/dist/css/bootstrap-theme.css",
+                        "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css"
                     ]
                 }

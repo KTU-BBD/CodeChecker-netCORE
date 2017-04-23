@@ -9,9 +9,10 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170422185818_ContestParticipantsManyToMany")]
+    partial class ContestParticipantsManyToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -139,24 +140,6 @@ namespace CodeChecker.Migrations
                     b.ToTable("Assignments");
                 });
 
-            modelBuilder.Entity("CodeChecker.Models.Models.AssignmentTag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long?>("AssignmentId");
-
-                    b.Property<long?>("TagId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssignmentId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("AssignmentTags");
-                });
-
             modelBuilder.Entity("CodeChecker.Models.Models.Contest", b =>
                 {
                     b.Property<long>("Id")
@@ -167,6 +150,8 @@ namespace CodeChecker.Migrations
                     b.Property<DateTime?>("DeletedAt");
 
                     b.Property<DateTime>("EndAt");
+
+                    b.Property<bool>("IsPublic");
 
                     b.Property<string>("Name");
 
@@ -304,6 +289,24 @@ namespace CodeChecker.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("CodeChecker.Models.Models.TaskTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("AssignmentId");
+
+                    b.Property<long?>("TagId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("TaskTags");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -429,17 +432,6 @@ namespace CodeChecker.Migrations
                         .HasForeignKey("CreatorId");
                 });
 
-            modelBuilder.Entity("CodeChecker.Models.Models.AssignmentTag", b =>
-                {
-                    b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
-                        .WithMany()
-                        .HasForeignKey("AssignmentId");
-
-                    b.HasOne("CodeChecker.Models.Models.Tag", "Tag")
-                        .WithMany()
-                        .HasForeignKey("TagId");
-                });
-
             modelBuilder.Entity("CodeChecker.Models.Models.ContestCreator", b =>
                 {
                     b.HasOne("CodeChecker.Models.Models.Contest", "Contest")
@@ -493,6 +485,17 @@ namespace CodeChecker.Migrations
                     b.HasOne("CodeChecker.Models.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("CodeChecker.Models.Models.TaskTag", b =>
+                {
+                    b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentId");
+
+                    b.HasOne("CodeChecker.Models.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

@@ -1,3 +1,13 @@
+//Bootstrap overrides
+// Import normalize
+@import "../Admin/bootstrap/normalize";
+
+// Override Boostrap variables
+@import "../Admin/bootstrap-variables";
+
+// Import Bootstrap source files
+@import "../Admin/bootstrap/bootstrap";
+
 //Modules imports
 @import "Modules/variables";
 @import "Modules/mixins";
