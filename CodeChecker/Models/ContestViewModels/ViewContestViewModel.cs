@@ -12,6 +12,6 @@ namespace CodeChecker.Models.ContestViewModels
         public DateTime? StartAt { get; set; }
         public DateTime? EndAt { get; set; }
         public bool IsPublic { get; set; }
-        public IList<ContestCreatorViewModel> ContestCreators { get; set; }
+        public UserViewModel Creator { get; set; }
     }
 }

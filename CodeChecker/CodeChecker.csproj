@@ -31,6 +31,8 @@
     <Content Include="wwwroot\Angular\Admin\controllers.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\charts.js" />
     <Content Include="wwwroot\Angular\Admin\controllers\contest\singleContestViewController.js" />
+    <Content Include="wwwroot\Angular\Admin\controllers\contest\task\AssignmentViewController.js" />
+    <Content Include="wwwroot\Angular\Admin\controllers\contest\task\TaskViewController.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\main.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\widgets.js" />
     <Content Include="wwwroot\Angular\Admin\Demo\routes.js" />
@@ -41,6 +43,7 @@
     <Content Include="wwwroot\Angular\Front\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Angular\Front\Modules\topUsersSidebarModule.js" />
     <Content Include="wwwroot\Html\Admin\pages\contest\contest.html" />
+    <Content Include="wwwroot\Html\Admin\pages\contest\task\assignment.html" />
     <Content Include="wwwroot\Html\Front\DirectiveView\topUsers_directive.html" />
     <Content Include="wwwroot\Html\Front\Index\newsWrapper.html" />
   </ItemGroup>
@@ -75,7 +78,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\Api\" />
     <Folder Include="Data\Migrations" />
     <Folder Include="Models\Models\Enums" />
     <Folder Include="Sass\Admin\" />

@@ -110,10 +110,11 @@ namespace CodeChecker
                 cfg.CreateMap<Contest, ViewContestViewModel>();
                 cfg.CreateMap<Contest, ContestViewModel>();
                 cfg.CreateMap<Contest, ContestWithAssignmentViewModel>();
-                cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
-                cfg.CreateMap<ContestCreator, ContestContributorViewModel>();
-                cfg.CreateMap<Assignment, ShortAssignmentViewModel>();
-
+                cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
+                cfg.CreateMap<Contest, EditContestGetViewModel>().ReverseMap();
+                cfg.CreateMap<Contest, EditContestPostViewModel>().ReverseMap();
+                cfg.CreateMap<Assignment, EditAssignmentGetViewModel>().ReverseMap();
+                cfg.CreateMap<Assignment, EditContestPostViewModel>().ReverseMap();
             });
 
             app.UseStaticFiles();
@@ -137,6 +138,7 @@ namespace CodeChecker
             services.AddScoped<AssetRepository>();
             services.AddScoped<ContestRepository>();
             services.AddScoped<ContestParticipantRepository>();
+            services.AddScoped<AssignmentRepository>();
         }
 
         private void Services(IServiceCollection services)

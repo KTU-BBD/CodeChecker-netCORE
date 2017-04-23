@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -72,7 +73,8 @@ namespace CodeChecker.Controllers.Api.Admin
             try
             {
                 var contest = _contestRepo.GetContestFull(id);
-                return Ok(contest);
+                var contestToReturn = Mapper.Map<EditContestGetViewModel>(contest);
+                return Ok(contestToReturn);
             }
             catch (Exception ex)
             {
@@ -81,15 +83,21 @@ namespace CodeChecker.Controllers.Api.Admin
         }
 
         [HttpPost]
-        public IActionResult Update([FromBody]Contest updatedContest)
+        public IActionResult Update([FromBody]EditContestPostViewModel updatedContest)
         {
+            
             try
             {
-                _contestRepo.Update(updatedContest);
-                return Ok(updatedContest);
+
+                var contest = _contestRepo.GetContestFull(updatedContest.Id);
+                var updated = Mapper.Map(updatedContest,contest);
+    
+                _contestRepo.Update(updated);
+                return Ok(Mapper.Map<EditContestPostViewModel>(updated));
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 return BadRequest(ex);
             }
         }
