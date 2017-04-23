@@ -28,11 +28,12 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                 var startAt = DateTime.Now.AddDays(new Random().Next(3, 20));
                 var contest = new Contest()
                 {
-                    Name = Faker.Company.Name(),
+                    Name = Faker.Company.Name() + " - " + i,
                     Password = i % 2 == 1 ? "password" : null,
                     StartAt = startAt,
                     EndAt = startAt.AddHours(new Random().Next(2, 50)),
-                    Status = ContestStatus.Approved
+                    Status = ContestStatus.Approved,
+                    Description = DescriptionFormatter()
                 };
 
                 _context.Contests.Add(contest);
@@ -51,6 +52,14 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                 _context.SaveChanges();
 
             }
+        }
+
+        private string DescriptionFormatter()
+        {
+            return
+                $"<h2>{Faker.Company.Name()}</h2><div>Hello and welcome to our contest!<br>This task is soo awesome!<br>" +
+                $"<p>{Faker.Lorem.Paragraph()}</p>" +
+                $"<p>{Faker.Lorem.Paragraph()}</p>";
         }
     }
 }
