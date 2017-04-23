@@ -59,8 +59,8 @@ namespace CodeChecker.Controllers.Api.Admin
             return BadRequest(ModelState);
         }
 
-        [HttpPost("{id}")]
-        public IActionResult GetByID(long id)
+        [HttpGet("{id}")]
+        public IActionResult Get(long id)
         {
             try
             {
@@ -68,6 +68,19 @@ namespace CodeChecker.Controllers.Api.Admin
                 return Ok(contest);
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpPost]
+        public IActionResult Update([FromBody]Contest updatedContest)
+        {
+            try
+            {
+                _contestRepo.Update(updatedContest);
+                return Ok(updatedContest);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex);
             }

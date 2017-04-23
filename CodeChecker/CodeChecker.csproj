@@ -30,6 +30,7 @@
     <Content Include="wwwroot\Angular\Admin\app.js" />
     <Content Include="wwwroot\Angular\Admin\controllers.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\charts.js" />
+    <Content Include="wwwroot\Angular\Admin\controllers\contest\singleContestViewController.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\main.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\widgets.js" />
     <Content Include="wwwroot\Angular\Admin\Demo\routes.js" />
@@ -39,6 +40,7 @@
     <Content Include="wwwroot\Angular\Front\Controllers\indexController.js" />
     <Content Include="wwwroot\Angular\Front\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Angular\Front\Modules\topUsersSidebarModule.js" />
+    <Content Include="wwwroot\Html\Admin\pages\contest\contest.html" />
     <Content Include="wwwroot\Html\Front\DirectiveView\topUsers_directive.html" />
     <Content Include="wwwroot\Html\Front\Index\newsWrapper.html" />
   </ItemGroup>
@@ -81,7 +83,6 @@
     <Folder Include="Views\Contest\" />
     <Folder Include="Views\Shared\Partials\" />
     <Folder Include="wwwroot\assets" />
-    <Folder Include="wwwroot\Html\Admin\" />
     <Folder Include="wwwroot\Html\Front\DirectiveView" />
     <Folder Include="wwwroot\Html\Front\Index" />
   </ItemGroup>

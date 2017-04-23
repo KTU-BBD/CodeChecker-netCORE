@@ -10,7 +10,7 @@
                     <table ng-table="contest.tableParams" class="table table-bordered table-striped table-condensed">
                         <tr ng-repeat="row in $data track by row.id">
                             <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
-                            <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'">{{row.name}}</td>
+                            <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><a ui-sref-active="active" ui-sref="app.contests.one({id:{{row.id}}})">{{row.name}}</a></td>
                             <td data-title="'Is Public?'" sortable="'IsPublic'">{{row.isPublic}}</td>
                             <td data-title="'Starts At'" sortable="'StartAt'">{{row.startAt}}</td>
                             <td data-title="'Ends At'" sortable="'EndAt'">{{row.endAt}}</td>
@@ -19,8 +19,8 @@
                     </table>
                 </div>
             </div>
-
-        </div>
+            <a class="nav-link" ui-sref-active="active" ui-sref="app.components.buttons"><i class="icon-puzzle"></i> Buttons</a>
+        </div>app.contests
         <!--/.col-->
 
     </div>
