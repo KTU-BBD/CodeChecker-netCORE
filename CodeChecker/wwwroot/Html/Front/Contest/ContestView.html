@@ -1,1 +1,26 @@
-﻿Test
+﻿<div class="content">
+    <h3 class="text-center">{{contest.name}}</h3>
+    <div class="info">
+        <div class="timer">Starts at: {{contest.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</div>
+        <div>Time till start: <timer end-time="contest.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer></div>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Solvec count</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="assignment in contest.assignments">
+            <td>{{assignment.id}}</td>
+            <td>{{assignment.name}}</td>
+            <td>{{assignment.solvedCount}}</td>
+            <td>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

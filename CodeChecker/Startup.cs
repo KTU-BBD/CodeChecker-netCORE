@@ -18,6 +18,7 @@ using CodeChecker.Models.UserViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using AutoMapper;
+using CodeChecker.Models.AssignmentViewModels;
 
 namespace CodeChecker
 {
@@ -108,8 +109,11 @@ namespace CodeChecker
                 cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, ViewContestViewModel>();
                 cfg.CreateMap<Contest, ContestViewModel>();
+                cfg.CreateMap<Contest, ContestWithAssignmentViewModel>();
                 cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
                 cfg.CreateMap<ContestCreator, ContestContributorViewModel>();
+                cfg.CreateMap<Assignment, ShortAssignmentViewModel>();
+
             });
 
             app.UseStaticFiles();

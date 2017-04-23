@@ -26,5 +26,14 @@ namespace CodeChecker.Models.Repositories
                     .Include(c => c.ContestParticipants)
                 ;
         }
+
+        public Contest GetContestWithAssignments(long contestId)
+        {
+            return Query()
+                    .Include(c => c.ContestParticipants)
+                    .Include(c => c.Assignments)
+                    .FirstOrDefault(c => c.Id == contestId)
+                ;
+        }
     }
 }

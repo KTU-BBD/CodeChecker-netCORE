@@ -56,11 +56,11 @@ namespace CodeChecker.Controllers.Api.Front
         public async Task<IActionResult> Get(long contestId)
         {
             var currentUser = _userRepo.GetUserWithContest(await GetCurrentUserAsync());
-            var contest = _contestRepo.Get(contestId);
+            var contest = _contestRepo.GetContestWithAssignments(contestId);
 
             if (contest == null)
             {
-                return NoContent();
+                return BadRequest("Contest not found");
             }
 
             if (currentUser != null)
@@ -69,16 +69,16 @@ namespace CodeChecker.Controllers.Api.Front
                 {
                     if (participant.ContestId == contest.Id)
                     {
-                        return Ok(contest);
+                        return Ok(Mapper.Map<ContestWithAssignmentViewModel>(contest));
                     }
                 }
             }
             else
             {
-                return Unauthorized();
+                return BadRequest("You need to log in to view contest");
             }
 
-            return NotFound();
+            return BadRequest("You cannot view this contest");
         }
 
         [HttpGet("{contestId}")]
