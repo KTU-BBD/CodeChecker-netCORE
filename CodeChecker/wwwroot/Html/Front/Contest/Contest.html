@@ -3,7 +3,7 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th>Contributors</th>
+            <th>Creator</th>
             <th>Starts at</th>
             <th>Time left</th>
             <th>Length</th>
@@ -14,9 +14,9 @@
         <tr ng-repeat="contest in contests" id="contest-{{contest.id}}">
             <td>{{contest.name}}</td>
             <td>
-                <div class="author" ng-repeat="author in contest.contestCreators">
-                {{author.user.userName}}
-                </div>
+       
+                {{contest.creator.userName}}
+              
             </td>
             <td>{{contest.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</td>
             <td><timer end-time="contest.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer></td>

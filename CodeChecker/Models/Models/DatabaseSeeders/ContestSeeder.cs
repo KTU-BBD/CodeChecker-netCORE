@@ -26,6 +26,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             for (int i = 0; i < 30; i++)
             {
                 var startAt = DateTime.Now.AddDays(new Random().Next(3, 20));
+                var user = _context.Users.AsQueryable().OrderBy(r => Guid.NewGuid()).First();
                 var contest = new Contest()
                 {
                     Name = Faker.Company.Name() + " - " + i,
@@ -33,22 +34,16 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                     StartAt = startAt,
                     EndAt = startAt.AddHours(new Random().Next(2, 50)),
                     Status = ContestStatus.Approved,
-                    Description = DescriptionFormatter()
+                    Description = DescriptionFormatter(),
+                    Creator = user
                 };
 
                 _context.Contests.Add(contest);
                 _context.SaveChanges();
 
-                var users = _context.Users.AsQueryable().OrderBy(r => Guid.NewGuid()).Take(new Random().Next(1, 5));
+                
 
-                foreach (var user in users)
-                {
-                    _context.ContestCreators.Add(new ContestCreator
-                    {
-                        User = user,
-                        Contest = contest
-                    });
-                }
+                
                 _context.SaveChanges();
 
             }

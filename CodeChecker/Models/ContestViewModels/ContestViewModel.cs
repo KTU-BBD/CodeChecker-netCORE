@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodeChecker.Models.Models;
+using CodeChecker.Models.UserViewModels;
+using System;
 using System.Collections.Generic;
 
 namespace CodeChecker.Models.ContestViewModels
@@ -9,7 +11,7 @@ namespace CodeChecker.Models.ContestViewModels
         public string Name { get; set; }
         public DateTime StartAt { get; set; }
         public DateTime EndAt { get; set; }
-        public IList<ContestContributorViewModel> ContestCreators { get; set; }
+        public UserViewModel Creator { get; set; }
         public bool Joined { get; set; }
     }
 }

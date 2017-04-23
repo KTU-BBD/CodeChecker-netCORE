@@ -53,7 +53,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                 score = rnd.Next(0, 3000);
                 var user = new ApplicationUser()
                 {
-                    UserName = Faker.Internet.UserName(),
+                    UserName = Faker.Internet.UserName()+i.ToString(),
                     Email = Faker.Internet.Email(),
                     Rating = score
                 };

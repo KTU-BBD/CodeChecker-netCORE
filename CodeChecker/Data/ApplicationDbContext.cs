@@ -17,7 +17,6 @@ namespace CodeChecker.Data
         }
 
         public DbSet<Contest> Contests { get; set; }
-        public DbSet<ContestCreator> ContestCreators { get; set; }
         public DbSet<ContestParticipant> ContestParticipants { get; set; }
         public DbSet<Input> Inputs { get; set; }
         public DbSet<Output> Outputs { get; set; }
@@ -34,18 +33,7 @@ namespace CodeChecker.Data
             modelBuilder.Entity<Contest>()
                 .HasIndex(x => x.Name).IsUnique();
 
-            modelBuilder.Entity<ContestCreator>()
-                .HasKey(x => new {x.ContestId, x.UserId});
-
-            modelBuilder.Entity<ContestCreator>()
-                .HasOne(cc => cc.Contest)
-                .WithMany(c => c.ContestCreators)
-                .HasForeignKey(cc => cc.ContestId);
-
-            modelBuilder.Entity<ContestCreator>()
-                .HasOne(cc => cc.User)
-                .WithMany(c => c.ContestCreators)
-                .HasForeignKey(cc => cc.UserId);
+           
 
 
 

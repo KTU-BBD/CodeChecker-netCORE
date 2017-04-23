@@ -9,7 +9,7 @@
         var scc = this;
         scc.notBusy = false;
         var conId = $stateParams.id;
-        var apiUrl = "/api/admin/Contest/Get/" + conId.toString();
+        var apiUrl = "/api/admin/Contest/GetFull/" + conId.toString();
         var updateContestUrl = "/api/admin/Contest/Update";
         $http.get(apiUrl)
             .then(function (response) {

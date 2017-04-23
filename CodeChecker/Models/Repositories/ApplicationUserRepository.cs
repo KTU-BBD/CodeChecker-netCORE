@@ -34,7 +34,6 @@ namespace CodeChecker.Models.Repositories
 
             return _context.Users
                 .Include(u => u.ContestParticipants)
-                .Include(u => u.ContestCreators)
                 .First(u => u.Id == user.Id);
         }
 

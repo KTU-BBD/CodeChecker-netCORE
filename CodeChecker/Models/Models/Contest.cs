@@ -16,8 +16,8 @@ namespace CodeChecker.Models.Models
         public ContestStatus Status { get; set; }
         public string Password { get; set; }
         public ICollection<Assignment> Assignments { get; set; }
-        public ICollection<ContestCreator> ContestCreators { get; set; }
         public ICollection<ContestParticipant> ContestParticipants { get; set; }
+        public ApplicationUser Creator { get; set; }
 
         [NotMapped]
         public bool Joined { get; set; }

@@ -22,7 +22,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                 return;
             }
 
-            var contests = _context.Contests.Include(c => c.ContestCreators).ThenInclude(u => u.User).ToList();
+            var contests = _context.Contests.Include(c => c.Creator).ToList();
             foreach (var contest in contests)
             {
 
@@ -34,7 +34,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                         MemoryLimit = new Random().Next(100, 400),
                         SolvedCount = 0,
                         TimeLimit = new Random().Next(1000, 8000),
-                        Creator = contest.ContestCreators.First().User,
+                        Creator = contest.Creator,
                         MaxPoints = new Random().Next(300, 1500),
                         Name = Faker.Company.Name(),
                         Description = DescriptionFormatter(),

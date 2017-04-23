@@ -15,13 +15,12 @@ namespace CodeChecker.Controllers.Api.Admin
     {
         private readonly ContestRepository _contestRepo;
         private readonly ApplicationUserRepository _userRepo;
-        private readonly ContestCreatorRepository _contestCreatorRepo;
 
-        public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo, ContestCreatorRepository contestCreatorRepo)
+
+        public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
         {
             _contestRepo = contestRepo;
             _userRepo = userRepo;
-            _contestCreatorRepo = contestCreatorRepo;
         }
 
         [HttpGet("")]
@@ -38,20 +37,14 @@ namespace CodeChecker.Controllers.Api.Admin
                 var newContest = Mapper.Map<Contest>(contest);
                 _contestRepo.Insert(newContest);
 
-                var assignedUsers = _userRepo.GetByIds(contest.Creators);
+                var assignedUsers = _userRepo.GetById(contest.Creator);
 
-                if (assignedUsers.Count() == 0)
+                if (assignedUsers == null)
                 {
                     ModelState.AddModelError("Creators", "Need atleast one creator");
                     return BadRequest(ModelState);
                 }
 
-                foreach (var user in assignedUsers)
-                {
-                    _contestCreatorRepo.Insert(new ContestCreator {ContestId = newContest.Id, UserId = user.Id}, false);
-                }
-
-                _contestCreatorRepo.Save();
 
                 return Ok();
             }
@@ -72,6 +65,21 @@ namespace CodeChecker.Controllers.Api.Admin
                 return BadRequest(ex);
             }
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetFull(long id)
+        {
+            try
+            {
+                var contest = _contestRepo.GetContestFull(id);
+                return Ok(contest);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpPost]
         public IActionResult Update([FromBody]Contest updatedContest)
         {

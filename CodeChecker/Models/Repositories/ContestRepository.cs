@@ -21,8 +21,7 @@ namespace CodeChecker.Models.Repositories
                     .Where(c => c.EndAt > DateTime.Now)
                     .Where(c => c.Status == ContestStatus.Approved)
                     .OrderBy(c => c.StartAt)
-                    .Include(c => c.ContestCreators)
-                    .ThenInclude(c => c.User)
+                    .Include(c => c.Creator)
                     .Include(c => c.ContestParticipants)
                 ;
         }
@@ -32,6 +31,15 @@ namespace CodeChecker.Models.Repositories
             return Query()
                     .Include(c => c.ContestParticipants)
                     .Include(c => c.Assignments)
+                    .FirstOrDefault(c => c.Id == contestId)
+                ;
+        }
+        public Contest GetContestFull(long contestId)
+        {
+            return Query()
+                    .Include(c => c.ContestParticipants)
+                    .Include(c => c.Assignments)
+                    .Include(c => c.Creator)
                     .FirstOrDefault(c => c.Id == contestId)
                 ;
         }

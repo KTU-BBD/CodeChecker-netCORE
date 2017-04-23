@@ -10,8 +10,8 @@ namespace CodeChecker.Models.Models
         public int Rating { get; set; }
         public DateTime DeletedAt { get; set; }
         public Asset ProfileImage { get; set; }
-        public ICollection<ContestCreator> ContestCreators { get; set; }
         public ICollection<ContestParticipant> ContestParticipants { get; set; }
+        public ICollection<Contest> Contests { get; set; }
 
         public override string ToString()
         {

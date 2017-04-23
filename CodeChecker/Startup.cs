@@ -136,7 +136,6 @@ namespace CodeChecker
             services.AddScoped<ApplicationUserRepository>();
             services.AddScoped<AssetRepository>();
             services.AddScoped<ContestRepository>();
-            services.AddScoped<ContestCreatorRepository>();
             services.AddScoped<ContestParticipantRepository>();
         }
 

@@ -31,6 +31,6 @@ namespace CodeChecker.Models.ContestViewModels
 
         [Required]
         [MinLength(1)]
-        public ICollection<string> Creators { get; set; }
+        public string Creator { get; set; }
     }
 }
