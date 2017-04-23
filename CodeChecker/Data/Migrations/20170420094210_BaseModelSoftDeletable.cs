@@ -338,7 +338,8 @@ namespace CodeChecker.Migrations
                     TimeMs = table.Column<int>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    Verdict = table.Column<string>(nullable: true)
+                    Verdict = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -465,7 +466,8 @@ namespace CodeChecker.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Outputs_InputId",
                 table: "Outputs",
-                column: "InputId");
+                column: "InputId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Submissions_AssignmentId",

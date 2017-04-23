@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using AutoMapper;
 using CodeChecker.Models.AssignmentViewModels;
+using CodeChecker.Models.ServiceViewModels;
+using CodeChecker.Services.CodeSubmit;
 
 namespace CodeChecker
 {
@@ -54,6 +57,15 @@ namespace CodeChecker
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
+
+            services.Configure<AppSettings>(appSettings =>
+            {
+                appSettings.Microservice = new Microservice
+                {
+                    // Untyped Syntax - Configuration[""]
+                    Uri = Configuration.GetSection("Microservice")["Uri"]
+                };
+            });
 
             Repositories(services);
             Services(services);
@@ -113,6 +125,7 @@ namespace CodeChecker
                 cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
                 cfg.CreateMap<ContestCreator, ContestContributorViewModel>();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>();
+                cfg.CreateMap<Assignment, AssignmentViewModel>();
 
             });
 
@@ -137,11 +150,14 @@ namespace CodeChecker
             services.AddScoped<AssetRepository>();
             services.AddScoped<ContestRepository>();
             services.AddScoped<ContestParticipantRepository>();
+            services.AddScoped<AssignmentRepository>();
+            services.AddScoped<SubmissionRepository>();
         }
 
         private void Services(IServiceCollection services)
         {
             services.AddTransient<FileUploadService>();
+            services.AddTransient<CodeSubmitService>();
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
