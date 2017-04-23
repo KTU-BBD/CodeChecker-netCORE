@@ -16,11 +16,12 @@ namespace CodeChecker.Controllers.Api.Admin
     public class UserController : AdminBaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
         private readonly FileUploadService _uploadService;
         private readonly ApplicationDbContext _context;
         private readonly AssetRepository _assetRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager,FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
+        public UserController(UserManager<ApplicationUser> userManager, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
         {
             _userManager = userManager;
             _uploadService = uploadService;

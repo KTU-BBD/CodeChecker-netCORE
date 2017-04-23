@@ -38,6 +38,11 @@
                 .finally(function (response) {
                 });
         };
+        scc.invertBool = function (value)
+        {
+            window.alert(value);
+            scc.contest.isPublic = !value;
+        }
     }
 })();
 
