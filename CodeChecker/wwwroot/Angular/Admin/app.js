@@ -21,9 +21,9 @@ angular
         'ngResource',
         'ngFileUpload',
         'ngTable',
+        'froala',
         'ui.bootstrap.datetimepicker',
         'toastr'
-
     ])
     .service('Auth', function($resource, $rootScope) {
         this.getCurrentUser = function() {

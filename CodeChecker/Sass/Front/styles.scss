@@ -8,6 +8,9 @@
 // Import Bootstrap source files
 @import "../Admin/bootstrap/bootstrap";
 
+// Vendors
+@import "Vendors/vendors";
+
 //Modules imports
 @import "Modules/variables";
 @import "Modules/mixins";

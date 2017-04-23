@@ -21,10 +21,9 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly ApplicationDbContext _context;
         private readonly AssetRepository _assetRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
+        public UserController(UserManager<ApplicationUser> userManager, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
         {
             _userManager = userManager;
-            _mapper = mapper;
             _uploadService = uploadService;
             _context = context;
             _assetRepo = assetRepo;
@@ -35,7 +34,7 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userr = _context.Users.Include(u => u.ProfileImage).First(u => u.Id == user.Id);
-            var userViewModel = _mapper.Map<AdminPanelUserViewModel>(userr);
+            var userViewModel = Mapper.Map<AdminPanelUserViewModel>(userr);
 
             userViewModel.Roles = await _userManager.GetRolesAsync(user);
 

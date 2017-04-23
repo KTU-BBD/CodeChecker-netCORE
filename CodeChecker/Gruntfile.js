@@ -20,7 +20,9 @@
                 files: {
                     "<%= config.JS_DEPLOY_PATH  %>/plugins.front.js": [
                         "<%= config.VENDOR_PATH  %>/jquery/dist/jquery.js",
+                        "<%= config.VENDOR_PATH  %>/ace-builds/src-min-noconflict/ace.js",
                         "<%= config.VENDOR_PATH  %>/angular/angular.js",
+                        "<%= config.VENDOR_PATH  %>/angular-ui-ace/ui-ace.js",
                         "<%= config.VENDOR_PATH  %>/moment/min/moment.min.js",
                         "<%= config.VENDOR_PATH  %>/angular-animate/angular-animate.js",
                         "<%= config.VENDOR_PATH  %>/angular-moment/angular-moment.js",
@@ -44,6 +46,7 @@
                     "<%= config.CSS_DEPLOY_PATH  %>/plugins.admin.css": [
                         "<%= config.NPM_VENDOR_PATH %>/ng-table/bundles/ng-table.css",
                         "<%= config.VENDOR_PATH  %>/simple-line-icons/css/simple-line-icons.css",
+                        "<%= config.VENDOR_PATH  %>/froala-wysiwyg-editor/css/froala_editor.pkgd.min.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap-datetimepicker/src/css/datetimepicker.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css"
                     ]
@@ -67,7 +70,9 @@
                         "<%= config.VENDOR_PATH  %>/angular-ui-router/release/angular-ui-router.js",
                         "<%= config.VENDOR_PATH  %>/oclazyload/dist/ocLazyLoad.js",
                         "<%= config.VENDOR_PATH  %>/angular-breadcrumb/dist/angular-breadcrumb.js",
-                        "<%= config.VENDOR_PATH  %>/angular-loading-bar/build/loading-bar.js"
+                        "<%= config.VENDOR_PATH  %>/angular-loading-bar/build/loading-bar.js",
+                        "<%= config.VENDOR_PATH  %>/froala-wysiwyg-editor/js/froala_editor.pkgd.min.js",
+                        "<%= config.VENDOR_PATH  %>/angular-froala/src/angular-froala.js"
                     ]
                 }
             }
