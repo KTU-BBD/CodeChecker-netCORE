@@ -16,15 +16,13 @@ namespace CodeChecker.Controllers.Api.Admin
     public class UserController : AdminBaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IMapper _mapper;
         private readonly FileUploadService _uploadService;
         private readonly ApplicationDbContext _context;
         private readonly AssetRepository _assetRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
+        public UserController(UserManager<ApplicationUser> userManager, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
         {
             _userManager = userManager;
-            _mapper = mapper;
             _uploadService = uploadService;
             _context = context;
             _assetRepo = assetRepo;
@@ -35,7 +33,7 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userr = _context.Users.Include(u => u.ProfileImage).First(u => u.Id == user.Id);
-            var userViewModel = _mapper.Map<AdminPanelUserViewModel>(userr);
+            var userViewModel = Mapper.Map<AdminPanelUserViewModel>(userr);
 
             userViewModel.Roles = await _userManager.GetRolesAsync(user);
 
@@ -56,11 +54,6 @@ namespace CodeChecker.Controllers.Api.Admin
             }
 
             return BadRequest();
-        }
-
-        public IActionResult Assets()
-        {
-            return Ok(_assetRepo.GetPagedData(1));
         }
     }
 }

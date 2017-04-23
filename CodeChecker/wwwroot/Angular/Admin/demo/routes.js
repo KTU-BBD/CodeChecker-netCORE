@@ -94,14 +94,34 @@ angular
     ncyBreadcrumb: {
       label: 'Charts'
     }
-  })
+      })
   .state('app.contests', {
-      url: '/contests',
-      templateUrl: 'Html/Admin/pages/contest/main.html',
+      url: "/contests",
+      abstract: true,
+      template: '<ui-view></ui-view>',
       ncyBreadcrumb: {
-          label: 'Contest'
+          label: 'Contests'
       },
-      controller: 'ContestViewController',
-      controllerAs: 'contest'
-  })
+      })
+      .state('app.contests.all', {
+          url: '/all',
+          templateUrl: 'Html/Admin/pages/contest/main.html',
+          ncyBreadcrumb: {
+              label: 'All'
+          },
+          controller: 'ContestViewController',
+          controllerAs: 'contest'
+      })
+    .state('app.contests.one', {
+        url: '/contest/:id',
+        templateUrl: 'Html/Admin/pages/contest/contest.html',
+        ncyBreadcrumb: {
+            label: 'View'
+        },
+        controller: 'SingleContestViewController',
+        controllerAs: 'scc',
+        params: {
+            id:null
+        }
+    })
 }]);
