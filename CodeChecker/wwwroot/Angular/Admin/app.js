@@ -20,7 +20,8 @@ angular
         'angular-loading-bar',
         'ngResource',
         'ngFileUpload',
-        'ngTable'
+        'ngTable',
+        'froala'
 
     ])
     .service('Auth', function($resource, $rootScope) {
