@@ -16,6 +16,22 @@ namespace CodeChecker.Models.Repositories
             return Query()
                 .FirstOrDefault(a => a.Id == id);
         }
-       
+        public Assignment GetByIdWithInputsOutputs(long id)
+        {
+            return Query()
+                .Include(a => a.Inputs)
+                .ThenInclude(a => a.Output)
+                .FirstOrDefault(a => a.Id == id);
+        }
+
+        public Assignment GetByIdWithContest(long id)
+        {
+            return Query()
+                    .Include(a => a.Contest)
+                    .ThenInclude(a => a.ContestParticipants)
+                    .ThenInclude(a => a.User)
+                    .FirstOrDefault(a => a.Id == id)
+                ;
+        }
     }
 }

@@ -9,9 +9,10 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170423170508_CodeInSubmission")]
+    partial class CodeInSubmission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -270,8 +271,6 @@ namespace CodeChecker.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<string>("Verdict");
-
-                    b.Property<string>("Code");
 
                     b.HasKey("Id");
 

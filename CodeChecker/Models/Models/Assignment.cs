@@ -17,6 +17,7 @@ namespace CodeChecker.Models.Models
         public bool IsActive { get; set; }
         public int SolvedCount { get; set; }
         public int MaxPoints { get; set; }
+        public ICollection<Input> Inputs { get; set; }
         public ICollection<Submission> Submissions { get; set; }
     }
 }

@@ -9,7 +9,6 @@
     <UserSecretsId>aspnet-CodeChecker-ebd9b832-c8e7-4b68-8137-dfe3d16b557f</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Migrations\**" />
     <Compile Remove="wwwroot\Angular\Admin\Directives\**" />
     <Compile Remove="wwwroot\Angular\Contest\**" />
     <Compile Remove="wwwroot\Html\Contest\**" />
@@ -17,11 +16,9 @@
     <Content Remove="wwwroot\Angular\Admin\Directives\**" />
     <Content Remove="wwwroot\Angular\Contest\**" />
     <Content Remove="wwwroot\Html\Contest\**" />
-    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="wwwroot\Angular\Admin\Directives\**" />
     <EmbeddedResource Remove="wwwroot\Angular\Contest\**" />
     <EmbeddedResource Remove="wwwroot\Html\Contest\**" />
-    <None Remove="Migrations\**" />
     <None Remove="wwwroot\Angular\Admin\Directives\**" />
     <None Remove="wwwroot\Angular\Contest\**" />
     <None Remove="wwwroot\Html\Contest\**" />
@@ -78,6 +75,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controllers\Api\" />
     <Folder Include="Data\Migrations" />
     <Folder Include="Models\Models\Enums" />
     <Folder Include="Sass\Admin\" />

@@ -33,8 +33,11 @@ namespace CodeChecker.Data
             modelBuilder.Entity<Contest>()
                 .HasIndex(x => x.Name).IsUnique();
 
-           
 
+            modelBuilder.Entity<Input>()
+                .HasOne(p => p.Output)
+                .WithOne(i => i.Input)
+                .HasForeignKey<Output>(b => b.InputId);
 
 
             modelBuilder.Entity<ContestParticipant>()
