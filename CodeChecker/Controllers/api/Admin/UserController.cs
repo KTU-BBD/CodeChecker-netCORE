@@ -16,7 +16,6 @@ namespace CodeChecker.Controllers.Api.Admin
     public class UserController : AdminBaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IMapper _mapper;
         private readonly FileUploadService _uploadService;
         private readonly ApplicationDbContext _context;
         private readonly AssetRepository _assetRepo;
