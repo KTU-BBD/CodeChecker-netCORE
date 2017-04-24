@@ -22,6 +22,7 @@ using AutoMapper;
 using CodeChecker.Models.AssignmentViewModels;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Services.CodeSubmit;
+using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
 
 namespace CodeChecker
 {
@@ -112,25 +113,25 @@ namespace CodeChecker
 
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>();
+                cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
                 cfg.CreateMap<List<ApplicationUser>, List<TopUserViewModel>>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserIdViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
-                cfg.CreateMap<Asset, AssetProfileViewModel>();
+                cfg.CreateMap<Asset, AssetProfileViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
-                cfg.CreateMap<Contest, ViewContestViewModel>();
-                cfg.CreateMap<Contest, ContestViewModel>();
+                cfg.CreateMap<Contest, ViewContestViewModel>().ReverseMap();
+                cfg.CreateMap<Contest, ContestViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, ContestWithAssignmentViewModel>();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, EditContestGetViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, EditContestPostViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, EditAssignmentGetViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, EditContestPostViewModel>().ReverseMap();
-                cfg.CreateMap<ContestCreator, ContestCreatorViewModel>();
-                cfg.CreateMap<ContestCreator, ContestContributorViewModel>();
-                cfg.CreateMap<Assignment, ShortAssignmentViewModel>();
-                cfg.CreateMap<Assignment, AssignmentViewModel>();
+                cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
+                cfg.CreateMap<Assignment, AssignmentViewModel>().ReverseMap();
+                cfg.CreateMap<Input, InputViewModel>().ReverseMap();
+                cfg.CreateMap<Output, OutputViewModel>().ReverseMap();
 
             });
 
@@ -157,6 +158,7 @@ namespace CodeChecker
             services.AddScoped<ContestParticipantRepository>();
             services.AddScoped<AssignmentRepository>();
             services.AddScoped<SubmissionRepository>();
+            services.AddScoped<InputRepository>();
         }
 
         private void Services(IServiceCollection services)

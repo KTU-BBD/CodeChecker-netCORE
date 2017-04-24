@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
 using CodeChecker.Models.AssignmentViewModels;
+using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -37,7 +38,7 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             try
             {
-                var assignment = _assignmentRepo.Get(id);
+                var assignment = _assignmentRepo.GetByIdWithInputsOutputs(id);
                 var assignmentToReturn = Mapper.Map<EditAssignmentGetViewModel>(assignment);
                 return Ok(assignmentToReturn);
             }
@@ -48,24 +49,25 @@ namespace CodeChecker.Controllers.Api.Admin
             }
         }
 
-        //[HttpPost]
-        //public IActionResult Update([FromBody]EditContestPostViewModel updatedContest)
-        //{
 
-        //    try
-        //    {
 
-        //        var contest = _assignmentRepo.GetContestFull(updatedContest.Id);
-        //        var updated = Mapper.Map(updatedContest, contest);
+        [HttpPost]
+        public IActionResult Update([FromBody]EditAssignmentPostViewModel updatedAssignment)
+        {
 
-        //        _assignmentRepo.Update(updated);
-        //        return Ok(Mapper.Map<EditContestPostViewModel>(updated));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine(ex.Message);
-        //        return BadRequest(ex);
-        //    }
-        //}
+            try
+            {
+                // FIX THIS PART
+                var assignment = _assignmentRepo.GetById(updatedAssignment.Id);
+                var updated = Mapper.Map(updatedAssignment, assignment);
+
+                _assignmentRepo.Update(updated);
+                return Ok(Mapper.Map<EditAssignmentPostViewModel>(updated));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }

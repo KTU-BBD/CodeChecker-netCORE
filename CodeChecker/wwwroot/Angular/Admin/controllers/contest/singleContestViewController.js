@@ -44,7 +44,7 @@
                 })
                 .finally(function (response) {
                 });
-        };
+        }
     }
 })();
 

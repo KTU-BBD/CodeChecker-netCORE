@@ -33,5 +33,18 @@ namespace CodeChecker.Models.Repositories
                     .FirstOrDefault(a => a.Id == id)
                 ;
         }
+        public Assignment GetAssignmentFull(long contestId)
+        {
+            return Query()
+                    .Include(a => a.Contest)
+                    .ThenInclude(a => a.ContestParticipants)
+                    .ThenInclude(a => a.User)
+                    .Include(a => a.Creator)
+                    .Include(a => a.Inputs)
+                    .ThenInclude(a => a.Output)
+                    .Include(a => a.Submissions)
+                    .FirstOrDefault(c => c.Id == contestId)
+                ;
+        }
     }
 }

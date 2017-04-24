@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
+using CodeChecker.Models.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,5 +22,6 @@ namespace CodeChecker.Models.AssignmentViewModels
         public int MaxPoints { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public ICollection<InputViewModel> Inputs { get; set; }
     }
 }

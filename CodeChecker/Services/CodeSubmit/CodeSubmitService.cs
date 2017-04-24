@@ -24,7 +24,6 @@ namespace CodeChecker.Services.CodeSubmit
         public async Task<CodeResultViewModel> SubmitCode(CodeSubmitViewModel submitCode)
         {
             var result = await _client.PostAsync(_settings.Microservice.Uri, new JsonContent(submitCode));
-            Console.WriteLine(JsonConvert.SerializeObject(submitCode));
             var results = JsonConvert.DeserializeObject<CodeResultViewModel>(await result.Content.ReadAsStringAsync());
 
             return results;
