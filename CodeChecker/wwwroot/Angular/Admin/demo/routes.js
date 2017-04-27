@@ -123,5 +123,17 @@ angular
         params: {
             id:null
         }
-    })
+        })
+      .state('app.contests.assignment', {
+          url: '/contest/assignment/:id',
+          templateUrl: 'Html/Admin/pages/contest/task/assignment.html',
+          ncyBreadcrumb: {
+              label: 'Assignment'
+          },
+          controller: 'AssignmentViewController',
+          controllerAs: 'awc',
+          params: {
+              id: null
+          }
+      })
 }]);

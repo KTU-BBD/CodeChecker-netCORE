@@ -1,0 +1,97 @@
+﻿<div class="row">
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>Assignment</strong>  {{awc.assignment.name}}
+            </div>
+            <div class="card-block">
+                <form action="" method="post" enctype="multipart/form-data" class="form-2orizontal ">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Assignment Name</label>
+                        <div class="col-md-9">
+                            <input type="text" id="text-input" name="text-input" class="form-control" value="{{awc.assignment.name}}" placeholder="{{awc.assignment.name}}" ng-model="awc.assignment.name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Max Points</label>
+                        <div class="col-md-9">
+                            <input type="text" id="text-input" name="text-input" class="form-control" value="{{awc.assignment.maxPoints}}" placeholder="{{awc.assignment.maxPoints}}" ng-model="awc.assignment.maxPoints">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Description</label>
+                        <div class="col-md-9">
+                            <textarea froala="froalaOptions" ng-model="awc.assignment.description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Created At</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{awc.assignment.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Last Update</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{awc.assignment.updatedAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Deleted At</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{awc.assignment.deletedAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Time Limit(ms)</label>
+                        <div class="col-md-9">
+                            <input type="text" id="text-input" name="text-input" class="form-control" value="{{awc.assignment.timeLimit}}" placeholder="{{awc.assignment.timeLimit}}" ng-model="awc.assignment.timeLimit">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Memory Limit(MB)</label>
+                        <div class="col-md-9">
+                            <input type="text" id="text-input" name="text-input" class="form-control" value="{{awc.assignment.memoryLimit}}" placeholder="{{awc.assignment.memoryLimit}}" ng-model="awc.assignment.memoryLimit">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Solved Count</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{awc.assignment.solvedCount}}</p>
+                        </div>
+                    </div>
+
+                   
+                </form>
+            </div>
+            <div class="card-footer">
+                <button ng-click="awc.saveAssignment()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.assignment(awc.assignment.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                <button ng-click="awc.reset()" class="btn btn-sm btn-danger" ui-sref-active="active" ui-sref="app.contests.assignment(awc.assignment.id)"><i class="fa fa-ban"></i> Reset</button>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="col-md-6">
+        <div class="card" ng-repeat="input in awc.assignment.inputs">
+            <div class="card-header">
+                <h5>Test {{$index+1}}</h5>
+            </div>
+            <div class="form-group has-success">
+                <label class="form-form-control-label"><b>Input</b></label>
+                <textarea id="textarea-input" name="textarea-input" rows="3" class="form-control" ng-model="input.text"></textarea>
+            </div>
+            <div class="form-group has-danger">
+                <label class="form-form-control-label"><b>Output</b></label>
+                <textarea id="textarea-input" name="textarea-input" rows="3" class="form-control" ng-model="input.output.text"></textarea>
+            </div>
+            <div class="card-footer">
+                <button ng-click="awc.saveTest(input)" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.assignment(awc.assignment.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            </div>
+        </div>
+
+    </div>
+        </div>
