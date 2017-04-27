@@ -6,6 +6,7 @@
     function assignmentViewController($routeParams, $http, $scope, toastr, $sce) {
         var apiUrl = "/api/front/assignment/get/" + $routeParams.assignmentId;
         $scope.assignment = [];
+        $scope.sendDisabled = false;
 
         $http.get(apiUrl)
             .then(function (response) {
@@ -16,28 +17,30 @@
                 toastr.error(error.data);
             });
         $scope.sendCode = function() {
+            $scope.sendDisabled = true;
             if (!$scope.task || !$scope.task.code) {
                 toastr.error("Please select language and type your code");
+                $scope.sendDisabled = false;
                 return;
             }
 
             $scope.task.assignmentId =  $routeParams.assignmentId;
             $scope.task.language = "PYT";
 
-
-
             if ($scope.task.code.length < 5) {
                 toastr.error("Code too short");
+                $scope.sendDisabled = false;
                 return;
             }
 
             $http.post("/api/front/assignment/submit", $scope.task)
                 .then(function(response) {
                     toastr.success("Successfully passed all tests");
+                    $scope.sendDisabled = true;
                 }, function (error) {
                     toastr.error(error.data);
+                    $scope.sendDisabled = false;
                 });
         };
-        console.log($scope.task);
     }
 })();

@@ -9,6 +9,7 @@ using CodeChecker.Models.Models;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Services.CodeSubmit;
+using CodeChecker.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,10 +24,11 @@ namespace CodeChecker.Controllers.Api.Front
         private readonly ApplicationUserRepository _userRepo;
         private readonly SubmissionRepository _submissionRepo;
         private readonly CodeSubmitService _codeSubmitService;
+        private readonly CodeTestTask _codeTestTask;
 
         public AssignmentController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
             ApplicationDbContext context, ContestParticipantRepository contestParticipantRepo,
-            ApplicationUserRepository userRepo, AssignmentRepository assignmentRepo, CodeSubmitService codeSubmitService, SubmissionRepository submissionRepo)
+            ApplicationUserRepository userRepo, AssignmentRepository assignmentRepo, CodeSubmitService codeSubmitService, SubmissionRepository submissionRepo, CodeTestTask codeTestTask)
         {
             _contestRepo = contestRepo;
             _userManager = userManager;
@@ -35,6 +37,7 @@ namespace CodeChecker.Controllers.Api.Front
             _assignmentRepo = assignmentRepo;
             _codeSubmitService = codeSubmitService;
             _submissionRepo = submissionRepo;
+            _codeTestTask = codeTestTask;
         }
 
         [HttpGet("{taskId}")]
@@ -77,36 +80,12 @@ namespace CodeChecker.Controllers.Api.Front
                 return BadRequest("Assignment not found");
             }
 
-            foreach (var input in assignment.Inputs)
+            _codeTestTask.Run(new CodeAssignmentViewModel()
             {
-                var code = new CodeSubmitViewModel
-                {
-                    code = assignmentSubmit.Code,
-                    language = assignmentSubmit.Language,
-                    memoryLimit = assignment.MemoryLimit,
-                    timeLimit = assignment.TimeLimit,
-                    inputText = input.Text
-                };
-
-                var results = await _codeSubmitService.SubmitCode(code);
-
-                bool verdict = results.Output == input.Output.Text;
-
-                _submissionRepo.Insert(new Submission
-                {
-                    Assignment = assignment,
-                    Code = assignmentSubmit.Code,
-                    Language = assignmentSubmit.Language,
-                    TimeMs = (int) (results.TimeSpent * 1000),
-                    User = currentUser,
-                    Verdict = verdict ? "YES" : "NO"
-                });
-
-                if (!verdict)
-                {
-                    return BadRequest("Failed at tests");
-                }
-            }
+                AssignmentSubmit = assignmentSubmit,
+                Assignment =  assignment,
+                Submiter  = currentUser,
+            });
 
             return Ok();
 

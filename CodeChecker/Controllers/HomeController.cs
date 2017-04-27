@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CodeChecker.Models.ServiceViewModels;
+﻿using System.Threading.Tasks;
 using CodeChecker.Services.CodeSubmit;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +13,7 @@ namespace CodeChecker.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }

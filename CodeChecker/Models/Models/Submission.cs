@@ -8,5 +8,10 @@
         public string Language { get; set; }
         public string Verdict { get; set; }
         public int TimeMs { get; set; }
+
+        public Submission()
+        {
+            Verdict = "ERROR";
+        }
     }
 }

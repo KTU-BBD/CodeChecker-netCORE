@@ -22,6 +22,7 @@ using AutoMapper;
 using CodeChecker.Models.AssignmentViewModels;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Services.CodeSubmit;
+using CodeChecker.Tasks;
 
 namespace CodeChecker
 {
@@ -70,6 +71,7 @@ namespace CodeChecker
             Repositories(services);
             Services(services);
             Policies(services);
+            Tasks(services);
 
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
@@ -163,7 +165,10 @@ namespace CodeChecker
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        
+        private void Tasks(IServiceCollection services)
+        {
+            services.AddTransient<CodeTestTask>();
+        }
 
         private void Policies(IServiceCollection services)
         {
