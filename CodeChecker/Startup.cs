@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using AutoMapper;
 using CodeChecker.Models.AssignmentViewModels;
+using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Services.CodeSubmit;
 using CodeChecker.Tasks;
@@ -132,7 +133,6 @@ namespace CodeChecker
                 cfg.CreateMap<Assignment, AssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Input, InputViewModel>().ReverseMap();
                 cfg.CreateMap<Output, OutputViewModel>().ReverseMap();
-
             });
 
             app.UseStaticFiles();
