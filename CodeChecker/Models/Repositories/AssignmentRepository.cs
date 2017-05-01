@@ -33,7 +33,7 @@ namespace CodeChecker.Models.Repositories
                     .FirstOrDefault(a => a.Id == id)
                 ;
         }
-        public Assignment GetAssignmentFull(long contestId)
+        public Assignment GetAssignmentFull(long assignmentId)
         {
             return Query()
                     .Include(a => a.Contest)
@@ -43,7 +43,7 @@ namespace CodeChecker.Models.Repositories
                     .Include(a => a.Inputs)
                     .ThenInclude(a => a.Output)
                     .Include(a => a.Submissions)
-                    .FirstOrDefault(c => c.Id == contestId)
+                    .FirstOrDefault(c => c.Id == assignmentId)
                 ;
         }
     }

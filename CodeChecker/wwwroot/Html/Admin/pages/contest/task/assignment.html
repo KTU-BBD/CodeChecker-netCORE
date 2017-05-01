@@ -80,6 +80,7 @@
             <div class="card-header">
                 <h5>Test {{$index+1}}</h5>
             </div>
+            <row>
             <div class="form-group has-success">
                 <label class="form-form-control-label"><b>Input</b></label>
                 <textarea id="textarea-input" name="textarea-input" rows="3" class="form-control" ng-model="input.text"></textarea>
@@ -88,6 +89,7 @@
                 <label class="form-form-control-label"><b>Output</b></label>
                 <textarea id="textarea-input" name="textarea-input" rows="3" class="form-control" ng-model="input.output.text"></textarea>
             </div>
+            </row>
             <div class="card-footer">
                 <button ng-click="awc.saveTest(input)" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.assignment(awc.assignment.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
             </div>

@@ -157,6 +157,49 @@ namespace CodeChecker.Models.Repositories
             return queryuilder.Skip(offset).Take(filter.Count);
         }
 
+
+        public IQueryable<T> GetPagedDataForContributor(DataFilterViewModel filter)
+        {
+            if (filter.Page < 1)
+            {
+                filter.Page = 1;
+            }
+
+            if (filter.Count > GetMaxPerPage())
+            {
+                filter.Count = GetMaxPerPage();
+            }
+
+            
+
+            var queryuilder = Query();
+            foreach (var item in filter.Filter)
+            {
+                if (item.Key != "null" && item.Value != "null")
+                {
+                    var type = typeof(T);
+                    var property = type.GetProperty(item.Key);
+
+                    if (property.ToString().Contains(typeof(string).Name))
+                    {
+                        queryuilder = queryuilder.Where($"{item.Key}.Contains(@0)", System.Net.WebUtility.UrlDecode(item.Value));
+                    }
+                    else if (property.ToString().Contains(typeof(long).Name))
+                    {
+                        queryuilder = queryuilder.Where($"{item.Key} = {item.Value}");
+                    }
+                }
+            }
+
+            foreach (var item in filter.Sorting)
+            {
+                queryuilder = queryuilder.OrderBy($"{item.Key} {item.Value}");
+            }
+
+            return queryuilder;
+        }
+
+
         private void Save()
         {
             _context.SaveChanges();

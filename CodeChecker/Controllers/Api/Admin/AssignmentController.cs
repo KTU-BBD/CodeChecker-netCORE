@@ -54,7 +54,11 @@ namespace CodeChecker.Controllers.Api.Admin
         [HttpPost]
         public IActionResult Update([FromBody]EditAssignmentPostViewModel updatedAssignment)
         {
+            //var contest = _contestRepo.GetContestFull(updatedContest.Id);
+            //var updated = Mapper.Map(updatedContest, contest);
 
+            //_contestRepo.Update(updated);
+            //return Ok(Mapper.Map<EditContestPostViewModel>(updated));
             try
             {
                 // FIX THIS PART

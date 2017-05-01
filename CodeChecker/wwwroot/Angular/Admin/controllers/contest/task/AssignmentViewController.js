@@ -19,7 +19,7 @@
                 awc.assignment = response.data;
             }, function (error) {
                 awc.errorMessage = "Failed to load data: " + error;
-                window.alert(error);
+                window.alert(awc.errorMessage);
             }).finally(function () {
                 awc.notBusy = true;
             });
@@ -45,14 +45,12 @@
                 });
         }
 
-        //scc.contest_to_update = scc.contest;
-
         awc.saveAssignment = function () {
-           
+            var d = new Date();
+            awc.assignment.updatedAt = d.toISOString();
             $http.post(updateAssignmentUrl, awc.assignment)
                 .then(function (response) {
-                })
-                .finally(function (response) {
+                }).finally(function (response) {
                 });
         };
     }

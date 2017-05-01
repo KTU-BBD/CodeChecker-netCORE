@@ -16,18 +16,44 @@ namespace CodeChecker.Controllers.Api.Admin
     {
         private readonly ContestRepository _contestRepo;
         private readonly ApplicationUserRepository _userRepo;
+        private UserManager<ApplicationUser> _userManager;
 
 
         public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
         {
             _contestRepo = contestRepo;
             _userRepo = userRepo;
+            _userManager = userManager;
         }
 
         [HttpGet("")]
         public IActionResult All([FromQuery] DataFilterViewModel filterData)
         {
-            return Ok(_contestRepo.GetPagedData(filterData));
+            if ((User.IsInRole("Administrator") || User.IsInRole("Moderator")))
+            {
+                var contests = _contestRepo.GetPagedData(filterData);
+                if (contests != null)
+                    return Ok(contests);
+            }
+            if (User.IsInRole("Contributor"))
+            {
+                var contests = _contestRepo.GetPagedDataForContributor(filterData);
+                var offset = filterData.Count * (filterData.Page - 1);
+                var userId = _userManager.GetUserId(User);
+                contests = contests.Where(x => x.Creator.Id == userId).Skip(offset).Take(filterData.Count);
+                if (contests != null)
+                {
+                    return Ok(contests);
+                }
+                else {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+
         }
 
         [HttpPost("")]
@@ -61,7 +87,7 @@ namespace CodeChecker.Controllers.Api.Admin
                 var contest = _contestRepo.Get(id);
                 return Ok(contest);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex);
             }
@@ -85,13 +111,13 @@ namespace CodeChecker.Controllers.Api.Admin
         [HttpPost]
         public IActionResult Update([FromBody]EditContestPostViewModel updatedContest)
         {
-            
+
             try
             {
 
                 var contest = _contestRepo.GetContestFull(updatedContest.Id);
-                var updated = Mapper.Map(updatedContest,contest);
-    
+                var updated = Mapper.Map(updatedContest, contest);
+
                 _contestRepo.Update(updated);
                 return Ok(Mapper.Map<EditContestPostViewModel>(updated));
             }
@@ -101,5 +127,7 @@ namespace CodeChecker.Controllers.Api.Admin
                 return BadRequest(ex);
             }
         }
+        //[HttpGet]
+        //public IActionResult 
     }
 }

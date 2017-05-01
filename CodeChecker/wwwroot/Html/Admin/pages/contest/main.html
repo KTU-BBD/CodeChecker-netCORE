@@ -11,7 +11,10 @@
                         <tr ng-repeat="row in $data track by row.id">
                             <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
                             <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><a ui-sref-active="active" ui-sref="app.contests.one({id:{{row.id}}})">{{row.name}}</a></td>
-                            <td data-title="'Is Public?'" sortable="'IsPublic'">{{row.isPublic}}</td>
+                            
+                            <td ng-if="contest.show && row.status === 0" data-title="'Status'" sortable="'Status'"><div><button type="button" class="btn btn-success col-md-6">Approve</button><button type="button" class="btn btn-primary col-md-6">Cancel</button></div></td>
+                            <td ng-if="contest.show && row.status === 1" data-title="'Status'" sortable="'Status'"><div><button type="button" class="btn btn-secondary col-md-6">Reset</button><button type="button" class="btn btn-danger col-md-6">Cancel</button></div></td>
+                            <td ng-if="contest.show && row.status === 2" data-title="'Status'" sortable="'Status'"><div><button type="button" class="btn btn-secondary col-md-6">Reset</button><button type="button" class="btn btn-success col-md-6">Approve</button></div></td>
                             <td data-title="'Starts At'" sortable="'StartAt'">{{row.startAt}}</td>
                             <td data-title="'Ends At'" sortable="'EndAt'">{{row.endAt}}</td>
                             <td data-title="'Updated At'" sortable="'UpdatedAt'">{{row.updatedAt}}</td>
@@ -19,7 +22,6 @@
                     </table>
                 </div>
             </div>
-            <a class="nav-link" ui-sref-active="active" ui-sref="app.components.buttons"><i class="icon-puzzle"></i> Buttons</a>
         </div>app.contests
         <!--/.col-->
 
