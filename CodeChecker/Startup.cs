@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +19,10 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using AutoMapper;
 using CodeChecker.Models.AssignmentViewModels;
+using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Services.CodeSubmit;
-using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
+using CodeChecker.Tasks;
 
 namespace CodeChecker
 {
@@ -71,6 +71,7 @@ namespace CodeChecker
             Repositories(services);
             Services(services);
             Policies(services);
+            Tasks(services);
 
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
@@ -132,7 +133,6 @@ namespace CodeChecker
                 cfg.CreateMap<Assignment, AssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Input, InputViewModel>().ReverseMap();
                 cfg.CreateMap<Output, OutputViewModel>().ReverseMap();
-
             });
 
             app.UseStaticFiles();
@@ -170,7 +170,10 @@ namespace CodeChecker
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        
+        private void Tasks(IServiceCollection services)
+        {
+            services.AddTransient<CodeTestTask>();
+        }
 
         private void Policies(IServiceCollection services)
         {
