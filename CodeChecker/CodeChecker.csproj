@@ -73,11 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Api\" />
-    <Folder Include="Data\asdasdMigrations" />
     <Folder Include="Data\Migrations" />
     <Folder Include="Data\Migrations" />
     <Folder Include="Data\Migrations" />
-    <Folder Include="Models\Models\Enums" />
     <Folder Include="Sass\Admin\" />
     <Folder Include="Tasks" />
     <Folder Include="Views\Admin\" />

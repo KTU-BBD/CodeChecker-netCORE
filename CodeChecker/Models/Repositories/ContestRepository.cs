@@ -34,6 +34,7 @@ namespace CodeChecker.Models.Repositories
                     .FirstOrDefault(c => c.Id == contestId)
                 ;
         }
+
         public Contest GetContestFull(long contestId)
         {
             return Query()

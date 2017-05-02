@@ -12,10 +12,14 @@
             .then(function (response) {
                 angular.copy(response.data, $scope.assignment);
                 $scope.assignment.description = $sce.trustAsHtml($scope.assignment.description);
-
+                $scope.task = {
+                    language: $scope.assignment.lastSubmission.language,
+                    code: $scope.assignment.lastSubmission.code
+                };
             }, function (error) {
                 toastr.error(error.data);
             });
+
         $scope.sendCode = function() {
             $scope.sendDisabled = true;
             if (!$scope.task || !$scope.task.code) {
@@ -34,8 +38,8 @@
             }
 
             $http.post("/api/front/assignment/submit", $scope.task)
-                .then(function(response) {
-                    toastr.success("Successfully passed all tests");
+                .then(function() {
+                    toastr.success("Your code has been submited for review");
                     $scope.sendDisabled = true;
                 }, function (error) {
                     toastr.error(error.data);

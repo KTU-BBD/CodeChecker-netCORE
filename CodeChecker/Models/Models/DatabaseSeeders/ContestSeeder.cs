@@ -23,6 +23,8 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                 return; // DB has been seeded
             }
 
+            var enumvValues = Enum.GetValues(typeof(ContestStatus));
+
             for (int i = 0; i < 30; i++)
             {
                 var startAt = DateTime.Now.AddDays(new Random().Next(3, 20));
@@ -33,19 +35,13 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                     Password = i % 2 == 1 ? "password" : null,
                     StartAt = startAt,
                     EndAt = startAt.AddHours(new Random().Next(2, 50)),
-                    Status = ContestStatus.Approved,
+                    Status = (ContestStatus)enumvValues.GetValue(new Random().Next(enumvValues.Length)),
                     Description = DescriptionFormatter(),
                     Creator = user
                 };
 
                 _context.Contests.Add(contest);
                 _context.SaveChanges();
-
-                
-
-                
-                _context.SaveChanges();
-
             }
         }
 

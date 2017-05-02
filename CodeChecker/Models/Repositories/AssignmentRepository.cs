@@ -11,16 +11,19 @@ namespace CodeChecker.Models.Repositories
         public AssignmentRepository(ApplicationDbContext context) : base(context)
         {
         }
+
         public Assignment GetById(long id)
         {
             return Query()
                 .FirstOrDefault(a => a.Id == id);
         }
+
         public Assignment GetByIdWithInputsOutputs(long id)
         {
             return Query()
                 .Include(a => a.Inputs)
                 .ThenInclude(a => a.Output)
+                .Include(a => a.Contest)
                 .FirstOrDefault(a => a.Id == id);
         }
 
@@ -33,6 +36,7 @@ namespace CodeChecker.Models.Repositories
                     .FirstOrDefault(a => a.Id == id)
                 ;
         }
+
         public Assignment GetAssignmentFull(long assignmentId)
         {
             return Query()

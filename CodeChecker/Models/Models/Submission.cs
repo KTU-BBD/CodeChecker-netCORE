@@ -1,17 +1,27 @@
-﻿namespace CodeChecker.Models.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using CodeChecker.Models.Models.Enums;
+
+namespace CodeChecker.Models.Models
 {
     public class Submission : BaseModel
     {
+        [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
+        public string UserId { get; set; }
+
+        [ForeignKey("AssignmentId")]
         public Assignment Assignment { get; set; }
+        public long AssignmentId { get; set; }
+
         public string Code { get; set; }
         public string Language { get; set; }
-        public string Verdict { get; set; }
+        public SubmissionVerdict Verdict { get; set; }
         public int TimeMs { get; set; }
 
         public Submission()
         {
-            Verdict = "ERROR";
+            Verdict = SubmissionVerdict.Error;
+            TimeMs = -1;
         }
     }
 }

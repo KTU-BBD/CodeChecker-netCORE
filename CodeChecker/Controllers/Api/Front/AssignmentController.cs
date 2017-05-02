@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using CodeChecker.Data;
 using CodeChecker.Models.AssignmentViewModels;
-using CodeChecker.Models.ContestViewModels;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
+using CodeChecker.Models.SubmissionViewModels;
 using CodeChecker.Services.CodeSubmit;
 using CodeChecker.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -28,7 +26,8 @@ namespace CodeChecker.Controllers.Api.Front
 
         public AssignmentController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
             ApplicationDbContext context, ContestParticipantRepository contestParticipantRepo,
-            ApplicationUserRepository userRepo, AssignmentRepository assignmentRepo, CodeSubmitService codeSubmitService, SubmissionRepository submissionRepo, CodeTestTask codeTestTask)
+            ApplicationUserRepository userRepo, AssignmentRepository assignmentRepo,
+            CodeSubmitService codeSubmitService, SubmissionRepository submissionRepo, CodeTestTask codeTestTask)
         {
             _contestRepo = contestRepo;
             _userManager = userManager;
@@ -56,7 +55,11 @@ namespace CodeChecker.Controllers.Api.Front
             {
                 if (participant.UserId == currentUser.Id)
                 {
-                    return Ok(Mapper.Map<AssignmentViewModel>(assignment));
+                    var mappedAssignment = Mapper.Map<AssignmentViewModel>(assignment);
+                    var lastSubmission = _submissionRepo.GetLastUserSubmissionInContest(currentUser, assignment);
+                    mappedAssignment.LastSubmission = Mapper.Map<LastSubmissionViewModel>(lastSubmission);
+
+                    return Ok(mappedAssignment);
                 }
             }
 
@@ -83,12 +86,12 @@ namespace CodeChecker.Controllers.Api.Front
             _codeTestTask.Run(new CodeAssignmentViewModel()
             {
                 AssignmentSubmit = assignmentSubmit,
-                Assignment =  assignment,
-                Submiter  = currentUser,
+                Assignment = assignment,
+                Contest = assignment.Contest,
+                Submiter = currentUser
             });
 
             return Ok();
-
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync()
