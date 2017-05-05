@@ -6,6 +6,7 @@ using CodeChecker.Models.ServiceViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace CodeChecker.Models.Repositories
 {
@@ -137,7 +138,13 @@ namespace CodeChecker.Models.Repositories
                 {
                     var type = typeof(T);
                     var property = type.GetProperty(item.Key);
-
+                    Debug.WriteLine(item.Key);
+                    Debug.WriteLine(property.ToString());
+                    Debug.WriteLine("====================================================================================");
+                    Debug.WriteLine(item.Value);
+                    Debug.WriteLine(System.Net.WebUtility.UrlDecode(item.Value));
+                    Debug.WriteLine("====================================================================================");
+                    Debug.WriteLine(typeof(string).Name);
                     if (property.ToString().Contains(typeof(string).Name))
                     {
                         queryuilder = queryuilder.Where($"{item.Key}.Contains(@0)", System.Net.WebUtility.UrlDecode(item.Value));
@@ -170,8 +177,6 @@ namespace CodeChecker.Models.Repositories
                 filter.Count = GetMaxPerPage();
             }
 
-            
-
             var queryuilder = Query();
             foreach (var item in filter.Filter)
             {
@@ -198,8 +203,7 @@ namespace CodeChecker.Models.Repositories
 
             return queryuilder;
         }
-
-
+        
         private void Save()
         {
             _context.SaveChanges();

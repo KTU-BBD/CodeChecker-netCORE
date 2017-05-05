@@ -27,8 +27,11 @@
     <Content Include="wwwroot\Angular\Admin\app.js" />
     <Content Include="wwwroot\Angular\Admin\controllers.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\charts.js" />
+    <Content Include="wwwroot\Angular\Admin\controllers\contest\createContestController.js" />
     <Content Include="wwwroot\Angular\Admin\controllers\contest\singleContestViewController.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\main.js" />
+    <Content Include="wwwroot\Angular\Admin\controllers\user\singleUserViewController.js" />
+    <Content Include="wwwroot\Angular\Admin\controllers\user\UserViewController.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\widgets.js" />
     <Content Include="wwwroot\Angular\Admin\Demo\routes.js" />
     <Content Include="wwwroot\Angular\Admin\directives.js" />
@@ -38,6 +41,8 @@
     <Content Include="wwwroot\Angular\Front\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Angular\Front\Modules\topUsersSidebarModule.js" />
     <Content Include="wwwroot\Html\Admin\pages\contest\contest.html" />
+    <Content Include="wwwroot\Html\Admin\pages\user\user.html" />
+    <Content Include="wwwroot\Html\Admin\pages\user\users.html" />
     <Content Include="wwwroot\Html\Front\DirectiveView\topUsers_directive.html" />
     <Content Include="wwwroot\Html\Front\Index\newsWrapper.html" />
   </ItemGroup>

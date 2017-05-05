@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
+using CodeChecker.Models.Models.Enums;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -127,7 +128,13 @@ namespace CodeChecker.Controllers.Api.Admin
                 return BadRequest(ex);
             }
         }
-        //[HttpGet]
-        //public IActionResult 
+        [HttpPost("{id}")]
+        public IActionResult ChangeStatus(int id, [FromBody] ContestStatus status)
+        {
+            var contest = _contestRepo.Get(id);
+            contest.Status = status;
+            _contestRepo.Update(contest);
+            return Ok();
+        }
     }
 }

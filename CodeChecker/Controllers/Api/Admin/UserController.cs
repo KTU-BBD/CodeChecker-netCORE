@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CodeChecker.Models.ServiceViewModels;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -19,13 +20,15 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly FileUploadService _uploadService;
         private readonly ApplicationDbContext _context;
         private readonly AssetRepository _assetRepo;
+        private readonly ApplicationUserRepository _userRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo)
+        public UserController(UserManager<ApplicationUser> userManager, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo, ApplicationUserRepository userRepo)
         {
             _userManager = userManager;
             _uploadService = uploadService;
             _context = context;
             _assetRepo = assetRepo;
+            _userRepo = userRepo;
         }
 
         [HttpGet]
@@ -54,6 +57,15 @@ namespace CodeChecker.Controllers.Api.Admin
             }
 
             return BadRequest();
+        }
+        [HttpGet]
+        public IActionResult AllPaged([FromQuery] DataFilterViewModel filterData)
+        {
+            var users = _userRepo.GetPagedData(filterData);
+            if (users != null)
+                return Ok(users);
+            else
+                return BadRequest();
         }
     }
 }

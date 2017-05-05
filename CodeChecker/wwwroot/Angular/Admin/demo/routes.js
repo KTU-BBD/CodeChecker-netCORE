@@ -136,4 +136,33 @@ angular
               id: null
           }
       })
+.state('app.users', {
+    url: "/users",
+    abstract: true,
+    template: '<ui-view></ui-view>',
+    ncyBreadcrumb: {
+        label: 'Users'
+    },
+        })
+      .state('app.users.all', {
+          url: '/all',
+          templateUrl: 'Html/Admin/pages/user/users.html',
+          ncyBreadcrumb: {
+              label: 'All Users'
+          },
+          controller: 'UserViewController',
+          controllerAs: 'uvc'
+        })
+      .state('app.users.one', {
+          url: '/user/:id',
+          templateUrl: 'Html/Admin/pages/user/user.html',
+          ncyBreadcrumb: {
+              label: 'View'
+          },
+          controller: 'SingleUserViewController',
+          controllerAs: 'suvc',
+          params: {
+              id: null
+          }
+      })
 }]);
