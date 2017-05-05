@@ -1,4 +1,6 @@
-﻿namespace CodeChecker.Models.AssignmentViewModels
+﻿using CodeChecker.Models.SubmissionViewModels;
+
+namespace CodeChecker.Models.AssignmentViewModels
 {
     public class AssignmentViewModel
     {
@@ -9,5 +11,7 @@
 
         public string InputType { get; set; }
         public string OutputType { get; set; }
+
+        public LastSubmissionViewModel LastSubmission { get; set; }
     }
 }

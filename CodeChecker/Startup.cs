@@ -21,6 +21,7 @@ using AutoMapper;
 using CodeChecker.Models.AssignmentViewModels;
 using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
 using CodeChecker.Models.ServiceViewModels;
+using CodeChecker.Models.SubmissionViewModels;
 using CodeChecker.Services.CodeSubmit;
 using CodeChecker.Tasks;
 
@@ -133,6 +134,7 @@ namespace CodeChecker
                 cfg.CreateMap<Assignment, AssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Input, InputViewModel>().ReverseMap();
                 cfg.CreateMap<Output, OutputViewModel>().ReverseMap();
+                cfg.CreateMap<Submission, LastSubmissionViewModel>().ReverseMap();
             });
 
             app.UseStaticFiles();
@@ -172,7 +174,7 @@ namespace CodeChecker
 
         private void Tasks(IServiceCollection services)
         {
-            services.AddTransient<CodeTestTask>();
+            services.AddSingleton<CodeTestTask>();
         }
 
         private void Policies(IServiceCollection services)

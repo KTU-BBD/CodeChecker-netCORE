@@ -2,7 +2,9 @@
     <h3 class="text-center">{{contest.name}}</h3>
     <div class="info text-center">
         <div class="timer">Starts at: {{contest.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</div>
-        <div>Time till start: <timer end-time="contest.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer></div>
+        <div>Time till start:
+            <timer end-time="contest.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer>
+        </div>
     </div>
     <hr>
     <div class="description" ng-bind-html="contest.description"></div>
@@ -11,19 +13,19 @@
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>Id</th>
+            <th>#</th>
             <th>Name</th>
-            <th>Solvec count</th>
+            <th>Solved cound</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="assignment in contest.assignments">
-            <td>{{assignment.id}}</td>
+            <td>{{$index1 + 1}}</td>
             <td>{{assignment.name}}</td>
             <td>{{assignment.solvedCount}}</td>
             <td>
-            <a href="/Contest#!/{{contest.id}}/{{assignment.id}}" class="btn btn-info">View task</a>
+                <a href="/Contest#!/{{contest.id}}/{{assignment.id}}" class="btn btn-info">View task</a>
             </td>
         </tr>
         </tbody>
