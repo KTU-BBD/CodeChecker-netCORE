@@ -20,12 +20,14 @@
                 files: {
                     "<%= config.JS_DEPLOY_PATH  %>/plugins.front.js": [
                         "<%= config.VENDOR_PATH  %>/jquery/dist/jquery.js",
-                        "<%= config.VENDOR_PATH  %>/ace-builds/src-min-noconflict/ace.js",
                         "<%= config.VENDOR_PATH  %>/angular/angular.js",
+                        "<%= config.VENDOR_PATH  %>/angular-animate/angular-animate.js",
+                        "<%= config.VENDOR_PATH  %>/angular-touch/angular-touch.js",
+                        "<%= config.VENDOR_PATH  %>/ace-builds/src-min-noconflict/ace.js",
                         "<%= config.VENDOR_PATH  %>/angular-ui-ace/ui-ace.js",
                         "<%= config.VENDOR_PATH  %>/moment/min/moment.min.js",
-                        "<%= config.VENDOR_PATH  %>/angular-animate/angular-animate.js",
                         "<%= config.VENDOR_PATH  %>/angular-moment/angular-moment.js",
+                        "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-tpls.js",
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.tpls.js",
                         "<%= config.VENDOR_PATH  %>/angular-timer/dist/angular-timer.js",
                         "<%= config.VENDOR_PATH  %>/angular-route/angular-route.js",
@@ -37,7 +39,8 @@
                 files: {
                     "<%= config.CSS_DEPLOY_PATH  %>/plugins.front.css": [
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.css",
-                        "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css"
+                        "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css",
+                        "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css"
                     ]
                 }
             },
@@ -48,6 +51,7 @@
                         "<%= config.VENDOR_PATH  %>/simple-line-icons/css/simple-line-icons.css",
                         "<%= config.VENDOR_PATH  %>/froala-wysiwyg-editor/css/froala_editor.pkgd.min.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap-datetimepicker/src/css/datetimepicker.css",
+                        "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css"
                     ]
                 }
@@ -57,14 +61,16 @@
                     "<%= config.JS_DEPLOY_PATH  %>/plugins.admin.js": [
                         "<%= config.VENDOR_PATH  %>/jquery/dist/jquery.js",
                         "<%= config.VENDOR_PATH  %>/angular/angular.js",
+                        "<%= config.VENDOR_PATH  %>/angular-animate/angular-animate.js",
                         "<%= config.NPM_VENDOR_PATH %>/ng-table/bundles/ng-table.js",
+                        "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-tpls.js",
                         "<%= config.VENDOR_PATH  %>/tether/dist/js/tether.js",
                         "<%= config.VENDOR_PATH  %>/moment/min/moment.min.js",
                         "<%= config.VENDOR_PATH  %>/ng-file-upload/ng-file-upload.js",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap-datetimepicker/src/js/datetimepicker.js",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js",
                         "<%= config.VENDOR_PATH  %>/bootstrap/dist/js/bootstrap.js",
-                        "<%= config.VENDOR_PATH  %>/angular-animate/angular-animate.js",
+                        "<%= config.VENDOR_PATH  %>/angular-touch/angular-touch.js",
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.tpls.js",
                         "<%= config.VENDOR_PATH  %>/angular-resource/angular-resource.js",
                         "<%= config.VENDOR_PATH  %>/angular-ui-router/release/angular-ui-router.js",

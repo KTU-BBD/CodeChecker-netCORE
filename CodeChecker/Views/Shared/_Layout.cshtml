@@ -1,5 +1,4 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
-<?xml version="1.0" ?>
+﻿<?xml version="1.0" ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +9,6 @@
 
     <link rel="stylesheet" href="~/static/css/plugins.front.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/static/css/styles.front.css" asp-append-version="true" />
-    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body class="@ViewData["Body"]" ng-app="@ViewData["NgApp"]">
 

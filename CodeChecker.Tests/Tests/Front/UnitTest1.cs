@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace CodeChecker.Tests
+namespace CodeChecker.Tests.Tests.Front
 {
     public class UnitTest1
     {
