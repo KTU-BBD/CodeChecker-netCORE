@@ -17,7 +17,6 @@ namespace CodeChecker.Models.Repositories
         public IEnumerable<Contest> GetActiveContests()
         {
             return Query()
-                    .Where(c => c.Password != null)
                     .Where(c => c.EndAt > DateTime.Now)
                     .Where(c => c.Status == ContestStatus.Approved)
                     .OrderBy(c => c.StartAt)

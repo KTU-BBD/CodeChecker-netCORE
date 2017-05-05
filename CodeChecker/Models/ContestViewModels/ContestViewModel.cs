@@ -13,5 +13,6 @@ namespace CodeChecker.Models.ContestViewModels
         public DateTime EndAt { get; set; }
         public UserViewModel Creator { get; set; }
         public bool Joined { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

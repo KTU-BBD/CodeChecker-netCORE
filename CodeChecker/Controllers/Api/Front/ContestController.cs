@@ -81,11 +81,11 @@ namespace CodeChecker.Controllers.Api.Front
             return BadRequest("You cannot view this contest");
         }
 
-        [HttpGet("{contestId}")]
-        public async Task<IActionResult> Join(long contestId)
+        [HttpPost]
+        public async Task<IActionResult> Join([FromBody] ContestJoinViewModel contestData)
         {
-            var contest = _contestRepo.Get(contestId);
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var contest = _contestRepo.Get(contestData.ContestId);
+            var user = await GetCurrentUserAsync();
 
             if (contest == null)
             {
@@ -97,13 +97,21 @@ namespace CodeChecker.Controllers.Api.Front
                 return BadRequest("You need to login to join contest");
             }
 
+            //Investigate how to avoid errors in console, when trying to join
             try
             {
-                _contestParticipantRepo.Insert(new ContestParticipant
+                if (contest.Password == null || contest.Password.Equals(contestData.Password))
                 {
-                    Contest = contest,
-                    User = user
-                });
+                    _contestParticipantRepo.Insert(new ContestParticipant
+                    {
+                        Contest = contest,
+                        User = user
+                    });
+                }
+                else
+                {
+                    return BadRequest("Bad contest password provided");
+                }
             }
             catch (Exception ex)
             {

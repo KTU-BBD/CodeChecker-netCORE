@@ -2,7 +2,7 @@
     "use strict";
     // Creating the module
     angular.module("app-contest",
-            ["ngAnimate", "toastr", "ngRoute", "angularMoment", "sidebarModule", "timer", "ui.ace"])
+            ["ngAnimate", "toastr", "ngRoute", "angularMoment", "sidebarModule", "timer", "ui.ace", "ui.bootstrap"])
         .config(function($routeProvider) {
             $routeProvider
                 .when("/",

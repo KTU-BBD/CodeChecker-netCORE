@@ -12,10 +12,12 @@
             .then(function (response) {
                 angular.copy(response.data, $scope.assignment);
                 $scope.assignment.description = $sce.trustAsHtml($scope.assignment.description);
-                $scope.task = {
-                    language: $scope.assignment.lastSubmission.language,
-                    code: $scope.assignment.lastSubmission.code
-                };
+                if ($scope.assignment.lastSubmission) {
+                    $scope.task = {
+                        language: $scope.assignment.lastSubmission.language,
+                        code: $scope.assignment.lastSubmission.code
+                    };
+                }
             }, function (error) {
                 toastr.error(error.data);
             });

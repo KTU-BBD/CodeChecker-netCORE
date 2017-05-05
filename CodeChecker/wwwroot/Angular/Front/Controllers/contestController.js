@@ -2,30 +2,83 @@
     "use strict";
     //Getting the exsisting module
     angular.module("app-contest")
-        .controller("contestController", contestController);
-    function contestController($http, $scope, toastr) {
-        var apiUrl = "/api/front/contest/all";
+        .controller("contestController", function ($http, $scope, toastr, $uibModal, $uibModalStack) {
+            var apiUrl = "/api/front/contest/all";
+            var _self = this;
 
-        $scope.joinContest = function(id) {
-            $('#' + id + ' .join').attr('disabled', 'disabled');
+            $scope.close = function() {
 
-            $http.get('/api/front/contest/join/' + id).then(function (response) {
-                toastr.success(response.data);
-                $('#contest-' + id + ' .join').addClass('ng-hide');
-                $('#contest-' + id + ' .enter').removeClass('ng-hide');
-            }, function (error) {
-                toastr.info(error.data);
-            });
-        };
+                //Closing modal instance
+                var top = $uibModalStack.getTop();
+                if (top) {
+                    $uibModalStack.dismiss(top.key);
+                }
+            };
 
-        $scope.contests = [];
-        $http.get(apiUrl)
-            .then(function (response) {
-                angular.copy(response.data, $scope.contests);
-            }, function (error) {
-                toastr.error('Error while retrieving contest data', 'Error');
-            }).finally(function () {
+            $scope.joinContest = function(contest,isPublic) {
+                _self.contest = contest;
+                //Disabling button to prevent multiple clicking
+                $('#contest-' + _self.contest + ' .join').attr('disabled', 'disabled');
 
-            });
-    }
+                var attendContest = function(password) {
+                    var contestData = {
+                        contestId: _self.contest,
+                        password: password
+                    };
+
+                    $http.post("/api/front/contest/join", contestData)
+                        .then(function(response) {
+                                //Showing View contest button and removing enter contest button
+                                $('#contest-' + _self.contest + ' .join').addClass('ng-hide');
+                                $('#contest-' + _self.contest + ' .enter').removeClass('ng-hide');
+                                $scope.close();
+                                toastr.success(response.data);
+                            },
+                            function(error) {
+                                toastr.error(error.data);
+                                //Enablig disabled button
+                                $('#contest-' + _self.contest + ' .join').removeAttr('disabled');
+                            });
+                };
+
+                if (isPublic) {
+                    $uibModal.open({
+                        templateUrl: '/Html/Front/Modal/ContestPassword.html',
+                        animation: false,
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        size: 'md',
+                        controller: function($scope) {
+                            $scope.close = function() {
+                                //Closing modal instance
+                                var top = $uibModalStack.getTop();
+                                if (top) {
+                                    $uibModalStack.dismiss(top.key);
+                                }
+                            };
+                            $scope.submit = function() {
+                                attendContest($scope.password);
+                            };
+                        }
+                    }).result.then(function() {
+                        $('#contest-' + _self.contest + ' .join').removeAttr('disabled');
+                    }, function(res) {
+                        $('#contest-' + _self.contest + ' .join').removeAttr('disabled');
+                    });
+                } else {
+                    attendContest();
+                }
+            };
+
+            $scope.contests = [];
+            $http.get(apiUrl)
+                .then(function (response) {
+                    angular.copy(response.data, $scope.contests);
+                }, function (error) {
+                    toastr.error('Error while retrieving contest data', 'Error');
+                });
+        })
+
+        ;
+
 })();

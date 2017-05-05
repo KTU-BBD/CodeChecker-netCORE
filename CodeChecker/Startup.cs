@@ -123,7 +123,8 @@ namespace CodeChecker
                 cfg.CreateMap<Asset, AssetProfileViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, ViewContestViewModel>().ReverseMap();
-                cfg.CreateMap<Contest, ContestViewModel>().ReverseMap();
+                cfg.CreateMap<Contest, ContestViewModel>()
+                    .ForMember(c => c.IsPublic, o => o.MapFrom(src => src.Password != null)).ReverseMap();
                 cfg.CreateMap<Contest, ContestWithAssignmentViewModel>();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, EditContestGetViewModel>().ReverseMap();
