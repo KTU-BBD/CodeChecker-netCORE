@@ -6,6 +6,7 @@ using CodeChecker.Data;
 using CodeChecker.Models.ContestViewModels;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Repositories;
+using CodeChecker.Models.ServiceViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,11 +30,10 @@ namespace CodeChecker.Controllers.Api.Front
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery] DataFilterViewModel filterData)
         {
-            var contests = _contestRepo.GetActiveContests();
+            var contests = _contestRepo.GetActiveContestPagedData(filterData);
             var user = await _userManager.GetUserAsync(HttpContext.User);
-
 
             if (user != null)
             {

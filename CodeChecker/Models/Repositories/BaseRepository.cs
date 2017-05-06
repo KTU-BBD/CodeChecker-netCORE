@@ -119,6 +119,11 @@ namespace CodeChecker.Models.Repositories
 
         public IQueryable<T> GetPagedData(DataFilterViewModel filter)
         {
+            return GetPagedData(Query(), filter);
+        }
+
+        public IQueryable<T> GetPagedData(IQueryable<T> queryable, DataFilterViewModel filter)
+        {
             if (filter.Page < 1)
             {
                 filter.Page = 1;
@@ -131,53 +136,6 @@ namespace CodeChecker.Models.Repositories
 
             var offset = filter.Count * (filter.Page - 1);
 
-            var queryuilder = Query();
-            foreach (var item in filter.Filter)
-            {
-                if (item.Key != "null" && item.Value != "null")
-                {
-                    var type = typeof(T);
-                    var property = type.GetProperty(item.Key);
-                    Debug.WriteLine(item.Key);
-                    Debug.WriteLine(property.ToString());
-                    Debug.WriteLine("====================================================================================");
-                    Debug.WriteLine(item.Value);
-                    Debug.WriteLine(System.Net.WebUtility.UrlDecode(item.Value));
-                    Debug.WriteLine("====================================================================================");
-                    Debug.WriteLine(typeof(string).Name);
-                    if (property.ToString().Contains(typeof(string).Name))
-                    {
-                        queryuilder = queryuilder.Where($"{item.Key}.Contains(@0)", System.Net.WebUtility.UrlDecode(item.Value));
-                    }
-                    else if (property.ToString().Contains(typeof(long).Name))
-                    {
-                        queryuilder = queryuilder.Where($"{item.Key} = {item.Value}");
-                    }
-                }
-            }
-
-            foreach (var item in filter.Sorting)
-            {
-                queryuilder = queryuilder.OrderBy($"{item.Key} {item.Value}");
-            }
-
-            return queryuilder.Skip(offset).Take(filter.Count);
-        }
-
-
-        public IQueryable<T> GetPagedDataForContributor(DataFilterViewModel filter)
-        {
-            if (filter.Page < 1)
-            {
-                filter.Page = 1;
-            }
-
-            if (filter.Count > GetMaxPerPage())
-            {
-                filter.Count = GetMaxPerPage();
-            }
-
-            var queryuilder = Query();
             foreach (var item in filter.Filter)
             {
                 if (item.Key != "null" && item.Value != "null")
@@ -187,23 +145,24 @@ namespace CodeChecker.Models.Repositories
 
                     if (property.ToString().Contains(typeof(string).Name))
                     {
-                        queryuilder = queryuilder.Where($"{item.Key}.Contains(@0)", System.Net.WebUtility.UrlDecode(item.Value));
+                        queryable = queryable.Where($"{item.Key}.Contains(@0)",
+                            System.Net.WebUtility.UrlDecode(item.Value));
                     }
                     else if (property.ToString().Contains(typeof(long).Name))
                     {
-                        queryuilder = queryuilder.Where($"{item.Key} = {item.Value}");
+                        queryable = queryable.Where($"{item.Key} = {item.Value}");
                     }
                 }
             }
 
             foreach (var item in filter.Sorting)
             {
-                queryuilder = queryuilder.OrderBy($"{item.Key} {item.Value}");
+                queryable = queryable.OrderBy($"{item.Key} {item.Value}");
             }
 
-            return queryuilder;
+            return queryable.Skip(offset).Take(filter.Count);
         }
-        
+
         private void Save()
         {
             _context.SaveChanges();

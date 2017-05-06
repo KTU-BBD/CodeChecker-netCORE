@@ -2,9 +2,22 @@
     "use strict";
     //Getting the exsisting module
     angular.module("app-contest")
-        .controller("contestController", function ($http, $scope, toastr, $uibModal, $uibModalStack) {
+        .controller("contestController", function (NgTableParams, $http, $resource, $scope, toastr, $uibModal, $uibModalStack) {
             var apiUrl = "/api/front/contest/all";
             var _self = this;
+
+
+            $scope.tableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    return $http.get(apiUrl,
+                        {
+                            params: params.url()
+                        }
+                    ).then(function (data) {
+                        return data.data;
+                    });
+                }
+            });
 
             $scope.close = function() {
 
@@ -71,12 +84,6 @@
             };
 
             $scope.contests = [];
-            $http.get(apiUrl)
-                .then(function (response) {
-                    angular.copy(response.data, $scope.contests);
-                }, function (error) {
-                    toastr.error('Error while retrieving contest data', 'Error');
-                });
         })
 
         ;
