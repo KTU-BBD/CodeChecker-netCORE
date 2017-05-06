@@ -54,6 +54,7 @@
                         "<%= config.VENDOR_PATH  %>/simple-line-icons/css/simple-line-icons.css",
                         "<%= config.VENDOR_PATH  %>/froala-wysiwyg-editor/css/froala_editor.pkgd.min.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap-datetimepicker/src/css/datetimepicker.css",
+                        "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css"
                     ]

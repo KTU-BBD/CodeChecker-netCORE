@@ -11,17 +11,13 @@
     <UserSecretsId>aspnet-CodeChecker-ebd9b832-c8e7-4b68-8137-dfe3d16b557f</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="wwwroot\Angular\Admin\Directives\**" />
     <Compile Remove="wwwroot\Angular\Contest\**" />
     <Compile Remove="wwwroot\Html\Contest\**" />
     <Content Remove="Migrations\**" />
-    <Content Remove="wwwroot\Angular\Admin\Directives\**" />
     <Content Remove="wwwroot\Angular\Contest\**" />
     <Content Remove="wwwroot\Html\Contest\**" />
-    <EmbeddedResource Remove="wwwroot\Angular\Admin\Directives\**" />
     <EmbeddedResource Remove="wwwroot\Angular\Contest\**" />
     <EmbeddedResource Remove="wwwroot\Html\Contest\**" />
-    <None Remove="wwwroot\Angular\Admin\Directives\**" />
     <None Remove="wwwroot\Angular\Contest\**" />
     <None Remove="wwwroot\Html\Contest\**" />
   </ItemGroup>
@@ -37,11 +33,14 @@
     <Content Include="wwwroot\Angular\Admin\Controllers\widgets.js" />
     <Content Include="wwwroot\Angular\Admin\Demo\routes.js" />
     <Content Include="wwwroot\Angular\Admin\directives.js" />
+    <Content Include="wwwroot\Angular\Admin\directives\unauthorizedDirective.js" />
     <Content Include="wwwroot\Angular\Admin\routes.js" />
     <Content Include="wwwroot\Angular\Front\app-index.js" />
     <Content Include="wwwroot\Angular\Front\Controllers\indexController.js" />
     <Content Include="wwwroot\Angular\Front\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Angular\Front\Modules\topUsersSidebarModule.js" />
+    <Content Include="wwwroot\Html\Admin\directiveView\unauthorized.html" />
+    <Content Include="wwwroot\Html\Admin\modal\deleteItem.html" />
     <Content Include="wwwroot\Html\Admin\pages\contest\contest.html" />
     <Content Include="wwwroot\Html\Admin\pages\user\user.html" />
     <Content Include="wwwroot\Html\Admin\pages\user\users.html" />

@@ -6,24 +6,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Repositories
 {
-    public class InputRepository : BaseRepository<Input>
+    public class OutputRepository : BaseRepository<Output>
     {
-        public InputRepository(ApplicationDbContext context) : base(context)
+        public OutputRepository(ApplicationDbContext context) : base(context)
         {
         }
-        public Input GetById(long id)
+        public Output GetById(long id)
         {
             return Query()
                 .FirstOrDefault(a => a.Id == id);
         }
-        public Input GetByIdWithOutput(long id)
+        public Output GetByIdWithInput(long id)
         {
             return Query()
-                .Include(a => a.Output)
-                .Include(a => a.Assignment)
-                .ThenInclude(q => q.Creator)
+                .Include(a => a.Input)
                 .FirstOrDefault(a => a.Id == id);
         }
-        
+
     }
 }

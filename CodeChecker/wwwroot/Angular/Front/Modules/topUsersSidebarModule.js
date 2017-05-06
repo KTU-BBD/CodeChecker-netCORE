@@ -8,7 +8,6 @@
     sc.notBusy = false;
     var apiUrl = "/api/front/User/GetTopUsers/10";
     sc.errorMessage = "aaaaa";
-    $scope.test = "test";
     sc.topUsers = [];
     $http.get(apiUrl)
         .then(function (response) {

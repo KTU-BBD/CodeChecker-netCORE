@@ -15,14 +15,18 @@ namespace CodeChecker.Controllers.Api.Admin
 {
     public class InputController : AdminBaseController
     {
-        private readonly InputRepository _inputRepository;
+        private InputRepository _inputRepository;
         private readonly ApplicationUserRepository _userRepo;
+        private OutputRepository _outputRepository;
+        UserManager<ApplicationUser> _userManager;
 
 
-        public InputController(InputRepository inputRepository, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
+        public InputController(InputRepository inputRepository, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo, OutputRepository outputRepository)
         {
             _inputRepository = inputRepository;
             _userRepo = userRepo;
+            _userManager = userManager;
+            _outputRepository = outputRepository;
         }
 
         [HttpPost()]
@@ -30,16 +34,48 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             try
             {
+               
                 var input = _inputRepository.GetByIdWithOutput(model.Id);
-                var updated = Mapper.Map(model, input);
+                if (User.IsInRole("Contributor") && input.Assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    var updated = Mapper.Map(model, input);
 
-                _inputRepository.Update(updated);
-                return Ok(Mapper.Map<InputViewModel>(updated));
+                    _inputRepository.Update(updated);
+                    return Ok("Updated");
+                }
+                else {
+                    return BadRequest("Unauthorized");
+                }
             }
 
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpPost()]
+        public IActionResult DeleteTest([FromBody]InputViewModel model)
+        {
+            try
+            {
+
+                var input = _inputRepository.GetByIdWithOutput(model.Id);
+                if (User.IsInRole("Contributor") && input.Assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    _outputRepository.Delete(input.Output);
+                    _inputRepository.Delete(input);
+                    return Ok("Deleted");
+                }
+                else
+                {
+                    return BadRequest("Unauthorized");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
             }
         }
     }

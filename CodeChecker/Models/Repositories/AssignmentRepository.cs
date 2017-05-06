@@ -24,6 +24,7 @@ namespace CodeChecker.Models.Repositories
                 .Include(a => a.Inputs)
                 .ThenInclude(a => a.Output)
                 .Include(a => a.Contest)
+                .Include(a => a.Creator)
                 .FirstOrDefault(a => a.Id == id);
         }
 

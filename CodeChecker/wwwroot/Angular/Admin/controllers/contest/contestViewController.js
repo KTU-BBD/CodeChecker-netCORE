@@ -14,6 +14,13 @@ angular
                     cvc.show = contains(cvc.currentUser.roles);
                 });
         }
+        
+        cvc.showstatus = function (num){
+            if (num == 0) { return "Created"}
+            if (num == 1) { return "Accepted" }
+            if (num == 2) { return "Cancelled" }
+        }
+
         cvc.ajaxGet();
         //$http.get("/api/admin/user/current")
         //    .then(function (response) {

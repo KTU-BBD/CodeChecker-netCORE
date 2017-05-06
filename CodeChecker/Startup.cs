@@ -162,6 +162,7 @@ namespace CodeChecker
             services.AddScoped<AssignmentRepository>();
             services.AddScoped<SubmissionRepository>();
             services.AddScoped<InputRepository>();
+            services.AddScoped<OutputRepository>();
         }
 
         private void Services(IServiceCollection services)
@@ -186,6 +187,10 @@ namespace CodeChecker
                     "CanUseAdminPanel",
                     policy => policy.RequireRole("Administrator", "Moderator", "Contributor")
                 );
+                options.AddPolicy(
+                   "CanEditContests",
+                   policy => policy.RequireRole("Administrator", "Moderator")
+               );
             });
         }
     }

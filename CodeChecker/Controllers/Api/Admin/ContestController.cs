@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
 using CodeChecker.Models.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -82,7 +84,13 @@ namespace CodeChecker.Controllers.Api.Admin
             try
             {
                 var contest = _contestRepo.Get(id);
-                return Ok(contest);
+                if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    return Ok(contest);
+                }
+                else {
+                    return Unauthorized();
+                }
             }
             catch (Exception ex)
             {
@@ -96,33 +104,49 @@ namespace CodeChecker.Controllers.Api.Admin
             try
             {
                 var contest = _contestRepo.GetContestFull(id);
-                var contestToReturn = Mapper.Map<EditContestGetViewModel>(contest);
-                return Ok(contestToReturn);
+                if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    var contestToReturn = Mapper.Map<EditContestGetViewModel>(contest);
+                    return Ok(contestToReturn);
+                }
+                else {
+                    return BadRequest("Unauthorized");
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
             }
         }
-
+       
         [HttpPost]
         public IActionResult Update([FromBody] EditContestPostViewModel updatedContest)
         {
-            try
-            {
-                var contest = _contestRepo.GetContestFull(updatedContest.Id);
-                var updated = Mapper.Map(updatedContest, contest);
+            
+                try
+                {
+                    var contest = _contestRepo.GetContestFull(updatedContest.Id);
+                    if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                    {
+                        var updated = Mapper.Map(updatedContest, contest);
 
-                _contestRepo.Update(updated);
-                return Ok(Mapper.Map<EditContestPostViewModel>(updated));
+                        _contestRepo.Update(updated);
+                        return Ok(Mapper.Map<EditContestPostViewModel>(updated));
+                    }
+                    else
+                    {
+                        return Unauthorized();
+                    }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return BadRequest(ex);
-            }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    return BadRequest(ex);
+                }
+            
         }
 
+        [Authorize("CanEditContests")]
         [HttpPost("{id}")]
         public IActionResult ChangeStatus(int id, [FromBody] ContestStatus status)
         {

@@ -99,7 +99,7 @@ namespace CodeChecker.Models.Repositories
                 entities.Remove(entity);
             }
 
-            Update(entity);
+            Save();
         }
 
         public void Recover(T entity)

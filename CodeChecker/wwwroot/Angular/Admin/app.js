@@ -23,7 +23,8 @@ angular
         'ngTable',
         'froala',
         'ui.bootstrap.datetimepicker',
-        'toastr'
+        'toastr',
+        "ui.bootstrap"
     ])
     .service('Auth', function($resource, $rootScope) {
         this.getCurrentUser = function() {

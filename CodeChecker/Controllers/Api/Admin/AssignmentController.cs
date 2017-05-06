@@ -18,12 +18,14 @@ namespace CodeChecker.Controllers.Api.Admin
     {
         private readonly AssignmentRepository _assignmentRepo;
         private readonly ApplicationUserRepository _userRepo;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
         public AssignmentController(AssignmentRepository assignmentRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
         {
             _assignmentRepo = assignmentRepo;
             _userRepo = userRepo;
+            _userManager = userManager;
         }
 
         [HttpPost("")]
@@ -39,13 +41,19 @@ namespace CodeChecker.Controllers.Api.Admin
             try
             {
                 var assignment = _assignmentRepo.GetByIdWithInputsOutputs(id);
-                var assignmentToReturn = Mapper.Map<EditAssignmentGetViewModel>(assignment);
-                return Ok(assignmentToReturn);
+                if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    var assignmentToReturn = Mapper.Map<EditAssignmentGetViewModel>(assignment);
+                    return Ok(assignmentToReturn);
+                }
+                else {
+                    return BadRequest("Unauthorized");
+                }
             }
 
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest("Error");
             }
         }
 
@@ -54,23 +62,47 @@ namespace CodeChecker.Controllers.Api.Admin
         [HttpPost]
         public IActionResult Update([FromBody]EditAssignmentPostViewModel updatedAssignment)
         {
-            //var contest = _contestRepo.GetContestFull(updatedContest.Id);
-            //var updated = Mapper.Map(updatedContest, contest);
-
-            //_contestRepo.Update(updated);
-            //return Ok(Mapper.Map<EditContestPostViewModel>(updated));
             try
             {
-                // FIX THIS PART
                 var assignment = _assignmentRepo.GetById(updatedAssignment.Id);
-                var updated = Mapper.Map(updatedAssignment, assignment);
+                if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    var updated = Mapper.Map(updatedAssignment, assignment);
 
-                _assignmentRepo.Update(updated);
-                return Ok(Mapper.Map<EditAssignmentPostViewModel>(updated));
+                    _assignmentRepo.Update(updated);
+                    return Ok("Updated");
+                }
+                else {
+                    return BadRequest("Unauthorized");
+                }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Delete([FromBody]EditAssignmentPostViewModel updatedAssignment)
+        {
+            try
+            {
+                var assignment = _assignmentRepo.GetByIdWithInputsOutputs(updatedAssignment.Id);
+                if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    
+
+                    _assignmentRepo.Delete(assignment);
+                    return Ok("Deleted");
+                }
+                else
+                {
+                    return BadRequest("Unauthorized");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
             }
         }
     }

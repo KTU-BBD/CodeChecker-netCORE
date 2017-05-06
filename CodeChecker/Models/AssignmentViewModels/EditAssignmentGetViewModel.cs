@@ -22,6 +22,7 @@ namespace CodeChecker.Models.AssignmentViewModels
         public int MaxPoints { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public Contest Contest { get; set; }
         public ICollection<InputViewModel> Inputs { get; set; }
     }
 }
