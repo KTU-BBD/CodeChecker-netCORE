@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CodeChecker.Data;
 using System.Collections.Generic;
 using CodeChecker.Models.Models;
@@ -66,29 +67,47 @@ namespace CodeChecker.Models.Repositories
             }
 
             var offset = filter.Count * (filter.Page - 1);
-
-            
+            var queryable = _context.Users.AsQueryable();
             foreach (var item in filter.Filter)
             {
                 if (item.Key != "null" && item.Value != "null")
                 {
                     var type = typeof(ApplicationUser);
-                    var property = type.GetProperty(item.Key);
-                    _queryable = _queryable.Where(x => x.UserName.Contains(item.Value)); 
+                    try
+                    {
+                        var property = type.GetProperty(Decode(item.Key));
+
+                        if (property.ToString().Contains(typeof(long).Name))
+                        {
+                            queryable = queryable.Where($"{Decode(item.Key)} = {Decode(item.Value)}");
+                        }else if (property.ToString().Contains(typeof(string).Name))
+                        {
+                            queryable = queryable.Where($"{Decode(item.Key)}.Contains(@0)", Decode(item.Value));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        queryable = queryable.Where($"{Decode(item.Key)}.Contains(@0)", Decode(item.Value));
+                    }
                 }
             }
 
             foreach (var item in filter.Sorting)
             {
-                _queryable = _queryable.OrderBy(item.Key,item.Value);
+                queryable = queryable.AsQueryable().OrderBy($"{Decode(item.Key)} {Decode(item.Value)}");
             }
 
-            return _queryable.Skip(offset).Take(filter.Count);
+            return queryable.Skip(offset).Take(filter.Count);
         }
 
         protected virtual int GetMaxPerPage()
         {
             return MaxPerPage;
+        }
+
+        private static string Decode(string value)
+        {
+            return System.Net.WebUtility.UrlDecode(value);
         }
 
     }
