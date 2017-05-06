@@ -34,7 +34,7 @@
         <tr ng-repeat="row in $data track by row.id" class="{{row.id}}">
             <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
             <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'">{{row.name}}</td>
-            <td data-title="'Creator'" filter="{'Contest.UserName': 'text'}" >{{row.creator.userName}}</td>
+            <td data-title="'Creator'" filter="{'Creator.UserName': 'text'}" sortable="'Creator.UserName'">{{row.creator.userName}}</td>
             <td data-title="'Starts at'">{{row.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</td>
             <td data-title="'Time left'"><timer end-time="row.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer></td>
             <td data-title="'Length'">{{row.endAt | amDifference : row.startAt | amDateFormat : 'hh:mm'}}</td>
