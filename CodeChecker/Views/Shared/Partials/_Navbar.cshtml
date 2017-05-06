@@ -17,9 +17,9 @@
             else
             {
                 <ul class="top-menu">
-                    @if (ViewContext.HttpContext.User.IsInRole("ADMIN"))
+                    @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
                     {
-                        <li><a href="@Url.Action("Contest", "Contest")"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                        <li><a href="@Url.Action("Index", "Admin")"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
                     }
                     <li><span class="text-hover-underline">@User.Identity.Name</span></li>
                     <li>@using (Html.BeginForm("Logout", "Account"))

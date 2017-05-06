@@ -5,6 +5,7 @@ using CodeChecker.Data;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using CodeChecker.Models.ServiceViewModels;
 
 namespace CodeChecker.Models.Repositories
 {
