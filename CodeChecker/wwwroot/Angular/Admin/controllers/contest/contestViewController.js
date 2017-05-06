@@ -10,7 +10,7 @@ angular
                 .then(function (response) {
                     cvc.currentUser = response.data;
                 }).finally(function () {
-
+                    console.log(cvc.currentUser.roles);
                     cvc.show = contains(cvc.currentUser.roles);
                 });
         }

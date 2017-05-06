@@ -21,11 +21,13 @@
                     "<%= config.JS_DEPLOY_PATH  %>/plugins.front.js": [
                         "<%= config.VENDOR_PATH  %>/jquery/dist/jquery.js",
                         "<%= config.VENDOR_PATH  %>/angular/angular.js",
+                        "<%= config.NPM_VENDOR_PATH %>/ng-table/bundles/ng-table.js",
                         "<%= config.VENDOR_PATH  %>/angular-animate/angular-animate.js",
                         "<%= config.VENDOR_PATH  %>/angular-touch/angular-touch.js",
                         "<%= config.VENDOR_PATH  %>/ace-builds/src-min-noconflict/ace.js",
                         "<%= config.VENDOR_PATH  %>/angular-ui-ace/ui-ace.js",
                         "<%= config.VENDOR_PATH  %>/moment/min/moment.min.js",
+                        "<%= config.VENDOR_PATH  %>/angular-resource/angular-resource.js",
                         "<%= config.VENDOR_PATH  %>/angular-moment/angular-moment.js",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-tpls.js",
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.tpls.js",
@@ -38,6 +40,7 @@
             cssDependenciesFront: {
                 files: {
                     "<%= config.CSS_DEPLOY_PATH  %>/plugins.front.css": [
+                        "<%= config.NPM_VENDOR_PATH %>/ng-table/bundles/ng-table.css",
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css"

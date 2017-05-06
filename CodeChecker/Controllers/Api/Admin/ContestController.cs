@@ -20,7 +20,8 @@ namespace CodeChecker.Controllers.Api.Admin
         private UserManager<ApplicationUser> _userManager;
 
 
-        public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
+        public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
+            ApplicationUserRepository userRepo)
         {
             _contestRepo = contestRepo;
             _userRepo = userRepo;
@@ -36,25 +37,20 @@ namespace CodeChecker.Controllers.Api.Admin
                 if (contests != null)
                     return Ok(contests);
             }
-            if (User.IsInRole("Contributor"))
+            else
             {
-                var contests = _contestRepo.GetPagedDataForContributor(filterData);
-                var offset = filterData.Count * (filterData.Page - 1);
                 var userId = _userManager.GetUserId(User);
-                contests = contests.Where(x => x.Creator.Id == userId).Skip(offset).Take(filterData.Count);
+                var query = _contestRepo.Query().Where(c => c.Creator.Id == userId);
+
+                var contests = _contestRepo.GetPagedData(query, filterData);
+
                 if (contests != null)
                 {
                     return Ok(contests);
                 }
-                else {
-                    return BadRequest();
-                }
-            }
-            else
-            {
-                return BadRequest();
             }
 
+            return BadRequest();
         }
 
         [HttpPost("")]
@@ -110,12 +106,10 @@ namespace CodeChecker.Controllers.Api.Admin
         }
 
         [HttpPost]
-        public IActionResult Update([FromBody]EditContestPostViewModel updatedContest)
+        public IActionResult Update([FromBody] EditContestPostViewModel updatedContest)
         {
-
             try
             {
-
                 var contest = _contestRepo.GetContestFull(updatedContest.Id);
                 var updated = Mapper.Map(updatedContest, contest);
 
@@ -128,6 +122,7 @@ namespace CodeChecker.Controllers.Api.Admin
                 return BadRequest(ex);
             }
         }
+
         [HttpPost("{id}")]
         public IActionResult ChangeStatus(int id, [FromBody] ContestStatus status)
         {

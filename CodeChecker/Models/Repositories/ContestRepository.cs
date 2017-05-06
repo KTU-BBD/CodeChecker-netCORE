@@ -4,6 +4,7 @@ using System.Linq;
 using CodeChecker.Data;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Models.Enums;
+using CodeChecker.Models.ServiceViewModels;
 using Microsoft.EntityFrameworkCore;
 using CodeChecker.Models.ServiceViewModels;
 
@@ -15,10 +16,16 @@ namespace CodeChecker.Models.Repositories
         {
         }
 
-        public IEnumerable<Contest> GetActiveContests()
+        public IEnumerable<Contest> GetActiveContestPagedData(DataFilterViewModel filterData)
         {
-            return Query()
-                    .Where(c => c.EndAt > DateTime.Now)
+            return GetPagedData(filterData)
+                .Include(c => c.Creator)
+                .Include(c => c.ContestParticipants);
+        }
+
+        private IQueryable<Contest> ActiveContests(IQueryable<Contest> queryable)
+        {
+            return queryable.Where(c => c.EndAt > DateTime.Now)
                     .Where(c => c.Status == ContestStatus.Approved)
                     .OrderBy(c => c.StartAt)
                     .Include(c => c.Creator)
