@@ -12,7 +12,7 @@
                         <tr ng-repeat="row in $data track by row.id">
                             <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
                             <!-- Problem with passing param to app.user.one. Can pass integer, but not string or id. Need to figure out how to pass id to js controller to retrieve data -->
-                            <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><a ui-sref-active="active" ui-sref="app.users.one({id:{{row.userName }}})">{{row.userName}}</a></td>
+                            <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><a ui-sref-active="active" ui-sref="app.users.one({id:row.id})">{{row.userName}}</a></td>
                             <td data-title="'Email'" sortable="'Email'">{{row.email}}</td>
                             <td data-title="'Rating '" sortable="'Rating '">{{row.rating}}</td>
                             <td data-title="'Deleted At'" sortable="'DeletedAt'">{{row.deletedAt }}</td>

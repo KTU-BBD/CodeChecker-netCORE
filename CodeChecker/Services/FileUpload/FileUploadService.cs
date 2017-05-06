@@ -52,6 +52,11 @@ namespace CodeChecker.Services.FileUpload
 
         private async Task<Asset> SaveAsset(IFormFile file, string[] availableMimeType)
         {
+            if (file == null)
+            {
+                return null;
+            }
+
             if (availableMimeType.Contains(file.ContentType))
             {
                 ICollection<IFormFile> assets = new Collection<IFormFile>();

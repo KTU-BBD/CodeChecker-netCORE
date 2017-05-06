@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +61,12 @@ namespace CodeChecker
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
 
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.SecurityStampValidationInterval = TimeSpan.FromSeconds(0);
+            });
+
             services.Configure<AppSettings>(appSettings =>
             {
                 appSettings.Microservice = new Microservice
@@ -120,6 +127,7 @@ namespace CodeChecker
                 cfg.CreateMap<List<ApplicationUser>, List<TopUserViewModel>>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserIdViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, ProfileUpdateViewModel>().ReverseMap();
                 cfg.CreateMap<Asset, AssetProfileViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, ViewContestViewModel>().ReverseMap();

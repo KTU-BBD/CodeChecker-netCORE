@@ -1,1 +1,91 @@
-﻿This is single user profile 
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Profile edit page
+            </div>
+            <div class="card-block">
+                <form action="" method="post" enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="email">Email</label>
+                        <div class="col-md-9">
+                            <input id="email" data-ng-model="profile.email" name="email" class="form-control" placeholder="Email"
+                                   type="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="username">User name</label>
+                        <div class="col-md-9">
+                            <input id="username" data-ng-model="profile.userName" name="username" class="form-control" placeholder="User name"
+                                   type="text">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="firstname">First name</label>
+                        <div class="col-md-9">
+                            <input id="firstname" data-ng-model="profile.firstName" name="firstName" class="form-control" placeholder="First name"
+                                   type="text">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="lastname">Last name</label>
+                        <div class="col-md-9">
+                            <input id="lastname" data-ng-model="profile.lastName" name="lastName" class="form-control" placeholder="Last name"
+                                   type="text">
+                        </div>
+                    </div>
+                    <div class="form-group row" ng-show="profile.roles">
+                        <label class="col-md-3 form-control-label" for="lastname">User roles</label>
+                        <div class="col-md-9">
+                            <div>
+                                Is Contributor?
+                                <label class="switch switch-3d switch-success">
+                                    <input type="checkbox" class="switch-input" ng-checked="profile.roles.indexOf('Contributor') > -1" data-ng-click="changeRole('Contributor')">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                            <div>
+                                Is Moderator?
+                                <label class="switch switch-3d switch-warning">
+                                    <input type="checkbox" class="switch-input" ng-checked="profile.roles.indexOf('Moderator') > -1" data-ng-click="changeRole('Moderator')">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                            <div ng-show="profile.id == user.id">
+                                Is Administrator?
+                                <label class="switch switch-3d switch-danger">
+                                    <input type="checkbox" class="switch-input" ng-checked="profile.roles.indexOf('Administrator') > -1" data-ng-click="changeRole('Administrator')">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Profile image</label>
+                        <div class="col-md-9">
+                            <div ngf-select="" ng-model="profile.picture" name="picture" ngf-accept="'image/*'" required="" type="file" class="drop-box" ngf-drop-available="dropAvailable">
+                                <button class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Select profile image</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Current image</label>
+                        <div class="col-md-9">
+                            <img ng-show="profile.picture" ngf-src="profile.picture" style="height: 175px;" class="thumb img-avatar">
+                            <img ng-hide="profile.picture" ng-show="profile.profileImage" ng-src="/assets/{{profile.profileImage.name}}" style="height: 175px;" class="thumb img-avatar">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+
+                <button class="btn btn-sm btn-primary" ng-click="save()"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                <button type="reset" ng-hide="profile.lockoutEnabled" class="btn btn-sm btn-danger pull-right lock" data-ng-click="changeLock(true)"><i class="fa fa-ban"></i> Lock user</button>
+                <button type="reset" ng-show="profile.lockoutEnabled" class="btn btn-sm btn-success pull-right unlock" data-ng-click="changeLock(false)"><i class="fa fa-ban"></i> Unlock user</button>
+            </div>
+        </div>
+    </div>
+</div>

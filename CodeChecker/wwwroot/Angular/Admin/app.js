@@ -41,6 +41,20 @@ angular
 
             return $rootScope.currentUser;
         };
+
+        this.updateUser = function() {
+            $rootScope.currentUser = $resource('/api/admin/user/current').get();
+            $rootScope.currentUser.$promise.then(function(data) {
+                $rootScope.currentUser = data;
+                if (!data.profileImage) {
+                    $rootScope.currentUser.avatar = "/assets/default.png";
+                } else {
+                    $rootScope.currentUser.avatar = "/assets/" + data.profileImage.name;
+                }
+            });
+
+        return $rootScope.currentUser;
+        };
     })
     .config([
         'cfpLoadingBarProvider', function(cfpLoadingBarProvider) {

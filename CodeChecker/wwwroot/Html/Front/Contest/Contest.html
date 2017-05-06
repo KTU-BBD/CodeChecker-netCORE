@@ -1,43 +1,18 @@
 ﻿<div class="content">
     <h2>Upcomming contests</h2>
-    <!--<table class="table table-bordered table-striped">-->
-        <!--<thead>-->
-        <!--<tr>-->
-            <!--<th>Name</th>-->
-            <!--<th>Creator</th>-->
-            <!--<th>Starts at</th>-->
-            <!--<th>Time left</th>-->
-            <!--<th>Length</th>-->
-            <!--<th></th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--</tbody>-->
-    <!--</table>-->
-    <!--<tr ng-repeat="contest in contests" id="contest-{{contest.id}}">-->
-        <!--<td>{{contest.name}}</td>-->
-        <!--<td>-->
-
-            <!--{{contest.creator.userName}}-->
-
-        <!--</td>-->
-        <!--<td>{{contest.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</td>-->
-        <!--<td><timer end-time="contest.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer></td>-->
-        <!--<td>{{contest.endAt | amDifference : contest.startAt | amDateFormat : 'hh:mm'}}</td>-->
-        <!--<td>-->
-            <!--<button ng-show="{{!contest.joined}}" class="btn btn-success join" ng-disabled="contest.joined" ng-click="joinContest(contest.id, contest.isPublic)">Join contest</button>-->
-            <!--<a class="btn btn-info enter" ng-show="{{contest.joined}}" ng-href="Contest#!/{{contest.id}}">View contest</a>-->
-        <!--</td>-->
-    <!--</tr>-->
-
     <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
-        <tr ng-repeat="row in $data track by row.id" class="{{row.id}}">
+        <tr ng-repeat="row in $data track by row.id" id="contest-{{row.id}}">
             <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
             <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'">{{row.name}}</td>
             <td data-title="'Creator'" filter="{'Creator.UserName': 'text'}" sortable="'Creator.UserName'">{{row.creator.userName}}</td>
-            <td data-title="'Starts at'">{{row.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</td>
+            <td data-title="'Starts at'"  sortable="'StartAt'">{{row.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</td>
             <td data-title="'Time left'"><timer end-time="row.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer></td>
             <td data-title="'Length'">{{row.endAt | amDifference : row.startAt | amDateFormat : 'hh:mm'}}</td>
+            <td>
+                <button ng-show="{{!row.joined}}" class="btn btn-success join" ng-disabled="row.joined" ng-click="joinContest(row.id, row.isPublic)">Join contest</button>
+                <a class="btn btn-info enter" ng-show="{{row.joined}}" ng-href="Contest#!/{{row.id}}">View contest</a>
+            </td>
+
         </tr>
     </table>
 </div>

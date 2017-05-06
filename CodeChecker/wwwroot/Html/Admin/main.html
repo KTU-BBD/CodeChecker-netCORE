@@ -1,19 +1,21 @@
 <div class="animated fadeIn" >
-    <form ng-submit="uploadFile()">
+    <form>
         <div class="row">
             <div class="col-md-12">
-                <input type="text" ng-model="model.fileDescription" />
-                <input type="number" ng-model="model.rating" />
-                <input type="checkbox" ng-model="model.isAGoodFile" />
-                <input type="file" ng-file-select="onFileSelect($files)">
-
-                <button type="submit" class="btn btn-default btn-lg">
-                    <i class="fa fa-cloud-upload"></i>
-                    &nbsp;
-                    <span>Upload File</span>
-                </button>
+                <form name="myForm">
+                    <fieldset>
+                        <legend>Upload on form submit</legend>
+                        Email: <input name="email" ng-model="email" size="39" required="" type="text">
+                        Username: <input name="username" ng-model="username" size="39" required="" type="text">
+                        Profile Picture: <input ngf-select="" ng-model="picFile" name="file" ngf-accept="'image/*'" required="" type="file">
+                        <br>
+                        <button ng-click="uploadFile(picFile)">Submit</button>
+                        <img ngf-src="picFile" class="thumb">
+                        <span ng-show="picFile.result">Upload Successful</span>
+                    </fieldset>
+                    <br>
+                </form>
             </div>
         </div>
     </form>
-    <textarea froala="froalaOptions" ng-model="myHtml"></textarea>
 </div>

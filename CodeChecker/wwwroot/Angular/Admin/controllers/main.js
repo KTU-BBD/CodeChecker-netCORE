@@ -1,8 +1,7 @@
 //main.js
 angular
     .module('app')
-    .controller('NavbarController',['Auth', '$scope', function(Auth, $scope) {
-            $scope.currentUser = Auth.getCurrentUser();
-            console.log($scope.currentUser);
+    .controller('NavbarController',['Auth', '$rootScope', function(Auth, $rootScope) {
+            Auth.getCurrentUser();
         }
     ]);

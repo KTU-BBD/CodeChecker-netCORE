@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CodeChecker.Models.Models
+﻿namespace CodeChecker.Models.Models
 {
     public class Output : BaseModel
     {
@@ -8,7 +6,5 @@ namespace CodeChecker.Models.Models
 
         public long InputId { get; set; }
         public Input Input { get; set; }
-
-
     }
 }

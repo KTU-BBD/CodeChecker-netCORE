@@ -154,7 +154,7 @@ angular
           controllerAs: 'uvc'
         })
       .state('app.users.one', {
-          url: '/user/:id',
+          url: '/:id',
           templateUrl: 'Html/Admin/pages/user/user.html',
           ncyBreadcrumb: {
               label: 'View'
