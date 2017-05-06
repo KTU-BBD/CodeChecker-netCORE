@@ -48,6 +48,11 @@ namespace CodeChecker.Models.Repositories
             return _context.Users.Where(u => list.Contains(u.Id));
         }
 
+        public ApplicationUser GetByUsernameOrEmail(string user, string username, string email)
+        {
+            return _context.Users.FirstOrDefault(u => (u.UserName.Equals(username) || u.Email.Equals(email)) && u.Id != user);
+        }
+
         public IQueryable<ApplicationUser> GetPagedData(DataFilterViewModel filter)
         {
             if (filter.Page < 1)

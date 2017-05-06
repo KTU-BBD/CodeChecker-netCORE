@@ -135,29 +135,33 @@ namespace CodeChecker.Models.Repositories
             }
 
             var offset = filter.Count * (filter.Page - 1);
-
             foreach (var item in filter.Filter)
             {
                 if (item.Key != "null" && item.Value != "null")
                 {
                     var type = typeof(T);
-                    var property = type.GetProperty(item.Key);
+                    try
+                    {
+                        var property = type.GetProperty(Decode(item.Key));
 
-                    if (property.ToString().Contains(typeof(string).Name))
-                    {
-                        queryable = queryable.Where($"{item.Key}.Contains(@0)",
-                            System.Net.WebUtility.UrlDecode(item.Value));
+                        if (property.ToString().Contains(typeof(long).Name))
+                        {
+                            queryable = queryable.Where($"{Decode(item.Key)} = {Decode(item.Value)}");
+                        }else if (property.ToString().Contains(typeof(string).Name))
+                        {
+                            queryable = queryable.Where($"{Decode(item.Key)}.Contains(@0)", Decode(item.Value));
+                        }
                     }
-                    else if (property.ToString().Contains(typeof(long).Name))
+                    catch (Exception ex)
                     {
-                        queryable = queryable.Where($"{item.Key} = {item.Value}");
+                        queryable = queryable.Where($"{Decode(item.Key)}.Contains(@0)", Decode(item.Value));
                     }
                 }
             }
 
             foreach (var item in filter.Sorting)
             {
-                queryable = queryable.OrderBy($"{item.Key} {item.Value}");
+                queryable = queryable.AsQueryable().OrderBy($"{Decode(item.Key)} {Decode(item.Value)}");
             }
 
             return queryable.Skip(offset).Take(filter.Count);
@@ -166,6 +170,11 @@ namespace CodeChecker.Models.Repositories
         private void Save()
         {
             _context.SaveChanges();
+        }
+
+        private static string Decode(string value)
+        {
+            return System.Net.WebUtility.UrlDecode(value);
         }
     }
 }

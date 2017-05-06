@@ -10,6 +10,9 @@ namespace CodeChecker.Models.Models
         public int Rating { get; set; }
         public DateTime DeletedAt { get; set; }
         public Asset ProfileImage { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
         public ICollection<ContestParticipant> ContestParticipants { get; set; }
         public ICollection<Contest> Contests { get; set; }
 

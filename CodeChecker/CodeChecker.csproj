@@ -82,6 +82,7 @@
     <Folder Include="Data\Migrations" />
     <Folder Include="Data\Migrations" />
     <Folder Include="Data\Migrations" />
+    <Folder Include="Middleware" />
     <Folder Include="Sass\Admin\" />
     <Folder Include="Tasks" />
     <Folder Include="Views\Admin\" />
