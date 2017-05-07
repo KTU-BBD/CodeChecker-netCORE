@@ -29,7 +29,9 @@ namespace CodeChecker.Models.Repositories
 
         public ApplicationUser GetById(string id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
+            return _context.Users
+                .Include(u => u.ProfileImage)
+                .FirstOrDefault(u => u.Id == id);
         }
 
         public ApplicationUser GetUserWithContest(ApplicationUser user)
@@ -49,9 +51,22 @@ namespace CodeChecker.Models.Repositories
             return _context.Users.Where(u => list.Contains(u.Id));
         }
 
-        public ApplicationUser GetByUsernameOrEmail(string user, string username, string email)
+        /// <summary>
+        /// Returns User which has given email or username but is not equal to given userId
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public ApplicationUser GetByUsernameOrEmail(string userId, string username, string email)
         {
-            return _context.Users.FirstOrDefault(u => (u.UserName.Equals(username) || u.Email.Equals(email)) && u.Id != user);
+            return _context.Users.FirstOrDefault(u => (u.UserName.Equals(username) || u.Email.Equals(email)) &&
+                                                      u.Id != userId);
+        }
+
+        public ApplicationUser GetByUsername(string username)
+        {
+            return _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
         }
 
         public IQueryable<ApplicationUser> GetPagedData(DataFilterViewModel filter)
@@ -80,7 +95,8 @@ namespace CodeChecker.Models.Repositories
                         if (property.ToString().Contains(typeof(long).Name))
                         {
                             queryable = queryable.Where($"{Decode(item.Key)} = {Decode(item.Value)}");
-                        }else if (property.ToString().Contains(typeof(string).Name))
+                        }
+                        else if (property.ToString().Contains(typeof(string).Name))
                         {
                             queryable = queryable.Where($"{Decode(item.Key)}.Contains(@0)", Decode(item.Value));
                         }
@@ -109,6 +125,5 @@ namespace CodeChecker.Models.Repositories
         {
             return System.Net.WebUtility.UrlDecode(value);
         }
-
     }
 }

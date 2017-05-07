@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Profile information";
+    ViewData["NgApp"] = "app-profile";
+}
+
+<div class="row">
+    <div class="col-md-12" ng-view></div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" asp-append-version="true" src="~/Angular/Front/app-profile.js"></script>
+    <script type="text/javascript" asp-append-version="true" src="~/Angular/Front/Controllers/profileController.js"></script>
+}

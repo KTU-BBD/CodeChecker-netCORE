@@ -6,12 +6,15 @@
         $http.get('/api/admin/user/get/' + userId)
             .then(function(response) {
                     $scope.profile = response.data;
+                    $scope.profile.firstName = $scope.profile.firstName ? $scope.profile.firstName : "";
+                    $scope.profile.lastName = $scope.profile.lastName ? $scope.profile.lastName : "";
                 },
                 function(error) {
                     toastr.error(error.data);
                 });
         $scope.save = function () {
             $scope.profile.Userid = userId;
+
             Upload.upload({
                 url: 'api/admin/user/changeProfile',
                 data: $scope.profile
