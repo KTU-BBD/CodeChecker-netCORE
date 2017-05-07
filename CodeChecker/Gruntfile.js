@@ -41,6 +41,7 @@
                 files: {
                     "<%= config.CSS_DEPLOY_PATH  %>/plugins.front.css": [
                         "<%= config.NPM_VENDOR_PATH %>/ng-table/bundles/ng-table.css",
+                        "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css",
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css"

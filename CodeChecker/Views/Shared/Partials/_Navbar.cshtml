@@ -1,4 +1,4 @@
-<section id="header">
+<section id="header" ng-app="app-navbar">
     <div class="clearfix">
         <div class="logo pull-left">
             <a class="logo-text" href="/">
@@ -17,21 +17,30 @@
             else
             {
                 <ul class="top-menu">
-                    @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
-                    {
-                        <li><a href="@Url.Action("Index", "Admin")"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
-                    }
                     <li><span class="text-hover-underline">@User.Identity.Name</span></li>
-                    <li>@using (Html.BeginForm("Logout", "Account"))
-                    {
-                        @Html.AntiForgeryToken()
-                        <button type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
-                    }</li>
+                    <li><a href="@Url.Action("Logout", "Account")">Log out</a></li>
+                    <div ng-controller="navbarController">
+                        <!-- Single button using append-to-body -->
+                        <div class="btn-group" uib-dropdown dropdown-append-to-body>
+                            <button id="btn-append-to-body" type="button" class="btn btn-primary" uib-dropdown-toggle>
+                                Dropdown on Body <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+@*                                <li role="menuitem"><a class="dropdown-item" ui-sref="app.users.one({id:currentUser.id})" href="#!/users/03380d58-b3da-4683-aa8a-c08be546c0fb"><i class="fa fa-user"></i> Profile</a></li>*@
+                                @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+                                {
+                                    <li role="menuitem"><a class="dropdown-item" href="@Url.Action("Index", "Admin")"><i class="fa fa-file"></i> Admin panel</a></li>
+                                }
+                                <li role="menuitem"><a class="dropdown-item" href="@Url.Action("Logout", "Account")"><i class="fa fa-lock"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </ul>
             }
         </div>
     </div>
 </section>
+
 <section id="menu">
     <ul class="menu">
         <li class="current active">

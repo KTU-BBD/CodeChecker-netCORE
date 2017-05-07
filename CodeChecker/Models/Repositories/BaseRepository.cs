@@ -41,7 +41,7 @@ namespace CodeChecker.Models.Repositories
             return entities.FirstOrDefault(e => e.Id == id);
         }
 
-        public IQueryable<T> Query()
+        public virtual IQueryable<T> Query()
         {
             return entities;
         }

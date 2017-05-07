@@ -11,19 +11,19 @@
     <link rel="stylesheet" href="~/static/css/styles.front.css" asp-append-version="true" />
 </head>
 <body class="@ViewData["Body"]" ng-app="@ViewData["NgApp"]">
-
-    <div class="container body-content">
-        
-        @Html.Partial("Partials/_Navbar")
-        <div class="row">
-            <div class="col-md-12">
-                @RenderBody()
-            </div>
+<div class="container body-content">
+    @Html.Partial("Partials/_Navbar")
+    <div class="row">
+        <div class="col-md-12">
+            @RenderBody()
         </div>
-        <hr />
-        @Html.Partial("Partials/_Footer")
-        </div>
-        <script src="~/static/js/plugins.front.js" asp-append-version="true"></script>
-        @RenderSection("Scripts", required: false)
+    </div>
+    <hr/>
+    @Html.Partial("Partials/_Footer")
+</div>
+<script src="~/static/js/plugins.front.js" asp-append-version="true"></script>
+<script src="~/Angular/Front/app-navbar.js" asp-append-version="true"></script>
+<script src="~/Angular/Front/Controllers/navbarController.js" asp-append-version="true"></script>
+@RenderSection("Scripts", required: false)
 </body>
 </html>

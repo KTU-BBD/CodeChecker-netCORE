@@ -54,7 +54,7 @@
                             });
                 };
 
-                if (isPublic) {
+                if (!isPublic) {
                     $uibModal.open({
                         templateUrl: '/Html/Front/Modal/ContestPassword.html',
                         animation: false,

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using CodeChecker.Models;
 using CodeChecker.Models.AccountViewModels;
 using CodeChecker.Models.Models;
+using CodeChecker.Models.Repositories;
 using CodeChecker.Services;
 
 namespace CodeChecker.Controllers
@@ -25,6 +26,7 @@ namespace CodeChecker.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
+        private readonly ApplicationUserRepository _applicationUserRepo;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -32,13 +34,14 @@ namespace CodeChecker.Controllers
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory, ApplicationUserRepository applicationUserRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
             _smsSender = smsSender;
+            _applicationUserRepo = applicationUserRepo;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
@@ -134,10 +137,12 @@ namespace CodeChecker.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/Logout
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

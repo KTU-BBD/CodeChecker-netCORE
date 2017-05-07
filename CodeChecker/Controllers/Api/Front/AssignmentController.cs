@@ -51,6 +51,11 @@ namespace CodeChecker.Controllers.Api.Front
 
             var assignment = _assignmentRepo.GetByIdWithContest(taskId);
 
+            if (assignment == null)
+            {
+                return BadRequest("Assignment not found");
+            }
+
             foreach (var participant in assignment.Contest.ContestParticipants)
             {
                 if (participant.UserId == currentUser.Id)

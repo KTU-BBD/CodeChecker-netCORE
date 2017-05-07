@@ -90,6 +90,7 @@
     <Folder Include="Views\Shared\Partials\" />
     <Folder Include="wwwroot\Angular\Admin\controllers\user" />
     <Folder Include="wwwroot\assets" />
+    <Folder Include="wwwroot\Html\Admin\modal" />
     <Folder Include="wwwroot\Html\Admin\pages\contest\task" />
     <Folder Include="wwwroot\Html\Admin\pages\user" />
     <Folder Include="wwwroot\Html\Front\DirectiveView" />

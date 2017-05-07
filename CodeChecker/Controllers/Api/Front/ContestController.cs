@@ -100,7 +100,7 @@ namespace CodeChecker.Controllers.Api.Front
             //Investigate how to avoid errors in console, when trying to join
             try
             {
-                if (contest.Password == null || contest.Password.Equals(contestData.Password))
+                if (string.IsNullOrEmpty(contest.Password) || contest.Password.Equals(contestData.Password))
                 {
                     _contestParticipantRepo.Insert(new ContestParticipant
                     {
