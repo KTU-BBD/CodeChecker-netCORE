@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Linq.Dynamic.Core;
+﻿using System;
+using System.Linq;
 using CodeChecker.Data;
 using CodeChecker.Models.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +10,14 @@ namespace CodeChecker.Models.Repositories
     {
         public AssignmentRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public override IQueryable<Assignment> Query()
+        {
+            return base.Query()
+                    .Include(c => c.Contest)
+                    .Where(c => c.Contest.DeletedAt == null && c.Contest.StartAt >= DateTime.Now)
+                ;
         }
 
         public Assignment GetById(long id)
@@ -23,7 +31,6 @@ namespace CodeChecker.Models.Repositories
             return Query()
                 .Include(a => a.Inputs)
                 .ThenInclude(a => a.Output)
-                .Include(a => a.Contest)
                 .Include(a => a.Creator)
                 .FirstOrDefault(a => a.Id == id);
         }

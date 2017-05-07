@@ -23,6 +23,11 @@ namespace CodeChecker.Models.Repositories
                 .Include(c => c.ContestParticipants);
         }
 
+        public override IQueryable<Contest> Query()
+        {
+            return base.Query().Where(c => c.DeletedAt == null);
+        }
+
         private IQueryable<Contest> ActiveContests(IQueryable<Contest> queryable)
         {
             return queryable.Where(c => c.EndAt > DateTime.Now)
