@@ -11,6 +11,8 @@ namespace CodeChecker.Models.ServiceViewModels
 
         public DataFilterViewModel()
         {
+            Count = 10;
+            Page = 1;
             Filter = new Dictionary<string, string>();
             Sorting = new Dictionary<string, string>();
         }

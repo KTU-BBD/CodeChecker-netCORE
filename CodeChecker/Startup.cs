@@ -141,6 +141,7 @@ namespace CodeChecker
                 cfg.CreateMap<Contest, EditContestGetViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, EditContestPostViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, EditAssignmentGetViewModel>().ReverseMap();
+                cfg.CreateMap<Assignment, EditAssignmentGetViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, EditAssignmentPostViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, AssignmentViewModel>().ReverseMap();

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CodeChecker.Data;
 using CodeChecker.Models.Models;
+using CodeChecker.Models.ServiceViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Repositories
@@ -16,8 +18,15 @@ namespace CodeChecker.Models.Repositories
         {
             return base.Query()
                     .Include(c => c.Contest)
-                    .Where(c => c.Contest.DeletedAt == null && c.Contest.StartAt >= DateTime.Now)
+                    .Where(c => c.Contest.DeletedAt == null && c.Contest.StartAt <= DateTime.Now)
                 ;
+        }
+
+        public IEnumerable<Assignment> GetGymAssignments(DataFilterViewModel filter)
+        {
+            var query = Query().Where(c => c.Contest.EndAt < DateTime.Now);
+
+            return GetPagedData(query, filter);
         }
 
         public Assignment GetById(long id)
