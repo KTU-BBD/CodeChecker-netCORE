@@ -24,6 +24,5 @@ namespace CodeChecker.Models.Repositories
                 .ThenInclude(q => q.Creator)
                 .FirstOrDefault(a => a.Id == id);
         }
-        
     }
 }

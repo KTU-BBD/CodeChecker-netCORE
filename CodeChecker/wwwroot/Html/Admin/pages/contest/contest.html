@@ -86,17 +86,11 @@
                 </form>
             </div>
             <div class="card-footer">
-                <button ng-click="scc.saveUser()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
-                <button ng-click="scc.reset()" class="btn btn-sm btn-danger" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-ban"></i> Reset</button>
+                <button ng-click="scc.saveContest()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                <button ng-click="scc.reset()" class="btn btn-sm btn-warning" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-ban"></i> Reset</button>
+                <button ng-click="scc.deleteContest($index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i>Delete</button>
             </div>
         </div>
-
-        
-
-
-
-
-
 
     </div>
     <div class="col-md-6">
@@ -120,7 +114,7 @@
             </div>
             <div class="card-footer">
                 <button class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.assignment({id:{{assignment.id}}})"><i class="fa fa-dot-circle-o"></i> View Details</button>
-                <button ng-click="scc.deleteAssignment($index)" class="btn btn-sm btn-danger" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-trash-o"></i>Delete</button>
+                <button ng-click="scc.deleteAssignment($index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i>Delete</button>
             </div>
         </div>
 

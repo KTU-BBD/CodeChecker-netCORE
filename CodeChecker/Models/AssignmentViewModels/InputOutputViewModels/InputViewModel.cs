@@ -10,5 +10,6 @@ namespace CodeChecker.Models.AssignmentViewModels.InputOutputViewModels
         public long Id { get; set; }
         public string Text { get; set; }
         public OutputViewModel Output { get; set; }
+
     }
 }

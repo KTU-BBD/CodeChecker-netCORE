@@ -44,6 +44,7 @@ namespace CodeChecker.Controllers.Api.Admin
                 if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
                     var assignmentToReturn = Mapper.Map<EditAssignmentGetViewModel>(assignment);
+                    assignmentToReturn.Inputs = assignmentToReturn.Inputs.OrderByDescending(x => x.Id).ToList();
                     return Ok(assignmentToReturn);
                 }
                 else {
@@ -103,6 +104,28 @@ namespace CodeChecker.Controllers.Api.Admin
             catch (Exception ex)
             {
                 return BadRequest("Error");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult CreateTest(long id)
+        {
+            try
+            {
+                var assignment = _assignmentRepo.GetByIdWithInputsOutputs(id);
+                if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    _assignmentRepo.CreateTestForAssignment(id);
+                    return Ok("Test created");
+                }
+                else {
+                    return BadRequest("Unauthorized");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Exception");
+
             }
         }
     }

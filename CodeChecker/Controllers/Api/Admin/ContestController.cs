@@ -155,5 +155,22 @@ namespace CodeChecker.Controllers.Api.Admin
             _contestRepo.Update(contest);
             return Ok();
         }
+
+        [Authorize("CanEditContests")]
+        [HttpPost("{id}")]
+        public IActionResult DeleteContest(int id)
+        {
+
+            try
+            {
+                var contest = _contestRepo.GetContestFull(id);
+                if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+
+                }
+            }catch
+            return Ok();
+        }
+        
     }
 }

@@ -14,19 +14,25 @@
         var deleteAssignmentUrl = "/api/admin/Assignment/Delete";
         var updateTest = "/api/admin/Input/UpdateTest";
         var deleteTest = "api/admin/Input/DeleteTest"
-        var createTest = "api/admin/Input/CreateTest"
+        var createTest = "api/admin/Assignment/CreateTest/"
         awc.showContent = false;
-
-        $http.get(apiUrl)
-            .then(function (response) {
-                awc.assignment = response.data;
-                awc.showContent = true;
-            }, function (error) {
-                    toastr.error(error.data);
-            }).finally(function () {
-                awc.notBusy = true;
-            });
         
+
+
+        awc.getContent = function () {
+            $http.get(apiUrl)
+                .then(function (response) {
+                    awc.assignment = response.data;
+                    awc.showContent = true;
+                }, function (error) {
+                    toastr.error(error.data);
+                }).finally(function () {
+                    awc.notBusy = true;
+                });
+        }
+
+        awc.getContent();
+
         awc.reset = function () {
             $http.get(apiUrl)
                 .then(function (response) {
@@ -51,7 +57,6 @@
         }
 
         awc.deleteTest = function (index) {
-
             $uibModal.open({
                 templateUrl: '/Html/Admin/Modal/deleteItem.html',
                 animation: false,
@@ -71,7 +76,6 @@
                             .then(function (response) {
                                 awc.assignment.inputs.splice(index, 1);
                                 toastr.success(response.data);
-
                             }, function (error) {
                                 toastr.error(error.data);
                             })
@@ -88,15 +92,15 @@
         }
 
         awc.createTest = function () {
-            $http.get(createTest)
+            $http.get(createTest + awc.assignment.id)
                 .then(function (response) {
                     toastr.success(response.data);
+                    awc.getContent();
                 }, function () {
                     toastr.error(error.data);
                 }).finally(function (response) {
                 });
         }
-
 
         awc.saveAssignment = function () {
             var d = new Date();
@@ -110,15 +114,42 @@
                 });
         }
 
-        awc.deleteAssignment = function () {
+        var deleteAssignmentLocal = function () {
             $http.post(deleteAssignmentUrl, awc.assignment)
                 .then(function (response) {
                     toastr.success(response.data);
+                    $state.go('app.contests.one', {id:awc.assignment.contest.id});
                 }, function () {
                     toastr.error(error.data);
                 }).finally(function (response) {
                 });
         }
+
+        awc.deleteAssignment = function (index) {
+            $uibModal.open({
+                templateUrl: '/Html/Admin/Modal/deleteItem.html',
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'md',
+                controller: function ($scope) {
+                    $scope.close = function () {
+                        //Closing modal instance
+                        var top = $uibModalStack.getTop();
+                        if (top) {
+                            $uibModalStack.dismiss(top.key);
+                        }
+                    };
+                    $scope.submit = function () {
+                        deleteAssignmentLocal();
+                        $scope.close()
+                    };
+                }
+            }).result.then(function () {
+
+            }, function (res) {
+
+            });
+        }
     }
 })();
-

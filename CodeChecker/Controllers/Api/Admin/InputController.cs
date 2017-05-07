@@ -34,7 +34,7 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             try
             {
-               
+
                 var input = _inputRepository.GetByIdWithOutput(model.Id);
                 if (User.IsInRole("Contributor") && input.Assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {

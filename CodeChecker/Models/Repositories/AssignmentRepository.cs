@@ -51,5 +51,17 @@ namespace CodeChecker.Models.Repositories
                     .FirstOrDefault(c => c.Id == assignmentId)
                 ;
         }
+
+        public void CreateTestForAssignment(long assignID)
+        {
+            var assign = GetById(assignID);
+            var outp = new Output();
+            var inp = new Input();
+            inp.Output = outp;
+            inp.Assignment = assign;
+            outp.Input = inp;
+            assign.Inputs.Add(inp);
+            Update(assign);
+        }
     }
 }
