@@ -1,12 +1,12 @@
 ﻿(function () {
     "use strict";
     // Creating the module
-    angular.module("app-profile", ["ngRoute", "app-navbar", "toastr"])
+    angular.module("app-profile", ["ngRoute", "app-navbar","ngFileUpload", "toastr"])
         .config(function ($routeProvider) {
             $routeProvider.when("/", {
-                controller: "profileController",
+                controller: "personalProfileController",
                 controllerAs: "pc",
-                templateUrl: "/Html/Front/Profile/.html"
+                templateUrl: "/Html/Front/Profile/personal.html"
             });
             $routeProvider.when("/:username", {
                 controller: "profileController",

@@ -118,7 +118,6 @@ namespace CodeChecker.Controllers.Api.Front
                 return BadRequest("Cannot join same contest twice");
             }
 
-
             return Ok("Joined contest successfully");
         }
 

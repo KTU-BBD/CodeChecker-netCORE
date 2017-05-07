@@ -129,6 +129,8 @@ namespace CodeChecker
                 cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, ProfileUpdateViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserProfileViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, PersonalProfileViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, PersonalProfileUpdateViewModel>().ReverseMap();
                 cfg.CreateMap<Asset, AssetProfileViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, ViewContestViewModel>().ReverseMap();

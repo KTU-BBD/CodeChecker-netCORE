@@ -25,6 +25,7 @@
                         "<%= config.VENDOR_PATH  %>/angular-animate/angular-animate.js",
                         "<%= config.VENDOR_PATH  %>/angular-touch/angular-touch.js",
                         "<%= config.VENDOR_PATH  %>/ace-builds/src-min-noconflict/ace.js",
+                        "<%= config.VENDOR_PATH  %>/ng-file-upload/ng-file-upload.js",
                         "<%= config.VENDOR_PATH  %>/angular-ui-ace/ui-ace.js",
                         "<%= config.VENDOR_PATH  %>/moment/min/moment.min.js",
                         "<%= config.VENDOR_PATH  %>/angular-resource/angular-resource.js",

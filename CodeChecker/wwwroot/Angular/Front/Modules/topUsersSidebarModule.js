@@ -1,6 +1,6 @@
 ﻿(function () {
     "use strict";
-    angular.module("sidebarModule", ["topUsers"])
+    angular.module("sidebarModule", ["topUsers", "colourise"])
         .controller("sidebarController", sidebarController);
 
     function sidebarController($http, $scope) {

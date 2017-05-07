@@ -21,7 +21,7 @@
                 <tbody>
                     <tr ng-repeat="user in sc.topUsers">
                         <td>{{$index + 1}}</td>
-                        <td>{{user.userName}}</td>
+                        <td><span colourise="{{user.rating}}">{{user.userName}}</span></td>
                         <td>{{user.rating}}</td>
                     </tr>
                     <tr>
