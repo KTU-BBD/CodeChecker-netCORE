@@ -36,14 +36,9 @@ namespace CodeChecker.Models.Repositories
 
         public ApplicationUser GetUserWithContest(ApplicationUser user)
         {
-            if (user == null)
-            {
-                return user;
-            }
-
             return _context.Users
                 .Include(u => u.ContestParticipants)
-                .First(u => u.Id == user.Id);
+                .FirstOrDefault(u => u.Id == user.Id);
         }
 
         public IEnumerable<ApplicationUser> GetByIds(ICollection<string> list)

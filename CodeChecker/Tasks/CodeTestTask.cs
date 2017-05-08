@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CodeChecker.Data;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Models.Enums;
+using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Services.CodeSubmit;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeChecker.Tasks
 {
@@ -21,23 +24,24 @@ namespace CodeChecker.Tasks
             _codeSubmit = codeSubmit;
         }
 
-        public void Run(CodeAssignmentViewModel codeAssignment)
+        public async void Run(CodeAssignmentViewModel codeAssignment)
         {
-            Task.Factory.StartNew(() => RunTask(codeAssignment));
+            await RunTask(codeAssignment);
         }
 
-        private async void RunTask(CodeAssignmentViewModel codeAssignment)
+        public async Task RunTask(CodeAssignmentViewModel codeAssignment)
         {
             var solvedAll = true;
+            var assignment = _context.Assignments.Include(a => a.Contest).Include(a => a.Inputs).ThenInclude(o => o.Output).FirstOrDefault(a => a.Id == codeAssignment.AssignmentId);
 
-            foreach (var assignmentInput in codeAssignment.Assignment.Inputs)
+            foreach (var assignmentInput in assignment.Inputs)
             {
                 var submission = new Submission()
                 {
-                    AssignmentId = codeAssignment.Assignment.Id,
+                    AssignmentId = codeAssignment.AssignmentId,
                     Code = codeAssignment.AssignmentSubmit.Code,
                     Language = codeAssignment.AssignmentSubmit.Language,
-                    UserId = codeAssignment.Submiter.Id
+                    UserId = codeAssignment.SubmiterId
                 };
 
                 try
@@ -47,12 +51,13 @@ namespace CodeChecker.Tasks
                         code = codeAssignment.AssignmentSubmit.Code,
                         inputText = assignmentInput.Text,
                         language = codeAssignment.AssignmentSubmit.Language,
-                        memoryLimit = codeAssignment.Assignment.MemoryLimit,
-                        timeLimit = codeAssignment.Assignment.TimeLimit,
+                        memoryLimit = assignment.MemoryLimit,
+                        timeLimit = assignment.TimeLimit,
                     });
 
                     submission.Verdict = SubmissionVerdict.Success;
                     submission.TimeMs = (int) (results.TimeSpent * 1000);
+                    submission.Output = results.Output;
 
                     if (!assignmentInput.Output.Text.Equals(results.Output))
                     {
@@ -60,7 +65,7 @@ namespace CodeChecker.Tasks
                         solvedAll = false;
                         break;
                     }
-                    else if (results.TimeSpent > codeAssignment.Assignment.TimeLimit)
+                    else if (results.TimeSpent > assignment.TimeLimit)
                     {
                         submission.Verdict = SubmissionVerdict.TimeOverflow;
                         solvedAll = false;
@@ -80,24 +85,28 @@ namespace CodeChecker.Tasks
                 }
                 finally
                 {
-                    _context.Add(submission);
-                    _context.SaveChanges();
+                    await _context.AddAsync(submission);
+                    await _context.SaveChangesAsync();
                 }
             }
 
             if (solvedAll)
             {
-                codeAssignment.Assignment.SolvedCount++;
-                codeAssignment.Contest.SuccessfulSubmit++;
-                _context.Update(codeAssignment.Assignment);
+                assignment.SolvedCount++;
+                assignment.Contest.SuccessfulSubmit++;
+                _context.Update(assignment);
+                Debug.WriteLine($"Solved assignment: {assignment.Id} {assignment.Name} successfully");
             }
             else
             {
-                codeAssignment.Contest.UnsuccessfulSubmit++;
+                Debug.WriteLine($"Error while solving assignment: {assignment.Id} {assignment.Name}");
+                assignment.Contest.UnsuccessfulSubmit++;
             }
 
-            _context.Update(codeAssignment.Contest);
+            _context.Update(assignment.Contest);
+
             _context.SaveChanges();
+
         }
     }
 }

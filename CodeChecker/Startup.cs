@@ -77,9 +77,9 @@ namespace CodeChecker
             });
 
             Repositories(services);
+            Tasks(services);
             Services(services);
             Policies(services);
-            Tasks(services);
 
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 

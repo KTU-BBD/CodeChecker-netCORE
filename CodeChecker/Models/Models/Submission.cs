@@ -17,6 +17,7 @@ namespace CodeChecker.Models.Models
         public string Language { get; set; }
         public SubmissionVerdict Verdict { get; set; }
         public int TimeMs { get; set; }
+        public string Output { get; set; }
 
         public Submission()
         {

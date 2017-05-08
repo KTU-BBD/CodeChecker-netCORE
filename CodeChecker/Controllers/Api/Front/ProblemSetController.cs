@@ -10,7 +10,6 @@ using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Models.SubmissionViewModels;
 using CodeChecker.Services.CodeSubmit;
-using CodeChecker.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,15 +22,13 @@ namespace CodeChecker.Controllers.Api.Front
         private readonly AssignmentRepository _assignmentRepo;
         private readonly ApplicationUserRepository _userRepo;
         private readonly SubmissionRepository _submissionRepo;
-        private readonly CodeTestTask _codeTestTask;
 
-        public ProblemSetController(UserManager<ApplicationUser> userManager, AssignmentRepository assignmentRepo, ApplicationUserRepository userRepo, SubmissionRepository submissionRepo, CodeTestTask codeTestTask)
+        public ProblemSetController(UserManager<ApplicationUser> userManager, AssignmentRepository assignmentRepo, ApplicationUserRepository userRepo, SubmissionRepository submissionRepo)
         {
             _userManager = userManager;
             _assignmentRepo = assignmentRepo;
             _userRepo = userRepo;
             _submissionRepo = submissionRepo;
-            _codeTestTask = codeTestTask;
         }
 
         [HttpGet]
@@ -69,13 +66,13 @@ namespace CodeChecker.Controllers.Api.Front
                 return BadRequest("Assignment not found");
             }
 
-            _codeTestTask.Run(new CodeAssignmentViewModel
-            {
-                AssignmentSubmit = assignmentSubmit,
-                Assignment = assignment,
-                Contest = assignment.Contest,
-                Submiter = currentUser
-            });
+//            _codeTestTask.Run(new CodeAssignmentViewModel
+//            {
+//                AssignmentSubmit = assignmentSubmit,
+//                Assignment = assignment,
+//                Contest = assignment.Contest,
+//                Submiter = currentUser
+//            });
 
             return Ok();
         }
