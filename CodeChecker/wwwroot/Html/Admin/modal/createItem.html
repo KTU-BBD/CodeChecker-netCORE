@@ -1,0 +1,15 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Enter assignment name</h3>
+</div>
+
+<form name="AssignmentName" class="css-form" novalidate>
+    <div class="modal-body" id="modal-body">
+        <div class="input-group">
+            <input class="form-control" required tabindex="1" id="password" data-ng-model="name" placeholder="Name" aria-describedby="basic-addon1">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="Submit" data-ng-click="submit()">
+        <button class="btn btn-warning" type="button" data-ng-click="close()">Cancel</button>
+    </div>
+</form>

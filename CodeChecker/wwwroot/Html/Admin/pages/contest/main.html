@@ -8,9 +8,9 @@
                 </div>
                 <div class="card-block">
                     <table ng-table="contest.tableParams" class="table table-bordered table-striped table-condensed">
-                        <tr ng-repeat="row in $data track by row.id">
+                        <tr ng-repeat="row in $data track by row.id" class="contest-{{row.id}}">
                             <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
-                            <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><a ui-sref-active="active" ui-sref="app.contests.one({id:{{row.id}}})">{{row.name}}</a></td>
+                            <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><button class="btn-link" ng-click="contest.goToContest(row.id)">{{row.name}}</button></td>
 
                             <td data-title="'Status'" sortable="'Status'">
                                 <div ng-if="contest.show && row.status === 0"><button ng-click="contest.changeStatus(1,row)" type="button" class="btn btn-success col-md-6">Approve</button><button ng-click="contest.changeStatus(2,row)" type="button" class="btn btn-primary col-md-6">Cancel</button></div>
@@ -21,6 +21,10 @@
                             <td data-title="'Starts At'" sortable="'StartAt'">{{row.startAt}}</td>
                             <td data-title="'Ends At'" sortable="'EndAt'">{{row.endAt}}</td>
                             <td data-title="'Updated At'" sortable="'UpdatedAt'">{{row.updatedAt}}</td>
+                            <td data-title="'Deleted'" sortable="'DeletedAt'">
+                                <div ng-if="row.deletedAt"><button ng-click="contest.recover(row.id)" type="button" class="btn btn-outline-success col-md-12">Recover</button></div>
+                                <div ng-if="!row.deletedAt"><button ng-click="contest.delete(row.id)" type="button" class="btn btn-outline-danger col-md-12">Delete</button></div>
+                            </td>
                         </tr>
                     </table>
                 </div>

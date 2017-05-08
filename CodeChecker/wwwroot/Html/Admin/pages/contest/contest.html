@@ -3,7 +3,9 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="col-md-3 pull-left"><button ui-sref-active="active" ui-sref="app.contests.all" class="col-md-12 btn btn-sm btn-outline-secondary">Back</button></div> <div class="col-md-7 col-md-pull-2 pull-left"><strong>Assignment {{scc.contest.name}}</strong></div><div class="col-md-2 pull-left"><button class="col-md-12 btn btn-sm btn-primary">Add Task</button></div>
+                <div class="col-md-3 pull-left"><button ui-sref-active="active" ui-sref="app.contests.all" class="col-md-12 btn btn-sm btn-outline-secondary">Back</button></div> 
+                <div class="col-md-7 col-md-pull-2 pull-left"><strong>Contest {{scc.contest.name}}</strong></div>
+                <div class="col-md-2 pull-left"><button ng-click="scc.createAssignment()" class="col-md-12 btn btn-sm btn-primary">Add Task</button></div>
             </div>
             <div class="card-block">
                 <form action="" method="post" enctype="multipart/form-data" class="form-2orizontal ">
@@ -88,7 +90,7 @@
             <div class="card-footer">
                 <button ng-click="scc.saveContest()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
                 <button ng-click="scc.reset()" class="btn btn-sm btn-warning" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-ban"></i> Reset</button>
-                <button ng-click="scc.deleteContest($index)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i>Delete</button>
+                <button ng-click="scc.deleteContest(scc.contest.id)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i>Delete</button>
             </div>
         </div>
 

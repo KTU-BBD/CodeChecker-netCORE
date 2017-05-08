@@ -28,6 +28,16 @@ namespace CodeChecker.Models.Repositories
             return base.Query().Where(c => c.DeletedAt == null);
         }
 
+        public IQueryable<Contest> QueryDeleted()
+        {
+            return base.Query();
+        }
+
+        public IQueryable<Contest> GetPagedDataIncludeDeleted(DataFilterViewModel filter)
+        {
+            return GetPagedData(entities, filter);
+        }
+
         private IQueryable<Contest> ActiveContests(IQueryable<Contest> queryable)
         {
             return queryable.Where(c => c.EndAt > DateTime.Now)
@@ -55,6 +65,23 @@ namespace CodeChecker.Models.Repositories
                     .Include(c => c.Creator)
                     .FirstOrDefault(c => c.Id == contestId)
                 ;
+        }
+
+        public Contest GetContestFullWithDeleted(long contestId)
+        {
+            return QueryDeleted()
+                    .Include(c => c.ContestParticipants)
+                    .Include(c => c.Assignments)
+                    .Include(c => c.Creator)
+                    .FirstOrDefault(c => c.Id == contestId)
+                ;
+        }
+
+        public void ResetStatus(Contest contest)
+        {
+            var cont = GetContestFullWithDeleted(contest.Id);
+            cont.Status = 0;
+            Update(cont);
         }
     }
 }

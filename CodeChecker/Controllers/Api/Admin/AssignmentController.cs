@@ -19,20 +19,22 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly AssignmentRepository _assignmentRepo;
         private readonly ApplicationUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
+        private ContestRepository _contestRepo;
 
 
-        public AssignmentController(AssignmentRepository assignmentRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
+        public AssignmentController(AssignmentRepository assignmentRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo, ContestRepository contestRepo)
         {
             _assignmentRepo = assignmentRepo;
             _userRepo = userRepo;
             _userManager = userManager;
+            _contestRepo = contestRepo;
         }
 
-        [HttpPost("")]
-        public IActionResult Create([FromBody] EditAssignmentPostViewModel contest)
+        [HttpPost("{conId}")]
+        public IActionResult Create([FromBody] string name, int conId)
         {
-           // TODO
-            return BadRequest(ModelState);
+           
+            return BadRequest("");
         }
 
         [HttpGet("{id}")]

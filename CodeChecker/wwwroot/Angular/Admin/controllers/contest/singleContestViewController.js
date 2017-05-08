@@ -12,8 +12,9 @@
         var conId = $stateParams.id;
         var apiUrl = "/api/admin/Contest/GetFull/" + conId.toString();
         var updateContestUrl = "/api/admin/Contest/Update";
+        var createAssignmentUrl = "/api/admin/Assignment/Create/";
         var deleteAssignmentUrl = "/api/admin/Assignment/Delete";
-        var deleteContest = "api/admin/Contest/DeleteContest";
+        var deleteContestUrl = "api/admin/Contest/DeleteContest/";
         scc.showContent = false;
 
         $http.get(apiUrl)
@@ -55,6 +56,88 @@
                 });
         }
 
+        var deleteContestLocal = function (id) {
+            $http.post(deleteContestUrl + id)
+                .then(function (response) {
+                    toastr.success(response.data);
+                    $state.go('app.contests.all');
+                }
+                , function (err) {
+                    toastr.error(err.data);
+                })
+                .finally(function () {
+                });
+        }
+
+        scc.deleteContest = function (id) {
+            $uibModal.open({
+                templateUrl: '/Html/Admin/Modal/deleteItem.html',
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'md',
+                controller: function ($scope) {
+                    $scope.close = function () {
+                        var top = $uibModalStack.getTop();
+                        if (top) {
+                            $uibModalStack.dismiss(top.key);
+                        }
+                    };
+                    $scope.submit = function () {
+                        deleteContestLocal(id);
+                        $scope.close()
+                    };
+                }
+            }).result.then(function () {
+
+            }, function (res) {
+
+            }); 
+        }
+
+        var createAssignmentLocal = function (name) {
+            window.alert(name);
+            $http.post(createAssignmentUrl + scc.contest.id, name)
+                .then(function (response) {
+                    scc.contest.assignments.unshift(response.data);
+                    toastr.success("Assignment created");
+                    $state.go('app.contests.assignment', { id: response.data.id });
+                }, function (error) {
+                    toastr.error(error.data);
+                }).finally(function (response) {
+                });
+        }
+
+        scc.createAssignment = function () {
+            $uibModal.open({
+                templateUrl: '/Html/Admin/Modal/createItem.html',
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'md',
+                controller: function ($scope) {
+                    $scope.close = function () {
+                        var top = $uibModalStack.getTop();
+                        if (top) {
+                            $uibModalStack.dismiss(top.key);
+                        }
+                    };
+                    $scope.submit = function () {
+                        if ($scope.name) {
+                            createAssignmentLocal($scope.name);
+                            $scope.close()
+                        } else {
+                            toastr.error("Name cannot be empty");
+                        }
+                    };
+                }
+            }).result.then(function () {
+
+            }, function (res) {
+
+            });
+        }
+        
         var deleteAssignmentLocal = function (index) {
             $http.post(deleteAssignmentUrl, scc.contest.assignments[index])
                 .then(function (response) {

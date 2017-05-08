@@ -1,9 +1,10 @@
 angular
     .module('app')
-    .controller('ContestViewController', ['NgTableParams', '$scope', '$resource', 'Auth', '$http', '$state', '$window', function (NgTableParams, $scope, $resource, Auth, $http, $state, $window) {
-        // Clone data array
+    .controller('ContestViewController', function (NgTableParams, $scope, $resource, Auth, $http, $state, $window, $uibModal, $uibModalStack, toastr) {
 
         var cvc = this;
+        var deleteContestUrl = "/api/admin/contest/DeleteContest/"
+        var recoverContestUrl = "/api/admin/contest/RecoverContest/"
         var Api = $resource('/api/admin/contest/all/');
         cvc.ajaxGet = function () {
             $http.get("/api/admin/user/current")
@@ -22,25 +23,82 @@ angular
         }
 
         cvc.ajaxGet();
-        //$http.get("/api/admin/user/current")
-        //    .then(function (response) {
-        //        cvc.currentUser = response.data;
-        //    }).finally(function () {
-
-        //        cvc.show = contains(cvc.currentUser.roles);
-        //    });
+        
         this.tableParams = new NgTableParams({}, {
             getData: function (params) {
-                // ajax request to api
                 return Api.query(params.url()).$promise.then(function (data) {
                     return data;
                 });
             }
         });
-        
-        // Parodyt arvydui kad neveik servisas normaliai
-        //$scope.currentUser = Auth.getCurrentUser();
-        //window.alert($scope.currentUser.userName)
+
+        cvc.goToContest = function (id) {
+            for (var i = 0; i < cvc.tableParams.data.length; i++)
+            {
+                if (cvc.tableParams.data[i].id === id)
+                {
+                    var contest = cvc.tableParams.data[i]
+                }
+            }
+            if (contest.deletedAt != null) {
+                toastr.error("Contest is deleted");
+            } else {
+                $state.go('app.contests.one', { id: contest.id});
+            }
+        }
+
+        cvc.delete = function (id) {
+            var idMatch;
+            for (var i = 0; i < cvc.tableParams.data.length; i++) {
+                if (cvc.tableParams.data[i].id === id) {
+                    idMatch = i;
+                    
+                }
+            }
+            $http.post(deleteContestUrl + id)
+                .then(function (response) {
+                    toastr.success(response.data);
+                    var d = new Date();
+                    d.toISOString();
+                    cvc.tableParams.data[idMatch].deletedAt = d.toISOString();
+                }
+                , function (err) {
+                    toastr.error(err.data);
+                })
+                .finally(function () {
+                });
+        }
+
+        cvc.recover = function (id) {
+            var idMatch;
+            for (var i = 0; i < cvc.tableParams.data.length; i++) {
+                if (cvc.tableParams.data[i].id === id) {
+                    idMatch = i;
+                }
+            }
+            $http.post(recoverContestUrl + id)
+                .then(function (response) {
+                    toastr.success(response.data);
+                    cvc.tableParams.data[idMatch].deletedAt = null;
+                }
+                , function (err) {
+                    toastr.error(err.data);
+                })
+                .finally(function () {
+                });
+        }
+
+        cvc.changeStatus = function (value, contest) {
+            $http.post("/api/admin/contest/ChangeStatus/" + contest.id, value)
+                .then(function (response) {
+                    findAndReplace(cvc.tableParams.data, contest, value);
+                }
+                , function (err) { })
+                .finally(function () {
+
+                });
+
+        }
 
         var findAndReplace = function (arr,con,val) {
             for (var x in arr)
@@ -74,4 +132,4 @@ angular
             return false;
         } 
     }
-    ]);
+    );

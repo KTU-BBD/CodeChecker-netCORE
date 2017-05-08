@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Models.UserViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -101,6 +102,17 @@ namespace CodeChecker.Controllers.Api.Admin
             if (!User.IsInRole("Administrator") && currentUser.Id != profileUpdate.UserId)
             {
                 return BadRequest("Cannot update this user profile");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var modelStateValue in ModelState.Values)
+                {
+                    foreach (var error in modelStateValue.Errors)
+                    {
+                        return BadRequest(error.ErrorMessage);
+                    }
+                }
             }
 
             var result = await _uploadService.SavePicture(profileUpdate.Picture);

@@ -35,14 +35,14 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             if ((User.IsInRole("Administrator") || User.IsInRole("Moderator")))
             {
-                var contests = _contestRepo.GetPagedData(filterData);
+                var contests = _contestRepo.GetPagedDataIncludeDeleted(filterData);
                 if (contests != null)
                     return Ok(contests);
             }
             else
             {
                 var userId = _userManager.GetUserId(User);
-                var query = _contestRepo.Query().Where(c => c.Creator.Id == userId);
+                var query = _contestRepo.QueryDeleted().Where(c => c.Creator.Id == userId);
 
                 var contests = _contestRepo.GetPagedData(query, filterData);
 
@@ -156,7 +156,6 @@ namespace CodeChecker.Controllers.Api.Admin
             return Ok();
         }
 
-        [Authorize("CanEditContests")]
         [HttpPost("{id}")]
         public IActionResult DeleteContest(int id)
         {
@@ -166,11 +165,42 @@ namespace CodeChecker.Controllers.Api.Admin
                 var contest = _contestRepo.GetContestFull(id);
                 if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
-
+                    _contestRepo.Delete(contest);
+                    return Ok("Contest deleted");
                 }
-            }catch
-            return Ok();
+                else {
+                    return BadRequest("Unauthorized");
+                }
+            } catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
         }
         
+        [HttpPost("{id}")]
+        public IActionResult RecoverContest(int id)
+        {
+
+            try
+            {
+                var contest = _contestRepo.GetContestFullWithDeleted(id);
+                if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    _contestRepo.Recover(contest);
+                    _contestRepo.ResetStatus(contest);
+                    return Ok("Contest recovered");
+                }
+                else
+                {
+                    return BadRequest("Unauthorized");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
+        }
+        
+
     }
 }
