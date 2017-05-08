@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CodeChecker.Data;
@@ -11,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CodeChecker.Models.ServiceViewModels;
+using CodeChecker.Models.UserViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -22,7 +25,8 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly AssetRepository _assetRepo;
         private readonly ApplicationUserRepository _userRepo;
 
-        public UserController(UserManager<ApplicationUser> userManager, FileUploadService uploadService, ApplicationDbContext context, AssetRepository assetRepo, ApplicationUserRepository userRepo)
+        public UserController(UserManager<ApplicationUser> userManager, FileUploadService uploadService,
+            ApplicationDbContext context, AssetRepository assetRepo, ApplicationUserRepository userRepo)
         {
             _userManager = userManager;
             _uploadService = uploadService;
@@ -43,29 +47,152 @@ namespace CodeChecker.Controllers.Api.Admin
             return Ok(userViewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ChangeProfile(IFormFile file)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Get(string userId)
         {
-            var result = await _uploadService.SavePicture(file);
-            if (result != null)
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (!User.IsInRole("Administrator") && currentUser.Id != userId)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                user.ProfileImage = result;
-                await _userManager.UpdateAsync(user);
-
-                return Ok();
+                return BadRequest("No persmissions");
             }
 
-            return BadRequest();
+            var user = _context.Users
+                .Include(u => u.ProfileImage)
+                .First(u => u.Id == userId);
+
+            if (user != null)
+            {
+                var userViewModel = Mapper.Map<AdminPanelUserViewModel>(user);
+                userViewModel.Roles = await _userManager.GetRolesAsync(user);
+
+                return Ok(userViewModel);
+            }
+
+            return BadRequest("User does not exist");
         }
-        [HttpGet]
-        public IActionResult AllPaged([FromQuery] DataFilterViewModel filterData)
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeLock([FromBody] UserLockViewModel lockViewModel)
         {
+            if (!User.IsInRole("Administrator"))
+            {
+                return BadRequest("Cannot update this user profile");
+            }
+            var user = await _userManager.FindByIdAsync(lockViewModel.UserId);
+
+            if (lockViewModel.Lock)
+            {
+                await _userManager.SetLockoutEnabledAsync(user, true);
+                await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Now.AddYears(10));
+                await _userManager.UpdateSecurityStampAsync(user);
+
+                return Ok($"Locked user {user.UserName}");
+            }
+
+            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Now);
+            await _userManager.SetLockoutEnabledAsync(user, false);
+
+            return Ok($"Unlocked user {user.UserName}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeProfile(ProfileUpdateViewModel profileUpdate)
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (!User.IsInRole("Administrator") && currentUser.Id != profileUpdate.UserId)
+            {
+                return BadRequest("Cannot update this user profile");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var modelStateValue in ModelState.Values)
+                {
+                    foreach (var error in modelStateValue.Errors)
+                    {
+                        return BadRequest(error.ErrorMessage);
+                    }
+                }
+            }
+
+            var result = await _uploadService.SavePicture(profileUpdate.Picture);
+            var user = await _userManager.FindByIdAsync(profileUpdate.UserId);
+
+            if (user == null)
+            {
+                return BadRequest("User does not exist");
+            }
+
+            if (result != null)
+            {
+                user.ProfileImage = result;
+            }
+
+            Mapper.Map(profileUpdate, user);
+
+            var userCheck = _userRepo.GetByUsernameOrEmail(user.Id, profileUpdate.UserName, profileUpdate.Email);
+            if (userCheck != null)
+            {
+                if (userCheck.Email.Equals(profileUpdate.Email))
+                {
+                    return BadRequest("Email is already in use");
+                }
+
+                return BadRequest("Username is already in use");
+            }
+
+            await _userManager.UpdateAsync(user);
+
+            return Ok("Profile updated successfully");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeRole([FromBody]ChangeRoleViewModel roleData)
+        {
+            if (!User.IsInRole("Administrator"))
+            {
+                return BadRequest("No persmissions");
+            }
+
+            if (roleData.Role == "Administrator")
+            {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                if (currentUser.Id == roleData.UserId)
+                {
+                    return BadRequest("Cannot remove administrator role from yourself");
+                }
+            }
+
+            var user = _userRepo.GetById(roleData.UserId);
+
+            if (user == null)
+            {
+                return BadRequest("User does not exist");
+            }
+
+            if (await _userManager.IsInRoleAsync(user, roleData.Role))
+            {
+                await _userManager.RemoveFromRoleAsync(user, roleData.Role);
+                return Ok($"Removed role {roleData.Role} from user {user.UserName}");
+            }
+
+            await _userManager.AddToRoleAsync(user, roleData.Role);
+            return Ok($"Added role '{roleData.Role}' to user {user.UserName}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllPaged([FromQuery] DataFilterViewModel filterData)
+        {
+            if (!User.IsInRole("Administrator"))
+            {
+                return BadRequest("No persmissions");
+            }
+
             var users = _userRepo.GetPagedData(filterData);
             if (users != null)
                 return Ok(users);
-            else
-                return BadRequest();
+
+            return BadRequest();
         }
     }
 }
