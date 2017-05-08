@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CodeChecker.Data;
@@ -34,6 +36,11 @@ namespace CodeChecker.Tasks
             var solvedAll = true;
             var assignment = _context.Assignments.Include(a => a.Contest).Include(a => a.Inputs).ThenInclude(o => o.Output).FirstOrDefault(a => a.Id == codeAssignment.AssignmentId);
 
+            var submissionGroup = new SubmissionGroup();
+
+            _context.SubmissionGroups.Add(submissionGroup);
+            _context.SaveChanges();
+            int testNumber = 1;
             foreach (var assignmentInput in assignment.Inputs)
             {
                 var submission = new Submission()
@@ -41,7 +48,8 @@ namespace CodeChecker.Tasks
                     AssignmentId = codeAssignment.AssignmentId,
                     Code = codeAssignment.AssignmentSubmit.Code,
                     Language = codeAssignment.AssignmentSubmit.Language,
-                    UserId = codeAssignment.SubmiterId
+                    UserId = codeAssignment.SubmiterId,
+                    SubmissionGroup = submissionGroup,
                 };
 
                 try
@@ -63,23 +71,30 @@ namespace CodeChecker.Tasks
                     {
                         submission.Verdict = SubmissionVerdict.WrongAnser;
                         solvedAll = false;
-                        break;
                     }
                     else if (results.TimeSpent > assignment.TimeLimit)
                     {
                         submission.Verdict = SubmissionVerdict.TimeOverflow;
                         solvedAll = false;
-                        break;
                     }
                     else if (results.Verdict != "OK")
                     {
                         submission.Verdict = SubmissionVerdict.Error;
                         solvedAll = false;
+                    }
+
+                    if (!solvedAll)
+                    {
+                        submissionGroup.Verdict = submission.Verdict;
+                        submissionGroup.Message = $"Failed on test {testNumber}";
                         break;
                     }
+                    testNumber++;
                 }
                 catch (Exception e)
                 {
+                    submissionGroup.Verdict = SubmissionVerdict.ServerError;
+                    submissionGroup.Message = $"Failed on test {testNumber}";
                     Debug.WriteLine("Error while trying to submit code: " + e.Message);
                     solvedAll = false;
                 }
@@ -92,6 +107,9 @@ namespace CodeChecker.Tasks
 
             if (solvedAll)
             {
+                submissionGroup.Verdict = SubmissionVerdict.Success;
+                submissionGroup.Message = "Accepted";
+
                 assignment.SolvedCount++;
                 assignment.Contest.SuccessfulSubmit++;
                 _context.Update(assignment);
@@ -104,6 +122,7 @@ namespace CodeChecker.Tasks
             }
 
             _context.Update(assignment.Contest);
+            _context.Update(submissionGroup);
 
             _context.SaveChanges();
 

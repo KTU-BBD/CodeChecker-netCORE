@@ -264,6 +264,8 @@ namespace CodeChecker.Migrations
 
                     b.Property<string>("Output");
 
+                    b.Property<long>("SubmissionGroupId");
+
                     b.Property<int>("TimeMs");
 
                     b.Property<DateTime>("UpdatedAt");
@@ -276,9 +278,29 @@ namespace CodeChecker.Migrations
 
                     b.HasIndex("AssignmentId");
 
+                    b.HasIndex("SubmissionGroupId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Submissions");
+                });
+
+            modelBuilder.Entity("CodeChecker.Models.Models.SubmissionGroup", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("Message");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.Property<int>("Verdict");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubmissionGroups");
                 });
 
             modelBuilder.Entity("CodeChecker.Models.Models.Tag", b =>
@@ -475,6 +497,11 @@ namespace CodeChecker.Migrations
                     b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
                         .WithMany("Submissions")
                         .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CodeChecker.Models.Models.SubmissionGroup", "SubmissionGroup")
+                        .WithMany("Submissions")
+                        .HasForeignKey("SubmissionGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CodeChecker.Models.Models.ApplicationUser", "User")

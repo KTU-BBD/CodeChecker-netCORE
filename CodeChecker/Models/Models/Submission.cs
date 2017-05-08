@@ -13,6 +13,10 @@ namespace CodeChecker.Models.Models
         public Assignment Assignment { get; set; }
         public long AssignmentId { get; set; }
 
+        [ForeignKey("SubmissionGroupId")]
+        public SubmissionGroup SubmissionGroup { get; set; }
+        public long SubmissionGroupId { get; set; }
+
         public string Code { get; set; }
         public string Language { get; set; }
         public SubmissionVerdict Verdict { get; set; }

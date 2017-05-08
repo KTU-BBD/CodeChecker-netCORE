@@ -254,8 +254,6 @@ namespace CodeChecker.Migrations
 
                     b.Property<long?>("AssignmentId");
 
-                    b.Property<long?>("ContestId");
-
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Language");
@@ -271,8 +269,6 @@ namespace CodeChecker.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AssignmentId");
-
-                    b.HasIndex("ContestId");
 
                     b.HasIndex("UserId");
 
@@ -479,10 +475,6 @@ namespace CodeChecker.Migrations
                     b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
                         .WithMany("Submissions")
                         .HasForeignKey("AssignmentId");
-
-                    b.HasOne("CodeChecker.Models.Models.Contest", "Contest")
-                        .WithMany()
-                        .HasForeignKey("ContestId");
 
                     b.HasOne("CodeChecker.Models.Models.ApplicationUser", "User")
                         .WithMany()

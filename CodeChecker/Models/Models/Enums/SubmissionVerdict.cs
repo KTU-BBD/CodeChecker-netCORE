@@ -7,5 +7,7 @@
         WrongAnser,
         TimeOverflow,
         MemoryOverflow,
+        Running,
+        ServerError,
     }
 }
