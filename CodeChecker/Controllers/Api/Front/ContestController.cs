@@ -63,6 +63,11 @@ namespace CodeChecker.Controllers.Api.Front
                 return BadRequest("Contest not found");
             }
 
+            if (contest.StartAt > DateTime.Now)
+            {
+                return BadRequest("Contest is not started yet");
+            }
+
             if (currentUser != null)
             {
                 foreach (var participant in currentUser.ContestParticipants)

@@ -18,7 +18,19 @@ namespace CodeChecker.Models.Repositories
 
         public IEnumerable<Contest> GetActiveContestPagedData(DataFilterViewModel filterData)
         {
-            return GetPagedData(filterData)
+            return GetActivePagedData(ContestType.Contest, filterData);
+        }
+
+        public IEnumerable<Contest> GetActiveGymPagedData(DataFilterViewModel filterData)
+        {
+            return GetActivePagedData(ContestType.Gym, filterData);
+        }
+
+        private IEnumerable<Contest> GetActivePagedData(ContestType type, DataFilterViewModel filterData)
+        {
+            var query = Query().Where(c => c.EndAt > DateTime.Now && c.Type == type);
+
+            return GetPagedData(query, filterData)
                 .Include(c => c.Creator)
                 .Include(c => c.ContestParticipants);
         }
@@ -40,10 +52,20 @@ namespace CodeChecker.Models.Repositories
 
         public Contest GetContestWithAssignments(long contestId)
         {
+            return GetContestWithAssignmentsByType(contestId, ContestType.Contest);
+        }
+
+        public Contest GetGymWithAssignments(long contestId)
+        {
+            return GetContestWithAssignmentsByType(contestId, ContestType.Gym);
+        }
+
+        private Contest GetContestWithAssignmentsByType(long contestId, ContestType type)
+        {
             return Query()
                     .Include(c => c.ContestParticipants)
                     .Include(c => c.Assignments)
-                    .FirstOrDefault(c => c.Id == contestId)
+                    .FirstOrDefault(c => c.Id == contestId && c.Type == type)
                 ;
         }
 

@@ -5,6 +5,7 @@
         .controller("contestController", function (NgTableParams, $http, $resource, $scope, toastr, $uibModal, $uibModalStack) {
             var apiUrl = "/api/front/contest/all";
             var _self = this;
+            $scope.currentTime = new Date();
 
 
             $scope.tableParams = new NgTableParams({}, {
@@ -18,6 +19,10 @@
                     });
                 }
             });
+
+            $scope.openContest = function(contestId) {
+                $('#contest-' + contestId + ' .disabled').removeClass('disabled');
+            };
 
             $scope.close = function() {
 

@@ -14,5 +14,6 @@ namespace CodeChecker.Models.ContestViewModels
         public UserViewModel Creator { get; set; }
         public bool Joined { get; set; }
         public bool IsPublic { get; set; }
+        public bool IsStarted { get; set; }
     }
 }

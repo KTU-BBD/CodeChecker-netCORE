@@ -1,17 +1,12 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CodeChecker.Data;
-using CodeChecker.Models.AssignmentViewModels;
+using CodeChecker.Models.ContestViewModels;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
-using CodeChecker.Models.SubmissionViewModels;
-using CodeChecker.Services.CodeSubmit;
-using CodeChecker.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,65 +14,116 @@ namespace CodeChecker.Controllers.Api.Front
 {
     public class GymController : FrontBaseController
     {
+        private readonly ContestRepository _contestRepo;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly AssignmentRepository _assignmentRepo;
+        private readonly ContestParticipantRepository _contestParticipantRepo;
         private readonly ApplicationUserRepository _userRepo;
-        private readonly SubmissionRepository _submissionRepo;
-        private readonly CodeTestTask _codeTestTask;
 
-        public GymController(UserManager<ApplicationUser> userManager, AssignmentRepository assignmentRepo, ApplicationUserRepository userRepo, SubmissionRepository submissionRepo, CodeTestTask codeTestTask)
+        public GymController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
+            ApplicationDbContext context, ContestParticipantRepository contestParticipantRepo,
+            ApplicationUserRepository userRepo)
         {
+            _contestRepo = contestRepo;
             _userManager = userManager;
-            _assignmentRepo = assignmentRepo;
+            _contestParticipantRepo = contestParticipantRepo;
             _userRepo = userRepo;
-            _submissionRepo = submissionRepo;
-            _codeTestTask = codeTestTask;
         }
 
-        [HttpGet]
-        public IActionResult All([FromQuery] DataFilterViewModel filterData)
+        [HttpGet("")]
+        public async Task<IActionResult> All([FromQuery] DataFilterViewModel filterData)
         {
-            var results = _assignmentRepo.GetGymAssignments(filterData);
+            var contests = _contestRepo.GetActiveGymPagedData(filterData);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            return Ok(Mapper.Map<IEnumerable<Assignment>>(results));
-        }
-
-        [HttpGet("{taskId}")]
-        public IActionResult Get(long taskId)
-        {
-            var assignment = _assignmentRepo.GetByIdWithContest(taskId);
-
-            if (assignment == null)
+            if (user != null)
             {
-                return BadRequest("Assignment not found");
+                foreach (var contest in contests)
+                {
+                    foreach (var participant in contest.ContestParticipants)
+                    {
+                        if (participant.UserId == user.Id)
+                        {
+                            contest.Joined = true;
+                        }
+                    }
+                }
             }
 
-            var mappedAssignment = Mapper.Map<AssignmentViewModel>(assignment);
+            return Ok(Mapper.Map<IEnumerable<ContestViewModel>>(contests));
+        }
 
-            return Ok(mappedAssignment);
+        [HttpGet("{contestId}")]
+        public async Task<IActionResult> Get(long contestId)
+        {
+            var currentUser = _userRepo.GetUserWithContest(await GetCurrentUserAsync());
+            var contest = _contestRepo.GetGymWithAssignments(contestId);
+
+            if (contest == null)
+            {
+                return BadRequest("Gym not found");
+            }
+
+            if (contest.StartAt > DateTime.Now)
+            {
+                return BadRequest("Gym is not started yet");
+            }
+
+            if (currentUser != null)
+            {
+                foreach (var participant in currentUser.ContestParticipants)
+                {
+                    if (participant.ContestId == contest.Id)
+                    {
+                        return Ok(Mapper.Map<ContestWithAssignmentViewModel>(contest));
+                    }
+                }
+            }
+            else
+            {
+                return BadRequest("You need to log in to view gym");
+            }
+
+            return BadRequest("You cannot view this gym");
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Submit([FromBody] AssignmentSubmitViewModel assignmentSubmit)
+        public async Task<IActionResult> Join([FromBody] ContestJoinViewModel contestData)
         {
-            var currentUser = _userRepo.GetUserWithContest(await GetCurrentUserAsync());
-            var assignment = _assignmentRepo.GetByIdWithInputsOutputs(assignmentSubmit.AssignmentId);
+            var contest = _contestRepo.Get(contestData.ContestId);
+            var user = await GetCurrentUserAsync();
 
-            if (assignment == null)
+            if (contest == null)
             {
-                return BadRequest("Assignment not found");
+                return NotFound("Gym not found");
             }
 
-            _codeTestTask.Run(new CodeAssignmentViewModel
+            if (user == null)
             {
-                AssignmentSubmit = assignmentSubmit,
-                Assignment = assignment,
-                Contest = assignment.Contest,
-                Submiter = currentUser
-            });
+                return BadRequest("You need to login to join gym");
+            }
 
-            return Ok();
+            //Investigate how to avoid errors in console, when trying to join
+            try
+            {
+                if (string.IsNullOrEmpty(contest.Password) || contest.Password.Equals(contestData.Password))
+                {
+                    _contestParticipantRepo.Insert(new ContestParticipant
+                    {
+                        Contest = contest,
+                        User = user
+                    });
+                }
+                else
+                {
+                    return BadRequest("Bad gym password provided");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Cannot join same gym twice");
+            }
+
+            return Ok("Joined gym successfully");
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync()

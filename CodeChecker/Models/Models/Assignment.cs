@@ -17,5 +17,6 @@ namespace CodeChecker.Models.Models
         public int MaxPoints { get; set; }
         public ICollection<Input> Inputs { get; set; }
         public ICollection<Submission> Submissions { get; set; }
+        public ICollection<AssignmentTag> AssignmentTags { get; set; }
     }
 }

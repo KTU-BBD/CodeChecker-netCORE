@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Models.DatabaseSeeders
 {
-    public class TaskSeeder
+    public class AssignmentSeeder
     {
         public ApplicationDbContext _context { get; set; }
 
-        public TaskSeeder(ApplicationDbContext context)
+        public AssignmentSeeder(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,6 +23,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             }
 
             var contests = _context.Contests.Include(c => c.Creator).ToList();
+            var tags = _context.Tags.ToList();
             foreach (var contest in contests)
             {
 
@@ -44,6 +45,17 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                     };
 
                     _context.Assignments.Add(assignment);
+                    _context.SaveChanges();
+
+                    for (int j = 0; j < new Random().Next(1,4); j++)
+                    {
+                        _context.AssignmentTags.Add(new AssignmentTag()
+                        {
+                            Assignment = assignment,
+                            Tag = tags[new Random().Next(4, tags.Count - 4) + j]
+                        });
+                    }
+
                     _context.SaveChanges();
                 }
             }

@@ -74,6 +74,8 @@ namespace CodeChecker.Controllers.Api.Front
         [HttpPost]
         public async Task<IActionResult> Submit([FromBody] AssignmentSubmitViewModel assignmentSubmit)
         {
+            //TODO Implemenet feature to calculate points
+            //TODO AND DO NOT FORGET TO IGNORE GYM POINTS
             var currentUser = _userRepo.GetUserWithContest(await GetCurrentUserAsync());
 
             if (currentUser == null)

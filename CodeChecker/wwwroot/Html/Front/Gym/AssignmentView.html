@@ -1,0 +1,30 @@
+<div class="content">
+    <h3 class="text-center">{{assignment.name}}</h3>
+    <hr>
+    <div class="description" ng-bind-html="assignment.description"></div>
+    <hr>
+    <h3>Submit code</h3>
+    <div class="form-group row">
+        <label class="col-md-3 form-control-label">Programming language</label>
+        <div class="col-md-9">
+        <select ng-model="task.language" name="select" class="form-control form-control-sm">
+                <option ng-selected="true" value="PYT">Python</option>
+                <option disabled>C++</option>
+                <option disabled>C#</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-3 form-control-label">Script code</label>
+        <div class="col-md-9">
+            <div data-ng-model="task.code" ui-ace></div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-12 text-right">
+            <button data-ng-click="sendCode()" ng-disabled="sendDisabled" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+        </div>
+    </div>
+
+    <hr>
+</div>
