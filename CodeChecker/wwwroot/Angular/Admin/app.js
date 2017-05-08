@@ -24,7 +24,8 @@ angular
         'froala',
         'ui.bootstrap.datetimepicker',
         'toastr',
-        "ui.bootstrap"
+        "ui.bootstrap",
+        "colourise"
     ])
     .service('Auth', function($resource, $rootScope) {
         this.getCurrentUser = function() {

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Models.DatabaseSeeders
 {
-    public class TaskResultSeeder
+    public class AssignmentResultSeeder
     {
         public ApplicationDbContext _context { get; set; }
 
-        public TaskResultSeeder(ApplicationDbContext context)
+        public AssignmentResultSeeder(ApplicationDbContext context)
         {
             _context = context;
         }

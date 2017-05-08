@@ -1,5 +1,5 @@
 ﻿<div class="content">
-    <h2>Upcomming contests</h2>
+    <h2>Upcomming gym contests</h2>
     <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
         <tr ng-repeat="row in $data track by row.id" id="contest-{{row.id}}">
             <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
@@ -10,7 +10,7 @@
             <td data-title="'Length'">{{row.endAt | amDifference : row.startAt | amDateFormat : 'hh:mm'}}</td>
             <td>
                 <button ng-show="!row.joined" class="btn btn-success join" ng-disabled="row.joined" ng-click="joinContest(row.id, row.isPublic)">Join contest</button>
-                <a class="btn btn-info enter" ng-class="{disabled: !row.isStarted}" ng-show="row.joined" ng-href="Contest#!/{{row.id}}">View contest</a>
+                <a class="btn btn-info enter" ng-class="{disabled: !row.isStarted}" ng-show="row.joined" ng-href="Gym#!/{{row.id}}">View contest</a>
             </td>
 
         </tr>

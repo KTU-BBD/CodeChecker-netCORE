@@ -39,7 +39,7 @@ namespace CodeChecker.Data
                 .WithOne(i => i.Input)
                 .HasForeignKey<Output>(b => b.InputId);
 
-
+            //Contest participants
             modelBuilder.Entity<ContestParticipant>()
                 .HasKey(x => new {x.ContestId, x.UserId});
 
@@ -52,6 +52,21 @@ namespace CodeChecker.Data
                 .HasOne(cc => cc.User)
                 .WithMany(c => c.ContestParticipants)
                 .HasForeignKey(cc => cc.UserId);
+
+
+            //Assignment tags
+            modelBuilder.Entity<AssignmentTag>()
+                .HasKey(x => new {x.AssignmentId, x.TagId});
+
+            modelBuilder.Entity<AssignmentTag>()
+                .HasOne(cc => cc.Assignment)
+                .WithMany(c => c.AssignmentTags)
+                .HasForeignKey(cc => cc.AssignmentId);
+
+            modelBuilder.Entity<AssignmentTag>()
+                .HasOne(cc => cc.Tag)
+                .WithMany(c => c.AssignmentTags)
+                .HasForeignKey(cc => cc.TagId);
 
 
 

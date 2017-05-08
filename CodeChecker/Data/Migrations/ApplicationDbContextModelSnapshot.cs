@@ -112,8 +112,6 @@ namespace CodeChecker.Migrations
 
                     b.Property<string>("CreatorId");
 
-                    b.Property<DateTime>("DeletedAt");
-
                     b.Property<string>("Description");
 
                     b.Property<string>("InputType");
@@ -145,16 +143,11 @@ namespace CodeChecker.Migrations
 
             modelBuilder.Entity("CodeChecker.Models.Models.AssignmentTag", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<long>("AssignmentId");
 
-                    b.Property<long?>("AssignmentId");
+                    b.Property<long>("TagId");
 
-                    b.Property<long?>("TagId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssignmentId");
+                    b.HasKey("AssignmentId", "TagId");
 
                     b.HasIndex("TagId");
 
@@ -185,6 +178,8 @@ namespace CodeChecker.Migrations
                     b.Property<int>("Status");
 
                     b.Property<int>("SuccessfulSubmit");
+
+                    b.Property<int>("Type");
 
                     b.Property<int>("UnsuccessfulSubmit");
 
@@ -428,12 +423,14 @@ namespace CodeChecker.Migrations
             modelBuilder.Entity("CodeChecker.Models.Models.AssignmentTag", b =>
                 {
                     b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
-                        .WithMany()
-                        .HasForeignKey("AssignmentId");
+                        .WithMany("AssignmentTags")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CodeChecker.Models.Models.Tag", "Tag")
-                        .WithMany()
-                        .HasForeignKey("TagId");
+                        .WithMany("AssignmentTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CodeChecker.Models.Models.Contest", b =>

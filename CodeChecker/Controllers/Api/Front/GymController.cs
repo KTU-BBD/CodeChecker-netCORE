@@ -12,14 +12,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeChecker.Controllers.Api.Front
 {
-    public class ContestController : FrontBaseController
+    public class GymController : FrontBaseController
     {
         private readonly ContestRepository _contestRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ContestParticipantRepository _contestParticipantRepo;
         private readonly ApplicationUserRepository _userRepo;
 
-        public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
+        public GymController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
             ApplicationDbContext context, ContestParticipantRepository contestParticipantRepo,
             ApplicationUserRepository userRepo)
         {
@@ -32,7 +32,7 @@ namespace CodeChecker.Controllers.Api.Front
         [HttpGet("")]
         public async Task<IActionResult> All([FromQuery] DataFilterViewModel filterData)
         {
-            var contests = _contestRepo.GetActiveContestPagedData(filterData);
+            var contests = _contestRepo.GetActiveGymPagedData(filterData);
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
             if (user != null)
@@ -56,16 +56,16 @@ namespace CodeChecker.Controllers.Api.Front
         public async Task<IActionResult> Get(long contestId)
         {
             var currentUser = _userRepo.GetUserWithContest(await GetCurrentUserAsync());
-            var contest = _contestRepo.GetContestWithAssignments(contestId);
+            var contest = _contestRepo.GetGymWithAssignments(contestId);
 
             if (contest == null)
             {
-                return BadRequest("Contest not found");
+                return BadRequest("Gym not found");
             }
 
             if (contest.StartAt > DateTime.Now)
             {
-                return BadRequest("Contest is not started yet");
+                return BadRequest("Gym is not started yet");
             }
 
             if (currentUser != null)
@@ -80,10 +80,10 @@ namespace CodeChecker.Controllers.Api.Front
             }
             else
             {
-                return BadRequest("You need to log in to view contest");
+                return BadRequest("You need to log in to view gym");
             }
 
-            return BadRequest("You cannot view this contest");
+            return BadRequest("You cannot view this gym");
         }
 
         [HttpPost]
@@ -94,12 +94,12 @@ namespace CodeChecker.Controllers.Api.Front
 
             if (contest == null)
             {
-                return NotFound("Contest not found");
+                return NotFound("Gym not found");
             }
 
             if (user == null)
             {
-                return BadRequest("You need to login to join contest");
+                return BadRequest("You need to login to join gym");
             }
 
             //Investigate how to avoid errors in console, when trying to join
@@ -115,15 +115,15 @@ namespace CodeChecker.Controllers.Api.Front
                 }
                 else
                 {
-                    return BadRequest("Bad contest password provided");
+                    return BadRequest("Bad gym password provided");
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest("Cannot join same contest twice");
+                return BadRequest("Cannot join same gym twice");
             }
 
-            return Ok("Joined contest successfully");
+            return Ok("Joined gym successfully");
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync()

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CodeChecker.Models.Models
 {
@@ -13,11 +12,11 @@ namespace CodeChecker.Models.Models
         public string InputType { get; set; }
         public string OutputType { get; set; }
         public ApplicationUser Creator { get; set; }
-        public DateTime DeletedAt { get; set; }
         public bool IsActive { get; set; }
         public int SolvedCount { get; set; }
         public int MaxPoints { get; set; }
         public ICollection<Input> Inputs { get; set; }
         public ICollection<Submission> Submissions { get; set; }
+        public ICollection<AssignmentTag> AssignmentTags { get; set; }
     }
 }

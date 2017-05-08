@@ -129,15 +129,22 @@ namespace CodeChecker
                 cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, ProfileUpdateViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserProfileViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, PersonalProfileViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, PersonalProfileUpdateViewModel>().ReverseMap();
                 cfg.CreateMap<Asset, AssetProfileViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, CreateContestViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, ViewContestViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, ContestViewModel>()
-                    .ForMember(c => c.IsPublic, o => o.MapFrom(src => string.IsNullOrEmpty(src.Password))).ReverseMap();
+                    .ForMember(c => c.IsPublic, o => o.MapFrom(src => string.IsNullOrEmpty(src.Password)))
+                    .ForMember(c => c.IsStarted, o => o.MapFrom(src => src.StartAt < DateTime.Now))
+
+
+                    .ReverseMap();
                 cfg.CreateMap<Contest, ContestWithAssignmentViewModel>();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, EditContestGetViewModel>().ReverseMap();
                 cfg.CreateMap<Contest, EditContestPostViewModel>().ReverseMap();
+                cfg.CreateMap<Assignment, EditAssignmentGetViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, EditAssignmentGetViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, EditAssignmentPostViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
