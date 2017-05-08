@@ -133,10 +133,8 @@ namespace CodeChecker.Controllers.Api.Admin
                         _contestRepo.Update(updated);
                         return Ok(Mapper.Map<EditContestPostViewModel>(updated));
                     }
-                    else
-                    {
-                        return Unauthorized();
-                    }
+
+                    return Unauthorized();
             }
                 catch (Exception ex)
                 {

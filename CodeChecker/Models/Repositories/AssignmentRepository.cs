@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using CodeChecker.Data;
 using CodeChecker.Models.Models;
+using CodeChecker.Models.Models.Enums;
 using CodeChecker.Models.ServiceViewModels;
+using Microsoft.AspNetCore.Server.Kestrel.Internal.Networking;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Repositories
@@ -18,13 +20,13 @@ namespace CodeChecker.Models.Repositories
         {
             return base.Query()
                     .Include(c => c.Contest)
-                    .Where(c => c.Contest.DeletedAt == null && c.Contest.StartAt <= DateTime.Now)
+                    .Where(c => c.Contest.DeletedAt == null)
                 ;
         }
 
         public IEnumerable<Assignment> GetGymAssignments(DataFilterViewModel filter)
         {
-            var query = Query().Where(c => c.Contest.EndAt < DateTime.Now);
+            var query = Query().Where(c => c.Contest.EndAt < DateTime.Now || c.Contest.Type == ContestType.Gym);
 
             return GetPagedData(query, filter);
         }
@@ -41,6 +43,7 @@ namespace CodeChecker.Models.Repositories
                 .Include(a => a.Inputs)
                 .ThenInclude(a => a.Output)
                 .Include(a => a.Creator)
+                .AsNoTracking()
                 .FirstOrDefault(a => a.Id == id);
         }
 

@@ -18,17 +18,16 @@ namespace CodeChecker.Models.Repositories
 
         public IEnumerable<Contest> GetActiveContestPagedData(DataFilterViewModel filterData)
         {
-            return GetActivePagedData(ContestType.Contest, filterData);
+            var query = Query().Where(c => c.EndAt > DateTime.Now && c.Type == ContestType.Contest);
+
+            return GetPagedData(query, filterData)
+                .Include(c => c.Creator)
+                .Include(c => c.ContestParticipants);
         }
 
         public IEnumerable<Contest> GetActiveGymPagedData(DataFilterViewModel filterData)
         {
-            return GetActivePagedData(ContestType.Gym, filterData);
-        }
-
-        private IEnumerable<Contest> GetActivePagedData(ContestType type, DataFilterViewModel filterData)
-        {
-            var query = Query().Where(c => c.EndAt > DateTime.Now && c.Type == type);
+            var query = Query().Where(c => c.EndAt < DateTime.Now || c.Type == ContestType.Gym);
 
             return GetPagedData(query, filterData)
                 .Include(c => c.Creator)
@@ -62,21 +61,18 @@ namespace CodeChecker.Models.Repositories
 
         public Contest GetContestWithAssignments(long contestId)
         {
-            return GetContestWithAssignmentsByType(contestId, ContestType.Contest);
+            return Query()
+                .Include(c => c.ContestParticipants)
+                .Include(c => c.Assignments)
+                .FirstOrDefault(c => c.Id == contestId && c.Type == ContestType.Contest && c.StartAt < DateTime.Now);
         }
 
         public Contest GetGymWithAssignments(long contestId)
         {
-            return GetContestWithAssignmentsByType(contestId, ContestType.Gym);
-        }
-
-        private Contest GetContestWithAssignmentsByType(long contestId, ContestType type)
-        {
-            return Query()
-                    .Include(c => c.ContestParticipants)
-                    .Include(c => c.Assignments)
-                    .FirstOrDefault(c => c.Id == contestId && c.Type == type)
-                ;
+           return Query()
+                .Include(c => c.ContestParticipants)
+                .Include(c => c.Assignments)
+                .FirstOrDefault(c => c.Id == contestId && (c.Type == ContestType.Gym || c.EndAt < DateTime.Now));
         }
 
         public Contest GetContestFull(long contestId)

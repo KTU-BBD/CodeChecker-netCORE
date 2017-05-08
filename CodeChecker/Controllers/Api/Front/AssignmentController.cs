@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using CodeChecker.Data;
 using CodeChecker.Models.AssignmentViewModels;
 using CodeChecker.Models.Models;
+using CodeChecker.Models.Models.Enums;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Models.SubmissionViewModels;
@@ -21,8 +24,9 @@ namespace CodeChecker.Controllers.Api.Front
         private readonly AssignmentRepository _assignmentRepo;
         private readonly ApplicationUserRepository _userRepo;
         private readonly SubmissionRepository _submissionRepo;
-        private readonly CodeSubmitService _codeSubmitService;
-        private readonly CodeTestTask _codeTestTask;
+        private CodeSubmitService _codeSubmitService;
+        private CodeTestTask _codeTestTask;
+        private ApplicationDbContext _context;
 
         public AssignmentController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
             ApplicationDbContext context, ContestParticipantRepository contestParticipantRepo,
@@ -37,18 +41,12 @@ namespace CodeChecker.Controllers.Api.Front
             _codeSubmitService = codeSubmitService;
             _submissionRepo = submissionRepo;
             _codeTestTask = codeTestTask;
+            _context = context;
         }
 
         [HttpGet("{taskId}")]
         public async Task<IActionResult> Get(long taskId)
         {
-            var currentUser = _userRepo.GetUserWithContest(await GetCurrentUserAsync());
-
-            if (currentUser == null)
-            {
-                return BadRequest("You need to login to submit task");
-            }
-
             var assignment = _assignmentRepo.GetByIdWithContest(taskId);
 
             if (assignment == null)
@@ -56,12 +54,35 @@ namespace CodeChecker.Controllers.Api.Front
                 return BadRequest("Assignment not found");
             }
 
+            var currentUser = await GetCurrentUserAsync();
+
+
+            if (assignment.Contest.Type == ContestType.Gym || assignment.Contest.EndAt < DateTime.Now)
+            {
+                var mappedAssignment = Mapper.Map<AssignmentViewModel>(assignment);
+                if (currentUser != null)
+                {
+                    var lastSubmission = _submissionRepo.GetLastUserSubmissionInContest(currentUser, assignment);
+                    mappedAssignment.LastSubmission = Mapper.Map<LastSubmissionViewModel>(lastSubmission);
+                }
+
+                return Ok(mappedAssignment);
+            }
+
+            var userWithContests = _userRepo.GetUserWithContest(currentUser);
+
+            if (userWithContests == null)
+            {
+                return BadRequest("You need to login to submit task");
+            }
+
+
             foreach (var participant in assignment.Contest.ContestParticipants)
             {
-                if (participant.UserId == currentUser.Id)
+                if (participant.UserId == userWithContests.Id)
                 {
                     var mappedAssignment = Mapper.Map<AssignmentViewModel>(assignment);
-                    var lastSubmission = _submissionRepo.GetLastUserSubmissionInContest(currentUser, assignment);
+                    var lastSubmission = _submissionRepo.GetLastUserSubmissionInContest(userWithContests, assignment);
                     mappedAssignment.LastSubmission = Mapper.Map<LastSubmissionViewModel>(lastSubmission);
 
                     return Ok(mappedAssignment);
@@ -76,26 +97,47 @@ namespace CodeChecker.Controllers.Api.Front
         {
             //TODO Implemenet feature to calculate points
             //TODO AND DO NOT FORGET TO IGNORE GYM POINTS
-            var currentUser = _userRepo.GetUserWithContest(await GetCurrentUserAsync());
 
+            var currentUser = await GetCurrentUserAsync();
             if (currentUser == null)
+            {
+                return BadRequest("You need to login to submit code");
+            }
+
+            var userWithContest = _userRepo.GetUserWithContest(currentUser);
+
+            if (userWithContest == null)
             {
                 return BadRequest("You need to login to submit task");
             }
 
-            var assignment = _assignmentRepo.GetByIdWithInputsOutputs(assignmentSubmit.AssignmentId);
 
+            var assignment = _assignmentRepo.GetByIdWithInputsOutputs(assignmentSubmit.AssignmentId);
             if (assignment == null)
             {
                 return BadRequest("Assignment not found");
             }
 
+            var canSubmit = false;
+            foreach (var contest in userWithContest.ContestParticipants)
+            {
+                if (contest.ContestId == assignment.Contest.Id)
+                {
+                    canSubmit = true;
+                    break;
+                }
+            }
+
+            if (assignment.Contest.Type != ContestType.Gym && assignment.Contest.EndAt > DateTime.Now && !canSubmit)
+            {
+                return BadRequest("You can't submit your code");
+            }
+
             _codeTestTask.Run(new CodeAssignmentViewModel()
             {
                 AssignmentSubmit = assignmentSubmit,
-                Assignment = assignment,
-                Contest = assignment.Contest,
-                Submiter = currentUser
+                AssignmentId = assignment.Id,
+                SubmiterId = userWithContest.Id
             });
 
             return Ok();

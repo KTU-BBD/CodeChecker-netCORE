@@ -2,11 +2,10 @@
     <h2>Upcomming contests</h2>
     <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
         <tr ng-repeat="row in $data track by row.id" id="contest-{{row.id}}">
-            <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
             <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'">{{row.name}}</td>
             <td data-title="'Creator'" filter="{'Creator.UserName': 'text'}" sortable="'Creator.UserName'"><span colourise="{{row.creator.rating}}">{{row.creator.userName}}</span></td>
             <td data-title="'Starts at'" sortable="'StartAt'">{{row.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</td>
-            <td data-title="'Time left'"><timer end-time="row.startAt" finish-callback="openContest(row.id)">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer></td>
+            <td data-title="'Time left'"><timer end-time="row.startAt" finish-callback="openContest(row.id)">{{days}} d, {{hhours}}:{{mminutes}}:{{sseconds}}</timer></td>
             <td data-title="'Length'">{{row.endAt | amDifference : row.startAt | amDateFormat : 'hh:mm'}}</td>
             <td>
                 <button ng-show="!row.joined" class="btn btn-success join" ng-disabled="row.joined" ng-click="joinContest(row.id, row.isPublic)">Join contest</button>
