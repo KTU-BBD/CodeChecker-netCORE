@@ -4,7 +4,8 @@
 
             <div class="card">
                 <div class="card-header">
-                    <strong>Contests</strong>
+                    <div class="col-md-10 col-md-pull-2 pull-left"><strong>Contests</strong></div>
+                    <div class="col-md-2 pull-left"><button ng-click="contest.createContest()" class="col-md-12 btn btn-sm btn-primary">Create Contest</button></div>
                 </div>
                 <div class="card-block">
                     <table ng-table="contest.tableParams" class="table table-bordered table-striped table-condensed">
@@ -22,7 +23,8 @@
                             <td data-title="'Ends At'" sortable="'EndAt'">{{row.endAt}}</td>
                             <td data-title="'Updated At'" sortable="'UpdatedAt'">{{row.updatedAt}}</td>
                             <td data-title="'Deleted'" sortable="'DeletedAt'">
-                                <div ng-if="row.deletedAt"><button ng-click="contest.recover(row.id)" type="button" class="btn btn-outline-success col-md-12">Recover</button></div>
+                                <div ng-if="contest.show && row.deletedAt"><button ng-click="contest.recover(row.id)" type="button" class="btn btn-outline-success col-md-12">Recover</button></div>
+                                <div ng-if="!contest.show && row.deletedAt"><button ng-click="contest.recover(row.id)" type="button" class="btn btn-outline-danger col-md-12" disabled>Deleted</button></div>
                                 <div ng-if="!row.deletedAt"><button ng-click="contest.delete(row.id)" type="button" class="btn btn-outline-danger col-md-12">Delete</button></div>
                             </td>
                         </tr>

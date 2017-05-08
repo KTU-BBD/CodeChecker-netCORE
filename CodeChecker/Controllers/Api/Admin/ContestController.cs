@@ -58,24 +58,23 @@ namespace CodeChecker.Controllers.Api.Admin
         [HttpPost("")]
         public IActionResult Create([FromBody] CreateContestViewModel contest)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var newContest = Mapper.Map<Contest>(contest);
-                _contestRepo.Insert(newContest);
-
-                var assignedUsers = _userRepo.GetById(contest.Creator);
-
-                if (assignedUsers == null)
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError("Creators", "Need atleast one creator");
-                    return BadRequest(ModelState);
+                    var newContest = Mapper.Map<Contest>(contest);
+
+                    var assignedUser = _userRepo.GetById(_userManager.GetUserId(User));
+                    newContest.Creator = assignedUser;
+                    _contestRepo.Insert(newContest);
+                    return Ok(newContest.Id);
                 }
-
-
-                return Ok();
+                return BadRequest("Name or password are not valid");
             }
+            catch (Exception ex) {
 
-            return BadRequest(ModelState);
+                return BadRequest("Error");
+            }
         }
 
         [HttpGet("{id}")]
@@ -106,6 +105,7 @@ namespace CodeChecker.Controllers.Api.Admin
                 var contest = _contestRepo.GetContestFull(id);
                 if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
+                    contest.Assignments = contest.Assignments.OrderByDescending(x => x.Id).ToList();
                     var contestToReturn = Mapper.Map<EditContestGetViewModel>(contest);
                     return Ok(contestToReturn);
                 }
@@ -128,9 +128,13 @@ namespace CodeChecker.Controllers.Api.Admin
                     var contest = _contestRepo.GetContestFull(updatedContest.Id);
                     if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                     {
+                    
                         var updated = Mapper.Map(updatedContest, contest);
-
-                        _contestRepo.Update(updated);
+                        if (User.IsInRole("Contributor"))
+                        {
+                        updated.Status = contest.Status;
+                        }
+                    _contestRepo.Update(updated);
                         return Ok(Mapper.Map<EditContestPostViewModel>(updated));
                     }
                     else
@@ -184,7 +188,7 @@ namespace CodeChecker.Controllers.Api.Admin
             try
             {
                 var contest = _contestRepo.GetContestFullWithDeleted(id);
-                if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
                     _contestRepo.Recover(contest);
                     _contestRepo.ResetStatus(contest);

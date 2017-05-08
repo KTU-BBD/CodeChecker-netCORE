@@ -18,7 +18,7 @@ namespace CodeChecker.Models.Repositories
         {
             return base.Query()
                     .Include(c => c.Contest)
-                    .Where(c => c.Contest.DeletedAt == null && c.Contest.StartAt <= DateTime.Now)
+                    .Where(c => c.Contest.DeletedAt == null)
                 ;
         }
 
@@ -27,6 +27,13 @@ namespace CodeChecker.Models.Repositories
             var query = Query().Where(c => c.Contest.EndAt < DateTime.Now);
 
             return GetPagedData(query, filter);
+        }
+
+        public IQueryable<Assignment> QueryAll()
+        {
+            return base.Query()
+                    .Include(c => c.Contest)
+                ;
         }
 
         public Assignment GetById(long id)

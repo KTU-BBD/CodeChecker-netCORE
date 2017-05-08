@@ -1,0 +1,18 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Enter contest password</h3>
+</div>
+
+<form name="contestPassword" class="css-form" novalidate>
+    <div class="modal-body" id="modal-body">
+        <div class="input-group">
+            <input type="text" class="form-control" required tabindex="1" id="name" data-ng-model="name" placeholder="Contest name" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group">
+            <input type="text" class="form-control" required tabindex="1" id="password" data-ng-model="password" placeholder="Contest password" aria-describedby="basic-addon1">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="Submit" data-ng-click="submit()">
+        <button class="btn btn-warning" type="button" data-ng-click="close()">Cancel</button>
+    </div>
+</form>
