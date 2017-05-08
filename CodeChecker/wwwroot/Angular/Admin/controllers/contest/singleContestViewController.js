@@ -5,7 +5,7 @@
     angular.module("app")
         .controller("SingleContestViewController", SingleContestViewController);
 
-    function SingleContestViewController($state, $stateParams, $http, toastr, $uibModal, $uibModalStack) {
+    function SingleContestViewController($state, $stateParams, $http, toastr, $uibModal, $uibModalStack, Auth) {
        
         var scc = this;
         scc.notBusy = false;
@@ -17,6 +17,17 @@
         var deleteContestUrl = "api/admin/Contest/DeleteContest/";
         scc.showContent = false;
 
+        scc.ajaxGet = function () {
+            $http.get("/api/admin/user/current")
+                .then(function (response) {
+                    scc.currentUser = response.data;
+                }).finally(function () {
+                    console.log(scc.currentUser.roles);
+                    scc.show = contains(scc.currentUser.roles);
+                });
+        }
+
+        scc.ajaxGet();
         $http.get(apiUrl)
             .then(function (response) {
                 scc.contest = response.data;
@@ -96,12 +107,15 @@
         }
 
         var createAssignmentLocal = function (name) {
-            window.alert(name);
-            $http.post(createAssignmentUrl + scc.contest.id, name)
+            var newAssignmentModel = {
+                "Name": name,
+                "ContestID": scc.contest.id
+            }
+            $http.post(createAssignmentUrl, newAssignmentModel)
                 .then(function (response) {
                     scc.contest.assignments.unshift(response.data);
                     toastr.success("Assignment created");
-                    $state.go('app.contests.assignment', { id: response.data.id });
+                    $state.go('app.contests.one', { id: scc.contest.id });
                 }, function (error) {
                     toastr.error(error.data);
                 }).finally(function (response) {
@@ -175,6 +189,17 @@
 
             });
         }
+
+        function contains(a) {
+            var i = a.length;
+            while (i--) {
+                if (a[i] === "Administrator" || a[i] === "Moderator") {
+                    return true;
+                }
+            }
+            return false;
+        } 
+
     }
 })();
 

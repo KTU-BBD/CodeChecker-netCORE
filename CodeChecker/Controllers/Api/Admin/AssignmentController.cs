@@ -30,11 +30,26 @@ namespace CodeChecker.Controllers.Api.Admin
             _contestRepo = contestRepo;
         }
 
-        [HttpPost("{conId}")]
-        public IActionResult Create([FromBody] string name, int conId)
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateAssignmentViewmodel model)
         {
-           
-            return BadRequest("");
+            try {
+                if (!ModelState.IsValid)
+                {
+                    throw new System.Exception("Bad assignment name or contest ID");
+                }
+                else {
+                    var assignment = new Assignment();
+                    assignment.Name = model.Name;
+                    var con = _contestRepo.GetContestFull(model.ContestID);
+                    assignment.Contest = con;
+                    _assignmentRepo.Insert(assignment);
+                    var assignmentToReturn = Mapper.Map<ShortAssignmentViewModel>(assignment);
+                    return Ok(assignmentToReturn);
+                }
+            } catch (Exception ex) {
+                return BadRequest(ex);
+            }
         }
 
         [HttpGet("{id}")]

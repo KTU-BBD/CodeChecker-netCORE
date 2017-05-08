@@ -57,7 +57,7 @@
                             <input type="datetime" id="text-input" name="text-input" class="form-control" value="{{scc.contest.endAt}}" placeholder="{{scc.contest.endAt}}" ng-model="scc.contest.endAt">
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div ng-show="scc.show" class="form-group row">
                         <label class="col-md-3 form-control-label" for="select">Status</label>
                         <div class="col-md-9">
                             <select id="select" name="select" class="form-control" ng-model="scc.contest.status">

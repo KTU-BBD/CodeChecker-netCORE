@@ -31,6 +31,13 @@ namespace CodeChecker.Models.Repositories
             return GetPagedData(query, filter);
         }
 
+        public IQueryable<Assignment> QueryAll()
+        {
+            return base.Query()
+                    .Include(c => c.Contest)
+                ;
+        }
+
         public Assignment GetById(long id)
         {
             return Query()

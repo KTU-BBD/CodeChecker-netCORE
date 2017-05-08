@@ -6,6 +6,7 @@ angular
         var deleteContestUrl = "/api/admin/contest/DeleteContest/"
         var recoverContestUrl = "/api/admin/contest/RecoverContest/"
         var Api = $resource('/api/admin/contest/all/');
+        var createContest = "/api/admin/contest/Create/";
         cvc.ajaxGet = function () {
             $http.get("/api/admin/user/current")
                 .then(function (response) {
@@ -37,7 +38,7 @@ angular
             {
                 if (cvc.tableParams.data[i].id === id)
                 {
-                    var contest = cvc.tableParams.data[i]
+                    var contest = cvc.tableParams.data[i];
                 }
             }
             if (contest.deletedAt != null) {
@@ -47,12 +48,53 @@ angular
             }
         }
 
-        cvc.delete = function (id) {
+        var createContestLocal = function (name,password) {
+            var contest = { "Name": name, "Password": password }
+            $http.post(createContest, contest)
+                .then(function (response) {
+                    $state.go('app.contests.one', { id: response.data });
+                    toastr.success("Contest created");
+                }
+                , function (err) {
+                    toastr.error(err.data);
+                })
+                .finally(function () {
+
+                });
+        }
+
+        cvc.createContest = function () {
+            $uibModal.open({
+                templateUrl: '/Html/Admin/Modal/createContest.html',
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'md',
+                controller: function ($scope) {
+                    $scope.close = function () {
+                        var top = $uibModalStack.getTop();
+                        if (top) {
+                            $uibModalStack.dismiss(top.key);
+                        }
+                    };
+                    $scope.submit = function () {
+                        createContestLocal($scope.name,$scope.password);
+                        $scope.close()
+                    };
+                }
+            }).result.then(function () {
+
+            }, function (res) {
+
+            }); 
+        }
+        
+        var deleteContestLocal = function (id) {
             var idMatch;
             for (var i = 0; i < cvc.tableParams.data.length; i++) {
                 if (cvc.tableParams.data[i].id === id) {
                     idMatch = i;
-                    
+
                 }
             }
             $http.post(deleteContestUrl + id)
@@ -67,6 +109,33 @@ angular
                 })
                 .finally(function () {
                 });
+        }
+
+        cvc.delete = function (id) {
+
+            $uibModal.open({
+                templateUrl: '/Html/Admin/Modal/deleteItemAck.html',
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'md',
+                controller: function ($scope) {
+                    $scope.close = function () {
+                        var top = $uibModalStack.getTop();
+                        if (top) {
+                            $uibModalStack.dismiss(top.key);
+                        }
+                    };
+                    $scope.submit = function () {
+                        deleteContestLocal(id);
+                        $scope.close()
+                    };
+                }
+            }).result.then(function () {
+
+            }, function (res) {
+
+            }); 
         }
 
         cvc.recover = function (id) {
