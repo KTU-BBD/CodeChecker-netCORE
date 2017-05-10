@@ -80,12 +80,17 @@ namespace CodeChecker.Models.Repositories
 
         public void CreateTestForAssignment(long assignID)
         {
+            //FIX this part
             var assign = GetById(assignID);
             var outp = new Output();
             var inp = new Input();
-            inp.Output = outp;
             inp.Assignment = assign;
+            inp.Output = outp;
             outp.Input = inp;
+            _context.Add(outp);
+            _context.Add(inp);
+            _context.SaveChanges();
+
             assign.Inputs.Add(inp);
             Update(assign);
         }

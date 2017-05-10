@@ -96,7 +96,7 @@
                 .then(function (response) {
                     toastr.success(response.data);
                     awc.getContent();
-                }, function () {
+                }, function (error) {
                     toastr.error(error.data);
                 }).finally(function (response) {
                 });

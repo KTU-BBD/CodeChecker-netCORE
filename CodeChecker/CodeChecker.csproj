@@ -13,7 +13,6 @@
   <ItemGroup>
     <Compile Remove="wwwroot\Angular\Contest\**" />
     <Compile Remove="wwwroot\Html\Contest\**" />
-    <Content Remove="Migrations\**" />
     <Content Remove="wwwroot\Angular\Contest\**" />
     <Content Remove="wwwroot\Html\Contest\**" />
     <EmbeddedResource Remove="wwwroot\Angular\Contest\**" />
@@ -33,7 +32,6 @@
     <Content Include="wwwroot\Angular\Admin\Controllers\widgets.js" />
     <Content Include="wwwroot\Angular\Admin\Demo\routes.js" />
     <Content Include="wwwroot\Angular\Admin\directives.js" />
-    <Content Include="wwwroot\Angular\Admin\directives\unauthorizedDirective.js" />
     <Content Include="wwwroot\Angular\Admin\routes.js" />
     <Content Include="wwwroot\Angular\Front\app-index.js" />
     <Content Include="wwwroot\Angular\Front\Controllers\indexController.js" />
@@ -83,9 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Api\" />
-    <Folder Include="Data\Migrations" />
-    <Folder Include="Data\Migrations" />
-    <Folder Include="Data\Migrations" />
     <Folder Include="Sass\Admin\" />
     <Folder Include="Sass\Admin\bootstrap1\mixins" />
     <Folder Include="Sass\Admin\bootstrap1\utilities" />

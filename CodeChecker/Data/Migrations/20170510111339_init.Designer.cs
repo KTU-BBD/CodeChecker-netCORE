@@ -9,7 +9,7 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170510111137_init")]
+    [Migration("20170510111339_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
