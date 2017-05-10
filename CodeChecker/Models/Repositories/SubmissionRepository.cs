@@ -13,6 +13,7 @@ namespace CodeChecker.Models.Repositories
         public Submission GetLastUserSubmissionInContest(ApplicationUser user, Assignment assignment)
         {
             return Query()
+                .OrderByDescending(s => s.Id)
                 .FirstOrDefault(s => s.AssignmentId == assignment.Id && s.UserId == user.Id);
         }
     }
