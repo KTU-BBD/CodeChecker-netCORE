@@ -18,6 +18,7 @@ namespace CodeChecker
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .Build();
+            
 
             host.Run();
         }

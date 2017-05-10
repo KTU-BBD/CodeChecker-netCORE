@@ -1,6 +1,10 @@
-﻿< < < News will be inserted here > > >
-{{ic.notBusy}}
+﻿<div ng-controller="indexController">
+    <div ng-repeat="article in articles">
+        <div>
+            {{article.title}}
+        </div>
+    </div>
+    <!--<ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>-->
+    <!--<pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>-->
+</div>
 
-<div ui-ace></div>
-
-<button class="btn btn-block btn-xs" ng-click="ic.alert()">Location </button>

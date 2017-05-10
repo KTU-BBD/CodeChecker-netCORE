@@ -18,13 +18,20 @@ using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
+using CodeChecker.Middleware;
+using CodeChecker.Models.ArticleViewModel;
 using CodeChecker.Models.AssignmentViewModels;
 using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Models.SubmissionViewModels;
 using CodeChecker.Services.CodeSubmit;
 using CodeChecker.Tasks;
+using idunno.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Authentication;
 
 namespace CodeChecker
 {
@@ -60,6 +67,7 @@ namespace CodeChecker
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
+
 
 
             services.Configure<IdentityOptions>(options =>
@@ -109,6 +117,16 @@ namespace CodeChecker
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            if (env.IsEnvironment("Testing"))
+            {
+                var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>();
+                contextOptions.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+
+                var dbContext = new ApplicationDbContext(contextOptions.Options);
+
+                dbContext.Database.Migrate();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -119,9 +137,15 @@ namespace CodeChecker
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            if (env.IsDevelopment() || env.IsEnvironment("Testing"))
+            {
+                app.UseMiddleware<AuthenticationMiddleware>();
+            }
 
             Mapper.Initialize(cfg =>
             {
+                cfg.CreateMap<List<Article>, List<ArticleListViewModel>>().ReverseMap();
+                cfg.CreateMap<Article, ArticleListViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
                 cfg.CreateMap<List<ApplicationUser>, List<TopUserViewModel>>().ReverseMap();
@@ -137,7 +161,6 @@ namespace CodeChecker
                 cfg.CreateMap<Contest, ContestViewModel>()
                     .ForMember(c => c.IsPublic, o => o.MapFrom(src => string.IsNullOrEmpty(src.Password)))
                     .ForMember(c => c.IsStarted, o => o.MapFrom(src => src.StartAt < DateTime.Now))
-
 
                     .ReverseMap();
                 cfg.CreateMap<Contest, ContestWithAssignmentViewModel>();
@@ -179,6 +202,7 @@ namespace CodeChecker
             services.AddScoped<SubmissionRepository>();
             services.AddScoped<InputRepository>();
             services.AddScoped<OutputRepository>();
+            services.AddScoped<ArticleRepository>();
         }
 
         private void Services(IServiceCollection services)

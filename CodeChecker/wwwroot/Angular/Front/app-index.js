@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
     // Creating the module
-    angular.module("app-index", ["ngRoute", "sidebarModule", "ui.ace", "app-navbar"])
+    angular.module("app-index", ["ngRoute", "sidebarModule", "ui.ace", "app-navbar", "ui.bootstrap", "toastr"])
         .config(function ($routeProvider) {
             $routeProvider.when("/", {
                 controller: "indexController",

@@ -53,6 +53,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.0.2" />
     <PackageReference Include="Faker.NETCore" Version="1.0.0" />
+    <PackageReference Include="idunno.Authentication" Version="1.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
@@ -85,7 +86,6 @@
     <Folder Include="Data\Migrations" />
     <Folder Include="Data\Migrations" />
     <Folder Include="Data\Migrations" />
-    <Folder Include="Middleware" />
     <Folder Include="Sass\Admin\" />
     <Folder Include="Sass\Admin\bootstrap1\mixins" />
     <Folder Include="Sass\Admin\bootstrap1\utilities" />

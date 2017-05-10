@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Models.DatabaseSeeders
 {
@@ -14,6 +15,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
         private readonly AssignmentSeeder _assignmentSeeder;
         private readonly AssignmentResultSeeder _assignmentResultSeeder;
         private readonly TagSeeder _tagSeeder;
+        private readonly ArticleSeeder _articleSeeder;
 
         public BaseSeeder(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
@@ -24,7 +26,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             _assignmentSeeder = new AssignmentSeeder(context);
             _assignmentResultSeeder = new AssignmentResultSeeder(context);
             _tagSeeder = new TagSeeder(context);
-
+            _articleSeeder = new ArticleSeeder(context);
         }
 
         // Do not change the order of called methods
@@ -37,6 +39,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             await _contestSeeder.SeedDatabase();
             await _assignmentSeeder.SeedDatabase();
             await _assignmentResultSeeder.SeedDatabase();
+            await _articleSeeder.SeedDatabase();
         }
     }
 }

@@ -43,9 +43,16 @@ namespace CodeChecker.Tests
             }
         }
 
+        public HttpClient LoggedInAs(string email)
+        {
+            Client.DefaultRequestHeaders.Add("IntegrationTestLogin", email);
+            return Client;
+        }
+
         public BaseTest()
         {
             var builder = new WebHostBuilder()
+                .UseEnvironment("Testing")
                 .UseContentRoot(ContentPath)
                 .ConfigureLogging(factory => { factory.AddConsole(); })
                 .UseStartup<Startup>()

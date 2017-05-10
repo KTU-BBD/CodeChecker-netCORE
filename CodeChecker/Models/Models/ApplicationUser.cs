@@ -15,6 +15,7 @@ namespace CodeChecker.Models.Models
 
         public ICollection<ContestParticipant> ContestParticipants { get; set; }
         public ICollection<Contest> Contests { get; set; }
+        public ICollection<Article> Articles { get; set; }
 
         public override string ToString()
         {
