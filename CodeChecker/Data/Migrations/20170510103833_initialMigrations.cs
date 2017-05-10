@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CodeChecker.Migrations
 {
-    public partial class BaseModelSoftDeletable : Migration
+    public partial class initialMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,26 +28,19 @@ namespace CodeChecker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contests",
+                name: "SubmissionGroups",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedAt = table.Column<DateTime>(nullable: false),
-                    DeletedAt = table.Column<DateTime>(nullable: true),
-                    Duration = table.Column<int>(nullable: false),
-                    IsPublic = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    StartAt = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<string>(nullable: true),
-                    SuccessfulSubmit = table.Column<int>(nullable: false),
-                    UnsuccessfulSubmit = table.Column<int>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: false)
+                    Message = table.Column<string>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
+                    Verdict = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contests", x => x.Id);
+                    table.PrimaryKey("PK_SubmissionGroups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,6 +96,8 @@ namespace CodeChecker.Migrations
                     DeletedAt = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -149,37 +144,25 @@ namespace CodeChecker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Assignments",
+                name: "Articles",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContestId = table.Column<long>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     CreatorId = table.Column<string>(nullable: true),
-                    DeletedAt = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    InputType = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    MaxPoints = table.Column<int>(nullable: false),
-                    MemoryLimit = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    OutputType = table.Column<string>(nullable: true),
-                    SolvedCount = table.Column<int>(nullable: false),
-                    TimeLimit = table.Column<int>(nullable: false),
+                    DeletedAt = table.Column<DateTime>(nullable: true),
+                    LongDescription = table.Column<string>(nullable: true),
+                    ShortDescription = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
                     UpdatedAt = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Assignments", x => x.Id);
+                    table.PrimaryKey("PK_Articles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Assignments_Contests_ContestId",
-                        column: x => x.ContestId,
-                        principalTable: "Contests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Assignments_AspNetUsers_CreatorId",
+                        name: "FK_Articles_AspNetUsers_CreatorId",
                         column: x => x.CreatorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -187,52 +170,31 @@ namespace CodeChecker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContestCreators",
+                name: "Contests",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContestId = table.Column<long>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<string>(nullable: true),
+                    DeletedAt = table.Column<DateTime>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    EndAt = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    StartAt = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    SuccessfulSubmit = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    UnsuccessfulSubmit = table.Column<int>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContestCreators", x => x.Id);
+                    table.PrimaryKey("PK_Contests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContestCreators_Contests_ContestId",
-                        column: x => x.ContestId,
-                        principalTable: "Contests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ContestCreators_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ContestParticipants",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContestId = table.Column<long>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContestParticipants", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ContestParticipants_Contests_ContestId",
-                        column: x => x.ContestId,
-                        principalTable: "Contests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ContestParticipants_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Contests_AspNetUsers_CreatorId",
+                        column: x => x.CreatorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -304,6 +266,91 @@ namespace CodeChecker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Assignments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContestId = table.Column<long>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    CreatorId = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    InputType = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    MaxPoints = table.Column<int>(nullable: false),
+                    MemoryLimit = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    OutputType = table.Column<string>(nullable: true),
+                    SolvedCount = table.Column<int>(nullable: false),
+                    TimeLimit = table.Column<int>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assignments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Assignments_Contests_ContestId",
+                        column: x => x.ContestId,
+                        principalTable: "Contests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Assignments_AspNetUsers_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContestParticipants",
+                columns: table => new
+                {
+                    ContestId = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContestParticipants", x => new { x.ContestId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_ContestParticipants_Contests_ContestId",
+                        column: x => x.ContestId,
+                        principalTable: "Contests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ContestParticipants_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AssignmentTags",
+                columns: table => new
+                {
+                    AssignmentId = table.Column<long>(nullable: false),
+                    TagId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssignmentTags", x => new { x.AssignmentId, x.TagId });
+                    table.ForeignKey(
+                        name: "FK_AssignmentTags_Assignments_AssignmentId",
+                        column: x => x.AssignmentId,
+                        principalTable: "Assignments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AssignmentTags_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Inputs",
                 columns: table => new
                 {
@@ -331,15 +378,16 @@ namespace CodeChecker.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AssignmentId = table.Column<long>(nullable: true),
-                    ContestId = table.Column<long>(nullable: true),
+                    AssignmentId = table.Column<long>(nullable: false),
+                    Code = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     Language = table.Column<string>(nullable: true),
+                    Output = table.Column<string>(nullable: true),
+                    SubmissionGroupId = table.Column<long>(nullable: false),
                     TimeMs = table.Column<int>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    Verdict = table.Column<string>(nullable: true),
-                    Code = table.Column<string>(nullable: true)
+                    Verdict = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -349,43 +397,17 @@ namespace CodeChecker.Migrations
                         column: x => x.AssignmentId,
                         principalTable: "Assignments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Submissions_Contests_ContestId",
-                        column: x => x.ContestId,
-                        principalTable: "Contests",
+                        name: "FK_Submissions_SubmissionGroups_SubmissionGroupId",
+                        column: x => x.SubmissionGroupId,
+                        principalTable: "SubmissionGroups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Submissions_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TaskTags",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AssignmentId = table.Column<long>(nullable: true),
-                    TagId = table.Column<long>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaskTags", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TaskTags_Assignments_AssignmentId",
-                        column: x => x.AssignmentId,
-                        principalTable: "Assignments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TaskTags_Tags_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -397,7 +419,7 @@ namespace CodeChecker.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedAt = table.Column<DateTime>(nullable: false),
-                    InputId = table.Column<long>(nullable: true),
+                    InputId = table.Column<long>(nullable: false),
                     Text = table.Column<string>(nullable: true),
                     UpdatedAt = table.Column<DateTime>(nullable: false)
                 },
@@ -409,7 +431,7 @@ namespace CodeChecker.Migrations
                         column: x => x.InputId,
                         principalTable: "Inputs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -429,6 +451,11 @@ namespace CodeChecker.Migrations
                 column: "ProfileImageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_CreatorId",
+                table: "Articles",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Assignments_ContestId",
                 table: "Assignments",
                 column: "ContestId");
@@ -439,19 +466,20 @@ namespace CodeChecker.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContestCreators_ContestId",
-                table: "ContestCreators",
-                column: "ContestId");
+                name: "IX_AssignmentTags_TagId",
+                table: "AssignmentTags",
+                column: "TagId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContestCreators_UserId",
-                table: "ContestCreators",
-                column: "UserId");
+                name: "IX_Contests_CreatorId",
+                table: "Contests",
+                column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContestParticipants_ContestId",
-                table: "ContestParticipants",
-                column: "ContestId");
+                name: "IX_Contests_Name",
+                table: "Contests",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContestParticipants_UserId",
@@ -475,24 +503,14 @@ namespace CodeChecker.Migrations
                 column: "AssignmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Submissions_ContestId",
+                name: "IX_Submissions_SubmissionGroupId",
                 table: "Submissions",
-                column: "ContestId");
+                column: "SubmissionGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Submissions_UserId",
                 table: "Submissions",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskTags_AssignmentId",
-                table: "TaskTags",
-                column: "AssignmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TaskTags_TagId",
-                table: "TaskTags",
-                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -524,7 +542,10 @@ namespace CodeChecker.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ContestCreators");
+                name: "Articles");
+
+            migrationBuilder.DropTable(
+                name: "AssignmentTags");
 
             migrationBuilder.DropTable(
                 name: "ContestParticipants");
@@ -534,9 +555,6 @@ namespace CodeChecker.Migrations
 
             migrationBuilder.DropTable(
                 name: "Submissions");
-
-            migrationBuilder.DropTable(
-                name: "TaskTags");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -554,10 +572,13 @@ namespace CodeChecker.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
                 name: "Inputs");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "SubmissionGroups");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
