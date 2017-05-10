@@ -117,15 +117,10 @@ namespace CodeChecker
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsEnvironment("Testing"))
-            {
-                var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>();
-                contextOptions.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-
-                var dbContext = new ApplicationDbContext(contextOptions.Options);
-
-                dbContext.Database.Migrate();
-            }
+            var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>();
+            contextOptions.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            var dbContext = new ApplicationDbContext(contextOptions.Options);
+            dbContext.Database.Migrate();
 
             if (env.IsDevelopment())
             {
