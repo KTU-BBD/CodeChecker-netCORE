@@ -9,9 +9,10 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170512164944_SubmissionTime")]
+    partial class SubmissionTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -322,13 +323,11 @@ namespace CodeChecker.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Language");
-
                     b.Property<long>("Memory");
 
                     b.Property<string>("Message");
 
-                    b.Property<double>("Time");
+                    b.Property<float>("Time");
 
                     b.Property<DateTime>("UpdatedAt");
 

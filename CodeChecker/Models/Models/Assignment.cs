@@ -18,5 +18,11 @@ namespace CodeChecker.Models.Models
         public ICollection<Input> Inputs { get; set; }
         public ICollection<Submission> Submissions { get; set; }
         public ICollection<AssignmentTag> AssignmentTags { get; set; }
+
+        public Assignment()
+        {
+            InputType = "standard input";
+            OutputType = "standard output";
+        }
     }
 }

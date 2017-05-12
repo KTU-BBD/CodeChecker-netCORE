@@ -34,7 +34,10 @@ namespace CodeChecker.Tasks
         public async Task RunTask(CodeAssignmentViewModel codeAssignment)
         {
             var solvedAll = true;
-            var assignment = _context.Assignments.Include(a => a.Contest).Include(a => a.Inputs).ThenInclude(o => o.Output).FirstOrDefault(a => a.Id == codeAssignment.AssignmentId);
+            var assignment = _context.Assignments.Include(a => a.Contest)
+                .Include(a => a.Inputs)
+                .ThenInclude(o => o.Output)
+                .FirstOrDefault(a => a.Id == codeAssignment.AssignmentId);
 
             var submissionGroup = new SubmissionGroup();
 
@@ -43,6 +46,9 @@ namespace CodeChecker.Tasks
             int testNumber = 1;
             foreach (var assignmentInput in assignment.Inputs)
             {
+
+                Console.WriteLine("Input text:" + assignmentInput.Text);
+                Console.WriteLine("Output text:" + assignmentInput.Output.Text);
                 var submission = new Submission()
                 {
                     AssignmentId = codeAssignment.AssignmentId,
@@ -66,27 +72,50 @@ namespace CodeChecker.Tasks
                     submission.Verdict = SubmissionVerdict.Success;
                     submission.TimeMs = (int) (results.TimeSpent * 1000);
                     submission.Output = results.Output;
+                    submission.Memory = results.Memory;
+                    submissionGroup.Memory = submission.Memory;
+                    submissionGroup.Time = results.TimeSpent;
+                    submissionGroup.Language = results.Language;
 
-                    if (!assignmentInput.Output.Text.Equals(results.Output))
+                    if (results.Verdict.Equals("COMPILATION_ERROR"))
                     {
-                        submission.Verdict = SubmissionVerdict.WrongAnser;
+                        submission.Verdict = SubmissionVerdict.CompilationError;
                         solvedAll = false;
                     }
-                    else if (results.TimeSpent > assignment.TimeLimit)
+                    else if (results.Verdict.Equals("RUNTIME_ERROR"))
+                    {
+                        submission.Verdict = SubmissionVerdict.RuntimeError;
+                        solvedAll = false;
+                    }
+                    else if (results.Verdict.Equals("TIME_OVERFLOW"))
                     {
                         submission.Verdict = SubmissionVerdict.TimeOverflow;
                         solvedAll = false;
                     }
-                    else if (results.Verdict != "OK")
+                    else if (results.Verdict.Equals("MEMORY_OVERFLOW"))
                     {
-                        submission.Verdict = SubmissionVerdict.Error;
+                        submission.Verdict = SubmissionVerdict.MemoryOverflow;
+                        solvedAll = false;
+                    }
+                    else if (results.Verdict.Equals("OK") && !assignmentInput.Output.Text.Equals(results.Output))
+                    {
+                        submission.Verdict = SubmissionVerdict.WrongAnser;
                         solvedAll = false;
                     }
 
                     if (!solvedAll)
                     {
                         submissionGroup.Verdict = submission.Verdict;
-                        submissionGroup.Message = $"Failed on test {testNumber}";
+                        switch (submission.Verdict)
+                        {
+                            case SubmissionVerdict.CompilationError:
+                            case SubmissionVerdict.RuntimeError:
+                                submissionGroup.Message = submission.Output;
+                                break;
+                            default:
+                                submissionGroup.Message = $"Failed on test {testNumber}";
+                                break;
+                        }
                         break;
                     }
                     testNumber++;
@@ -94,6 +123,7 @@ namespace CodeChecker.Tasks
                 catch (Exception e)
                 {
                     submissionGroup.Verdict = SubmissionVerdict.ServerError;
+                    submissionGroup.Memory = 0;
                     submissionGroup.Message = $"Failed on test {testNumber}";
                     Debug.WriteLine("Error while trying to submit code: " + e.Message);
                     solvedAll = false;
@@ -125,7 +155,6 @@ namespace CodeChecker.Tasks
             _context.Update(submissionGroup);
 
             _context.SaveChanges();
-
         }
     }
 }

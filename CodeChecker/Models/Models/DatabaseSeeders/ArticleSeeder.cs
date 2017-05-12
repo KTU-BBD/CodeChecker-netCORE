@@ -22,7 +22,15 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
                 return;
             }
 
-            var users = _context.Users.ToList();
+            var roleContributor = _context.Roles.FirstOrDefault(r => r.Name == "Contributor");
+            var roleAdmin = _context.Roles.FirstOrDefault(r => r.Name == "Administrator");
+            var roleMod = _context.Roles.FirstOrDefault(r => r.Name == "Moderator");
+
+            var users = _context.Users.Include(u => u.Roles)
+                .Where(ur => ur.Roles.Any(urr => urr.RoleId == roleContributor.Id || urr.RoleId == roleAdmin.Id ||
+                                                 urr.RoleId == roleMod.Id))
+                .ToList();
+
 
             for (int i = 0; i < new Random().Next(10, 30); i++)
             {

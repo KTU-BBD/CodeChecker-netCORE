@@ -11,6 +11,7 @@ namespace CodeChecker.Models.AssignmentViewModels
         public string Code { get; set; }
 
         [Required]
+        [RegularExpression(@"(PYT27|PYT3|CSH|CPP5.4.0)")]
         public string Language { get; set; }
     }
 }
