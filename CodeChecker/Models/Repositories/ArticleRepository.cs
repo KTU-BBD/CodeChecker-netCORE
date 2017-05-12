@@ -4,6 +4,7 @@ using CodeChecker.Data;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using CodeChecker.Models.ServiceViewModels;
 
 namespace CodeChecker.Models.Repositories
 {
@@ -36,5 +37,48 @@ namespace CodeChecker.Models.Repositories
 
             return Query().Where(a => a.Status == status).Skip(page * newsPerPage).Take(newsPerPage);
         }
+
+
+        public IQueryable<Article> GetPagedDataIncludeDeleted(DataFilterViewModel filter)
+        {
+            return GetPagedData(entities, filter).Include(c => c.Creator);
+        }
+
+        public IQueryable<Article> QueryDeleted()
+        {
+            return base.Query();
+        }
+
+        public IQueryable<Article> QueryDeletedWithCreator()
+        {
+            return base.Query()
+                    .Include(c => c.Creator)
+                ;
+        }
+
+        public Article GetArticleFull(long id)
+        {
+            return Query()
+                    .Include(c => c.Creator)
+                    .FirstOrDefault(c => c.Id == id)
+                ;
+        }
+
+        public Article GetArticleFullWithDeleted(long id)
+        {
+            return base.Query()
+                    .Include(c => c.Creator)
+                    .FirstOrDefault(c => c.Id == id)
+                ;
+        }
+
+
+        public void ResetStatus(Article article)
+        {
+            var cont = GetArticleFullWithDeleted(article.Id);
+            cont.Status = 0;
+            Update(cont);
+        }
+
     }
 }

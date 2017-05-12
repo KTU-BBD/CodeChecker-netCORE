@@ -2,7 +2,9 @@
 {
     public enum ArticleStatus
     {
-        Unpublished,
+        Created,
+        Submited,
         Published,
+        Cancelled
     }
 }

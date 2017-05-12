@@ -164,5 +164,34 @@ angular
           params: {
               id: null
           }
-      })
+        })
+.state('app.articles', {
+    url: "/articles",
+    abstract: true,
+    template: '<ui-view></ui-view>',
+    ncyBreadcrumb: {
+        label: 'Articles'
+    },
+})
+.state('app.articles.all', {
+    url: '/all',
+    templateUrl: 'Html/Admin/pages/article/articles.html',
+    ncyBreadcrumb: {
+        label: 'All Articles'
+    },
+    controller: 'ArticleController',
+    controllerAs: 'ac'
+})
+.state('app.articles.one', {
+    url: '/:id',
+    templateUrl: 'Html/Admin/pages/article/article.html',
+    ncyBreadcrumb: {
+        label: 'Article'
+    },
+    controller: 'SingleArticleViewController',
+    controllerAs: 'savc',
+    params: {
+        id: null
+    }
+})
 }]);

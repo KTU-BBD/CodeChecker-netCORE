@@ -12,7 +12,7 @@ namespace CodeChecker.Models.Models
 
         public Article()
         {
-            Status = ArticleStatus.Unpublished;
+            Status = ArticleStatus.Created;
         }
     }
 }

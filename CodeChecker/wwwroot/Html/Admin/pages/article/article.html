@@ -1,0 +1,73 @@
+﻿<div class="row" ng-show="savc.showContent">
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="col-md-3 pull-left"><button ui-sref-active="active" ui-sref="app.articles.all" class="col-md-12 btn btn-sm btn-outline-secondary">Back</button></div>
+                <div class="col-md-7 col-md-pull-2 pull-left"><strong>{{savc.article.title}}</strong></div>
+            </div>
+            <div class="card-block">
+                <form action="" method="post" enctype="multipart/form-data" class="form-2orizontal ">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Title</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{savc.article.title}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Article Title</label>
+                        <div class="col-md-9">
+                            <input type="text" id="text-input" name="text-input" class="form-control" value=" {{savc.article.title}}" placeholder="{{savc.article.title}}" ng-model="savc.article.title">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Creator</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static"><span colourise="{{savc.article.creator.rating}}">{{savc.article.creator.userName}}</span></p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Short Description</label>
+                        <div class="col-md-9">
+                            <textarea froala="froalaOptions" ng-model="savc.article.shortDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Long Description</label>
+                        <div class="col-md-9">
+                            <textarea froala="froalaOptions" ng-model="savc.article.longDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Created At</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{savc.article.createdAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Last Update</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{savc.article.updatedAt | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+                        </div>
+                    </div>
+                    <div ng-show="savc.show" class="form-group row">
+                        <label class="col-md-3 form-control-label" for="select">Status</label>
+                        <div class="col-md-9">
+                            <select id="select" name="select" class="form-control" ng-model="savc.article.status">
+                                <option ng-selected="savc.article.status == 0" ng-value="0">Created</option>
+                                <option ng-selected="savc.article.status == 1" ng-value="1">Submited</option>
+                                <option ng-selected="savc.article.status == 2" ng-value="2">Published</option>
+                                <option ng-selected="savc.article.status == 3" ng-value="2">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button ng-click="savc.saveArticle()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.articles.one(savc.article.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                <button ng-click="savc.reset()" class="btn btn-sm btn-warning" ui-sref-active="active" ui-sref="app.articles.one(savc.article.id)"><i class="fa fa-ban"></i> Reset</button>
+                <button ng-click="savc.deleteArticle(savc.article.id)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i>Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
