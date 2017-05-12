@@ -24,17 +24,16 @@
 
         $scope.sendCode = function() {
             $scope.sendDisabled = true;
-            if (!$scope.task || !$scope.task.code) {
+            if (!$scope.task || !$scope.task.code || !$scope.task.language) {
                 toastr.error("Please select language and type your code");
                 $scope.sendDisabled = false;
                 return;
             }
 
             $scope.task.assignmentId =  $routeParams.assignmentId;
-            $scope.task.language = "PYT";
 
             if ($scope.task.code.length < 5) {
-                toastr.error("Code too short");
+                toastr.error("Code is too short");
                 $scope.sendDisabled = false;
                 return;
             }

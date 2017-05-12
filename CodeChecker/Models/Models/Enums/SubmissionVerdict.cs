@@ -7,6 +7,8 @@
         WrongAnser,
         TimeOverflow,
         MemoryOverflow,
+        CompilationError,
+        RuntimeError,
         Running,
         ServerError,
     }

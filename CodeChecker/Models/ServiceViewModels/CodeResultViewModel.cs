@@ -6,5 +6,6 @@
         public string Output { get; set; }
         public string Verdict { get; set; }
         public string Language { get; set; }
+        public long Memory { get; set; }
     }
 }

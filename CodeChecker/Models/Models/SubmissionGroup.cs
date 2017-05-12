@@ -7,6 +7,9 @@ namespace CodeChecker.Models.Models
     {
         public SubmissionVerdict Verdict { get; set; }
         public string Message { get; set; }
+        public long Memory { get; set; }
+        public double Time { get; set; }
+        public string Language { get; set; }
 
         public ICollection<Submission> Submissions { get; set; }
 

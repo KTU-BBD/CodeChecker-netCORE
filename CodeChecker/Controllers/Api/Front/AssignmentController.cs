@@ -69,13 +69,11 @@ namespace CodeChecker.Controllers.Api.Front
                 return Ok(mappedAssignment);
             }
 
-            var userWithContests = _userRepo.GetUserWithContest(currentUser);
-
-            if (userWithContests == null)
+            if (currentUser == null)
             {
-                return BadRequest("You need to login to submit task");
+                return BadRequest("You need to login to view task");
             }
-
+            var userWithContests = _userRepo.GetUserWithContest(currentUser);
 
             foreach (var participant in assignment.Contest.ContestParticipants)
             {
@@ -98,19 +96,25 @@ namespace CodeChecker.Controllers.Api.Front
             //TODO Implemenet feature to calculate points
             //TODO AND DO NOT FORGET TO IGNORE GYM POINTS
 
+
             var currentUser = await GetCurrentUserAsync();
             if (currentUser == null)
             {
                 return BadRequest("You need to login to submit code");
             }
 
-            var userWithContest = _userRepo.GetUserWithContest(currentUser);
-
-            if (userWithContest == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("You need to login to submit task");
+                foreach (var modelStateValue in ModelState.Values)
+                {
+                    foreach (var error in modelStateValue.Errors)
+                    {
+                        return BadRequest(error.ErrorMessage);
+                    }
+                }
             }
 
+            var userWithContest = _userRepo.GetUserWithContest(currentUser);
 
             var assignment = _assignmentRepo.GetByIdWithInputsOutputs(assignmentSubmit.AssignmentId);
             if (assignment == null)
