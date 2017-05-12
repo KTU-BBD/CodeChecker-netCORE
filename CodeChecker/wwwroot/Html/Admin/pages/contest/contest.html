@@ -3,7 +3,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="col-md-3 pull-left"><button ui-sref-active="active" ui-sref="app.contests.all" class="col-md-12 btn btn-sm btn-outline-secondary">Back</button></div> 
+                <div class="col-md-3 pull-left"><button ui-sref-active="active" ui-sref="app.contests.all" class="col-md-12 btn btn-sm btn-outline-secondary">Back</button></div>
                 <div class="col-md-7 col-md-pull-2 pull-left"><strong>Contest {{scc.contest.name}}</strong></div>
                 <div class="col-md-2 pull-left"><button ng-click="scc.createAssignment()" class="col-md-12 btn btn-sm btn-primary">Add Task</button></div>
             </div>
@@ -48,13 +48,31 @@
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label" for="text-input">Start At</label>
                         <div class="col-md-9">
-                            <input type="datetime" id="text-input" name="text-input" class="form-control" value="{{scc.contest.startAt}}" placeholder="{{scc.contest.startAt}}" ng-model="scc.contest.startAt">
+
+                            <div class="input-group" moment-picker="scc.contest.startAt" locale="en-gb" format="YYYY-MM-DD HH:mm">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </span>
+                                <input class="form-control"
+                                       placeholder="Select a date"
+                                       ng-model="scc.contest.startAt"
+                                       ng-model-options="{ updateOn: 'blur' }">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label" for="text-input">End At</label>
                         <div class="col-md-9">
-                            <input type="datetime" id="text-input" name="text-input" class="form-control" value="{{scc.contest.endAt}}" placeholder="{{scc.contest.endAt}}" ng-model="scc.contest.endAt">
+                            <div class="input-group" moment-picker="scc.contest.endAt" locale="en-gb" format="YYYY-MM-DD HH:mm">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                </span>
+                                <input class="form-control"
+                                       placeholder="Select a date"
+                                       ng-model="scc.contest.endAt"
+                                       ng-model-options="{ updateOn: 'blur' }">
+                            </div>
+                            <!--<input type="datetime" id="text-input" name="text-input" class="form-control" value="{{scc.contest.endAt}}" placeholder="{{scc.contest.endAt}}" ng-model="scc.contest.endAt">-->
                         </div>
                     </div>
                     <div ng-show="scc.show" class="form-group row">

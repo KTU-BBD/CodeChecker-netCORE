@@ -22,9 +22,9 @@ angular
         'ngFileUpload',
         'ngTable',
         'froala',
-        'ui.bootstrap.datetimepicker',
         'toastr',
         "ui.bootstrap",
+        "moment-picker",
         "colourise"
     ])
     .service('Auth', function($resource, $rootScope) {

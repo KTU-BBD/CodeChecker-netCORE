@@ -55,9 +55,9 @@
                         "<%= config.NPM_VENDOR_PATH %>/ng-table/bundles/ng-table.css",
                         "<%= config.VENDOR_PATH  %>/simple-line-icons/css/simple-line-icons.css",
                         "<%= config.VENDOR_PATH  %>/froala-wysiwyg-editor/css/froala_editor.pkgd.min.css",
-                        "<%= config.VENDOR_PATH  %>/angular-bootstrap-datetimepicker/src/css/datetimepicker.css",
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css",
+                        "<%= config.VENDOR_PATH  %>/angular-moment-picker/dist/angular-moment-picker.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css"
                     ]
                 }
@@ -71,14 +71,13 @@
                         "<%= config.NPM_VENDOR_PATH %>/ng-table/bundles/ng-table.js",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-tpls.js",
                         "<%= config.VENDOR_PATH  %>/tether/dist/js/tether.js",
-                        "<%= config.VENDOR_PATH  %>/moment/min/moment.min.js",
+                        "<%= config.VENDOR_PATH  %>/moment/min/moment-with-locales.min.js",
                         "<%= config.VENDOR_PATH  %>/ng-file-upload/ng-file-upload.js",
-                        "<%= config.VENDOR_PATH  %>/angular-bootstrap-datetimepicker/src/js/datetimepicker.js",
-                        "<%= config.VENDOR_PATH  %>/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js",
                         "<%= config.VENDOR_PATH  %>/bootstrap/dist/js/bootstrap.js",
                         "<%= config.VENDOR_PATH  %>/angular-touch/angular-touch.js",
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.tpls.js",
                         "<%= config.VENDOR_PATH  %>/angular-resource/angular-resource.js",
+                        "<%= config.VENDOR_PATH  %>/angular-moment-picker/dist/angular-moment-picker.js",
                         "<%= config.VENDOR_PATH  %>/angular-ui-router/release/angular-ui-router.js",
                         "<%= config.VENDOR_PATH  %>/oclazyload/dist/ocLazyLoad.js",
                         "<%= config.VENDOR_PATH  %>/angular-breadcrumb/dist/angular-breadcrumb.js",
