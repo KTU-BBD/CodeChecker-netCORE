@@ -19,6 +19,16 @@ namespace CodeChecker.Models.Repositories
             return base.Query().Include(a => a.Creator).Where(c => c.DeletedAt == null);
         }
 
+        public int GetCountByStatus(ArticleStatus status)
+        {
+            return Query().Count(a => a.Status == status);
+        }
+
+        public Article GetActiveById(long id)
+        {
+            return Query().First(a => a.Id == id && a.Status == ArticleStatus.Published);
+        }
+
         public IEnumerable<Article> GetPaginatedByStatus(int page, int newsPerPage, ArticleStatus status)
         {
             if (page < 0)

@@ -145,6 +145,7 @@ namespace CodeChecker
                 cfg.CreateMap<List<Article>, List<ArticleListViewModel>>().ReverseMap();
                 cfg.CreateMap<Article, ArticleListViewModel>().ReverseMap();
                 cfg.CreateMap<Article, EditArticlePostViewModel>().ReverseMap();
+                cfg.CreateMap<Article, ArticleViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, AdminPanelUserViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, TopUserViewModel>().ReverseMap();
                 cfg.CreateMap<List<ApplicationUser>, List<TopUserViewModel>>().ReverseMap();

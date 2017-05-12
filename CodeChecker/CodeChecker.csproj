@@ -103,7 +103,6 @@
     <Folder Include="wwwroot\Html\Admin\pages\contest\task" />
     <Folder Include="wwwroot\Html\Admin\pages\user" />
     <Folder Include="wwwroot\Html\Front\DirectiveView" />
-    <Folder Include="wwwroot\Html\Front\Index" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="wwwroot\Angular\Contest\**" />

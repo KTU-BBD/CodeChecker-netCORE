@@ -1,0 +1,8 @@
+﻿<h3>{{article.title}}</h3>
+<div class="info">
+
+Author: <span colourise="{{article.creator.rating}}">{{article.creator.userName}}</span>
+</div>
+<hr>
+<div  ng-bind-html="article.longDescription|trust">
+</div>

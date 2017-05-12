@@ -1,10 +1,23 @@
-﻿<div ng-controller="indexController">
+﻿<div class="articles">
     <div ng-repeat="article in articles">
-        <div>
-            {{article.title}}
+        <div class="article">
+            <div class="title">
+                <h3><a href="/#!/{{article.id}}">{{article.title}}</a></h3>
+                <div>Author: <span colourise="{{article.creator.rating}}">{{article.creator.userName}}</span></div>
+            </div>
+            <div ng-bind-html="article.shortDescription|trust" class="description">
+            </div>
+            <div class="options clearfix">
+                <a href="/#!/{{article.id}}" class="pull-right">Read more</a>
+            </div>
         </div>
     </div>
-    <!--<ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>-->
-    <!--<pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>-->
+
+    <div style="text-align: center;">
+
+    <button ng-disabled="currentPage <= 1" data-ng-click="swapPage(-1)" class="btn btn-success">Previous</button>
+    <span>Current page: {{currentPage}}</span>
+    <button data-ng-click="swapPage(1)" ng-disabled="isLastPage" class="btn btn-success">Next</button>
+    </div>
 </div>
 

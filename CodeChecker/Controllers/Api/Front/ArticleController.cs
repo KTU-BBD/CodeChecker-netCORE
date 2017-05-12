@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeChecker.Controllers.Api.Front
 {
-    public class ArticleController: FrontBaseController
+    public class ArticleController : FrontBaseController
     {
         private readonly ArticleRepository _articleRepo;
         private const int ArticlesPerPage = 5;
@@ -18,10 +18,28 @@ namespace CodeChecker.Controllers.Api.Front
         }
 
         [HttpGet("{page}")]
-        public IActionResult Get(int page)
+        public IActionResult Page(int page)
         {
             return Ok(Mapper.Map<IEnumerable<ArticleListViewModel>>(
                 _articleRepo.GetPaginatedByStatus(page, ArticlesPerPage, ArticleStatus.Published)));
+        }
+
+        [HttpGet("{articleId}")]
+        public IActionResult Get(int articleId)
+        {
+            var article = _articleRepo.GetActiveById(articleId);
+
+            if (article == null)
+            {
+                return BadRequest("Article does not exist");
+            }
+            return Ok(Mapper.Map<ArticleViewModel>(article));
+        }
+
+        [HttpGet]
+        public IActionResult PageCount()
+        {
+            return Ok(new {articleCount = _articleRepo.GetCountByStatus(ArticleStatus.Published)});
         }
     }
 }

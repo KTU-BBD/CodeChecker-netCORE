@@ -6,7 +6,7 @@
                 restrict: 'EAC',
                 link: function(scope, ele, attrs) {
                     var points = attrs.colourise;
-
+                    console.log(attrs);
                     var color = '#18fc29';
 
                     if (points > 500 && points < 1000) {
