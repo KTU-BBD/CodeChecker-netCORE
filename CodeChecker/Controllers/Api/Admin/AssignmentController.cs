@@ -11,6 +11,7 @@ using System;
 using System.Diagnostics;
 using CodeChecker.Models.AssignmentViewModels;
 using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
+using CodeChecker.Models.Models.Enums;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -42,7 +43,12 @@ namespace CodeChecker.Controllers.Api.Admin
                     var assignment = new Assignment();
                     assignment.Name = model.Name;
                     var con = _contestRepo.GetContestFull(model.ContestID);
+                    if (con.Status == ContestStatus.Approved || con.Status == ContestStatus.Submited) {
+                        return BadRequest("Adding assignments after contest submission is not allowed");
+                    }
                     assignment.Contest = con;
+                    var userId = _userManager.GetUserId(User);
+                    assignment.Creator = _userRepo.GetById(userId);
                     _assignmentRepo.Insert(assignment);
                     var assignmentToReturn = Mapper.Map<ShortAssignmentViewModel>(assignment);
                     return Ok(assignmentToReturn);
@@ -71,6 +77,9 @@ namespace CodeChecker.Controllers.Api.Admin
 
             catch (Exception ex)
             {
+                Debug.WriteLine("!!!!!!!!!!!!!"); Debug.WriteLine("!!!!!!!!!!!!!");
+                Debug.WriteLine(ex);
+                Debug.WriteLine("!!!!!!!!!!!!!"); Debug.WriteLine("!!!!!!!!!!!!!");
                 return BadRequest("Error");
             }
         }
@@ -82,7 +91,12 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             try
             {
-                var assignment = _assignmentRepo.GetById(updatedAssignment.Id);
+                var assignment = _assignmentRepo.GetByIdWithContest(updatedAssignment.Id);
+                var con = _contestRepo.GetContestFull(assignment.Contest.Id);
+                if (con.Status == ContestStatus.Approved || con.Status == ContestStatus.Submited)
+                {
+                    return BadRequest("Updating assignments after contest submission is not allowed");
+                }
                 if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
                     var updated = Mapper.Map(updatedAssignment, assignment);
@@ -105,8 +119,13 @@ namespace CodeChecker.Controllers.Api.Admin
         public IActionResult Delete([FromBody]EditAssignmentPostViewModel updatedAssignment)
         {
             try
-            {
-                var assignment = _assignmentRepo.GetByIdWithInputsOutputs(updatedAssignment.Id);
+            { 
+                var assignment = _assignmentRepo.GetAssignmentFull(updatedAssignment.Id);
+                var con = _contestRepo.GetContestFull(assignment.Contest.Id);
+                if (con.Status == ContestStatus.Approved || con.Status == ContestStatus.Submited)
+                {
+                    return BadRequest("Deleting assignments after contest submission is not allowed");
+                }
                 if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
                     
@@ -130,7 +149,12 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             try
             {
-                var assignment = _assignmentRepo.GetByIdWithInputsOutputs(id);
+                var assignment = _assignmentRepo.GetAssignmentFull(id);
+                var con = _contestRepo.GetContestFull(assignment.Contest.Id);
+                if (con.Status == ContestStatus.Approved || con.Status == ContestStatus.Submited)
+                {
+                    return BadRequest("Adding tests to assignments after contest submission is not allowed");
+                }
                 if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
                     _assignmentRepo.CreateTestForAssignment(id);

@@ -25,7 +25,7 @@
                             <td data-title="'Deleted'" sortable="'DeletedAt'">
                                 <div ng-if="ac.show && row.deletedAt"><button ng-click="ac.recover(row.id)" type="button" class="btn btn-outline-success col-md-12">Recover</button></div>
                                 <div ng-if="!ac.show && row.deletedAt"><button ng-click="ac.recover(row.id)" type="button" class="btn btn-outline-danger col-md-12" disabled>Deleted</button></div>
-                                <div ng-if="!row.deletedAt"><button ng-click="ac.delete(row.id)" type="button" class="btn btn-outline-danger col-md-12">Delete</button></div>
+                                <div ng-if="!row.deletedAt"><button ng-click="ac.delete(row.id)" type="button" class="btn btn-danger col-md-12">Delete</button></div>
                             </td>
                         </tr>
                     </table>
