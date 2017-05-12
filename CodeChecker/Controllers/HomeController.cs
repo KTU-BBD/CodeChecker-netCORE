@@ -1,16 +1,19 @@
 ﻿using System.Threading.Tasks;
+using CodeChecker.Models.ArticleViewModel;
 using CodeChecker.Services.CodeSubmit;
+using CodeChecker.Services.EmailSending;
+using CodeChecker.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeChecker.Controllers
 {
     public class HomeController : BaseController
     {
-        private CodeSubmitService _service;
+        private SendEmailTask _sendEmailTask;
 
-        public HomeController(CodeSubmitService service)
+        public HomeController(SendEmailTask sendEmailTask)
         {
-            _service = service;
+            _sendEmailTask = sendEmailTask;
         }
 
         public IActionResult Index()

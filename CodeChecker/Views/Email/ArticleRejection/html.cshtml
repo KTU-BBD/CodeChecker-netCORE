@@ -1,0 +1,18 @@
+﻿@model CodeChecker.Models.ArticleViewModel.ArticleRejectionViewModel
+@{
+    Layout = "~/Views/Shared/_Email.cshtml";
+}
+
+<h2 style="text-align: center;">Hello @Model.CreatorName!</h2>
+
+<div style="text-align: center">
+    <p>
+        We are sorry to announce, but your article @Model.ArticleName was not approved.</br>
+        Reason why your article was not approved: </br>
+        <strong>@Model.Reason</strong>
+    </p>
+    <p>You may try to submit article again</p>
+    <div>
+        <a target="_blank" href="http://@Context.Request.Host/Admin#!/articles/@Model.ArticleId" class="button">Click here to open article</a>
+    </div>
+</div>

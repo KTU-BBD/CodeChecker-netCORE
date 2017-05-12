@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using CodeChecker.Data;
+using CodeChecker.Models.ArticleViewModel;
 using CodeChecker.Models.ContestViewModels;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
+using CodeChecker.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,20 +20,30 @@ namespace CodeChecker.Controllers.Api.Front
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ContestParticipantRepository _contestParticipantRepo;
         private readonly ApplicationUserRepository _userRepo;
+        private readonly SendEmailTask _sendEmailTask;
 
         public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
             ApplicationDbContext context, ContestParticipantRepository contestParticipantRepo,
-            ApplicationUserRepository userRepo)
+            ApplicationUserRepository userRepo, SendEmailTask sendEmailTask)
         {
             _contestRepo = contestRepo;
             _userManager = userManager;
             _contestParticipantRepo = contestParticipantRepo;
             _userRepo = userRepo;
+            _sendEmailTask = sendEmailTask;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> All([FromQuery] DataFilterViewModel filterData)
         {
+            _sendEmailTask.Run("test3@email.test", "subject", "ArticleRejection", new ArticleRejectionViewModel
+            {
+                Reason = "Test reason is test",
+                CreatorName = "Jonas Ketvirtis",
+                ArticleName = "Test article",
+                ArticleId = 3
+            });
+
             var contests = _contestRepo.GetActiveContestPagedData(filterData);
             var user = await _userManager.GetUserAsync(HttpContext.User);
 

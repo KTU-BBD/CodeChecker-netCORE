@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using CodeChecker.Data;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Models.Enums;
-using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Services.CodeSubmit;
 using Microsoft.EntityFrameworkCore;
