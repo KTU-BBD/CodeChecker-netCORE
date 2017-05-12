@@ -28,9 +28,11 @@ using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Models.SubmissionViewModels;
 using CodeChecker.Services.CodeSubmit;
+using CodeChecker.Services.EmailSending;
 using CodeChecker.Tasks;
 using idunno.Authentication;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
 
 namespace CodeChecker
@@ -68,8 +70,6 @@ namespace CodeChecker
                 .AddDefaultTokenProviders();
             services.AddTransient<BaseSeeder>();
 
-
-
             services.Configure<IdentityOptions>(options =>
             {
                 options.SecurityStampValidationInterval = TimeSpan.FromSeconds(0);
@@ -79,8 +79,16 @@ namespace CodeChecker
             {
                 appSettings.Microservice = new Microservice
                 {
-                    // Untyped Syntax - Configuration[""]
                     Uri = Configuration.GetSection("Microservice")["Uri"]
+                };
+
+                appSettings.MailSettings = new MailSettings
+                {
+                    Address = Configuration.GetSection("Email")["Address"],
+                    UserName = Configuration.GetSection("Email")["UserName"],
+                    Password = Configuration.GetSection("Email")["Password"],
+                    From = Configuration.GetSection("Email")["From"],
+                    Port = Convert.ToInt32(Configuration.GetSection("Email")["Port"])
                 };
             });
 
@@ -89,7 +97,8 @@ namespace CodeChecker
             Services(services);
             Policies(services);
 
-            services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            services.AddMvc()
+                .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             //var config = new AutoMapper.MapperConfiguration(cfg =>
             //{
@@ -107,7 +116,6 @@ namespace CodeChecker
 
             //var mapper = config.CreateMapper();
             //services.AddSingleton(mapper);
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -157,7 +165,6 @@ namespace CodeChecker
                 cfg.CreateMap<Contest, ContestViewModel>()
                     .ForMember(c => c.IsPublic, o => o.MapFrom(src => string.IsNullOrEmpty(src.Password)))
                     .ForMember(c => c.IsStarted, o => o.MapFrom(src => src.StartAt < DateTime.Now))
-
                     .ReverseMap();
                 cfg.CreateMap<Contest, ContestWithAssignmentViewModel>();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
@@ -205,6 +212,9 @@ namespace CodeChecker
         {
             services.AddTransient<FileUploadService>();
             services.AddTransient<CodeSubmitService>();
+            services.AddTransient<EmailSenderService>();
+            services.AddTransient<ViewRenderService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -213,6 +223,7 @@ namespace CodeChecker
         private void Tasks(IServiceCollection services)
         {
             services.AddSingleton<CodeTestTask>();
+            services.AddSingleton<SendEmailTask>();
         }
 
         private void Policies(IServiceCollection services)
@@ -224,14 +235,13 @@ namespace CodeChecker
                     policy => policy.RequireRole("Administrator", "Moderator", "Contributor")
                 );
                 options.AddPolicy(
-                   "CanEditContests",
-                   policy => policy.RequireRole("Administrator", "Moderator")
-
-               );
+                    "CanEditContests",
+                    policy => policy.RequireRole("Administrator", "Moderator")
+                );
                 options.AddPolicy(
-                   "CanEditArticles",
-                   policy => policy.RequireRole("Administrator", "Moderator")
-               );
+                    "CanEditArticles",
+                    policy => policy.RequireRole("Administrator", "Moderator")
+                );
             });
         }
     }

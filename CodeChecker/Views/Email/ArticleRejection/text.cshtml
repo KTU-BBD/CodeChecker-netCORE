@@ -1,0 +1,12 @@
+﻿@model CodeChecker.Models.ArticleViewModel.ArticleRejectionViewModel
+@{
+    Layout = null;
+}
+Hello @Model.CreatorName!
+
+We are sorry to announce, but your article @Model.ArticleName was not approved
+Reason why your article was not approved:
+@Model.Reason
+
+You may try to submit article again
+Click here to open article[http://@Context.Request.Host/Admin#!/articles/@Model.ArticleId]
