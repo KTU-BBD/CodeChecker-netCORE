@@ -56,12 +56,11 @@
         scc.contest_to_update = scc.contest;
 
         scc.saveContest = function () {
-            var d = new Date();
-            scc.contest.updatedAt = d.toISOString(); 
             $http.post(updateContestUrl, scc.contest)
                 .then(function (response) {
+                    toastr.success(response.data);
                 }, function (error) {
-                    window.alert();
+                    toastr.error(error.data);
                 })
                 .finally(function (response) {
                 });
@@ -180,6 +179,46 @@
                     };
                     $scope.submit = function () {
                         deleteAssignmentLocal(index);
+                        $scope.close()
+                    };
+                }
+            }).result.then(function () {
+
+            }, function (res) {
+
+            });
+        }
+
+        var publishLocal = function () {
+            $http.post("/api/admin/contest/ChangeStatus/" + scc.contest.id, 1)
+                .then(function (response) {
+                    scc.contest.status = 1;
+                    toastr.success("Contest submited");
+                }
+                , function (err) {
+                    toastr.error("Error");
+                })
+                .finally(function () {
+
+                });
+        }
+
+        scc.publish = function () {
+            $uibModal.open({
+                templateUrl: '/Html/Admin/Modal/submitItem.html',
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'md',
+                controller: function ($scope) {
+                    $scope.close = function () {
+                        var top = $uibModalStack.getTop();
+                        if (top) {
+                            $uibModalStack.dismiss(top.key);
+                        }
+                    };
+                    $scope.submit = function () {
+                        publishLocal();
                         $scope.close()
                     };
                 }

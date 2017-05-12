@@ -3,6 +3,7 @@
     public enum ContestStatus
     {
         Created,
+        Submited,
         Approved,
         Cancelled
     }

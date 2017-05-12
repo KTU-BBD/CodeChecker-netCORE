@@ -17,10 +17,11 @@ angular
                 });
         }
         
-        cvc.showstatus = function (num){
+        cvc.showStatus = function (num){
             if (num == 0) { return "Created"}
-            if (num == 1) { return "Accepted" }
-            if (num == 2) { return "Cancelled" }
+            if (num == 1) { return "Submited" }
+            if (num == 2) { return "Aprooved" }
+            if (num == 3) { return "Cancelled" }
         }
 
         cvc.ajaxGet();
@@ -112,30 +113,33 @@ angular
         }
 
         cvc.delete = function (id) {
+            if (cvc.show) {
+                deleteContestLocal(id);
+            } else {
+                $uibModal.open({
+                    templateUrl: '/Html/Admin/Modal/deleteItemAck.html',
+                    animation: false,
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    size: 'md',
+                    controller: function ($scope) {
+                        $scope.close = function () {
+                            var top = $uibModalStack.getTop();
+                            if (top) {
+                                $uibModalStack.dismiss(top.key);
+                            }
+                        };
+                        $scope.submit = function () {
+                            deleteContestLocal(id);
+                            $scope.close()
+                        };
+                    }
+                }).result.then(function () {
 
-            $uibModal.open({
-                templateUrl: '/Html/Admin/Modal/deleteItemAck.html',
-                animation: false,
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                size: 'md',
-                controller: function ($scope) {
-                    $scope.close = function () {
-                        var top = $uibModalStack.getTop();
-                        if (top) {
-                            $uibModalStack.dismiss(top.key);
-                        }
-                    };
-                    $scope.submit = function () {
-                        deleteContestLocal(id);
-                        $scope.close()
-                    };
-                }
-            }).result.then(function () {
+                }, function (res) {
 
-            }, function (res) {
-
-            }); 
+                });
+            }
         }
 
         cvc.recover = function (id) {

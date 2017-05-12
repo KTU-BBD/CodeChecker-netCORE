@@ -59,8 +59,6 @@
         }
 
         savc.saveArticle = function () {
-            var d = new Date();
-            savc.article.updatedAt = d.toISOString();
             $http.post(updateArticleUrl, savc.article)
                 .then(function (response) {
                     toastr.success(response.data);
@@ -86,7 +84,7 @@
 
         savc.deleteArticle = function (id) {
             $uibModal.open({
-                templateUrl: '/Html/Admin/Modal/deleteItem.html',
+                templateUrl: '/Html/Admin/Modal/deleteItemAck.html',
                 animation: false,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
@@ -100,6 +98,46 @@
                     };
                     $scope.submit = function () {
                         deleteArticleLocal(id);
+                        $scope.close()
+                    };
+                }
+            }).result.then(function () {
+
+            }, function (res) {
+
+            });
+        }
+
+        var publishLocal = function () {
+            $http.post("/api/admin/article/ChangeStatus/" + savc.article.id, 1)
+                .then(function (response) {
+                    savc.article.status = 1;
+                    toastr.success("Article submited");
+                }
+                , function (err) {
+                    toastr.error("Error");
+                })
+                .finally(function () {
+
+                });
+        }
+
+        savc.publish = function () {
+            $uibModal.open({
+                templateUrl: '/Html/Admin/Modal/submitItem.html',
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'md',
+                controller: function ($scope) {
+                    $scope.close = function () {
+                        var top = $uibModalStack.getTop();
+                        if (top) {
+                            $uibModalStack.dismiss(top.key);
+                        }
+                    };
+                    $scope.submit = function () {
+                        publishLocal();
                         $scope.close()
                     };
                 }

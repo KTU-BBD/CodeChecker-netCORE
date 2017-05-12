@@ -14,10 +14,12 @@
                             <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><button class="btn-link" ng-click="contest.goToContest(row.id)">{{row.name}}</button></td>
 
                             <td data-title="'Status'" sortable="'Status'">
-                                <div ng-if="contest.show && row.status === 0"><button ng-click="contest.changeStatus(1,row)" type="button" class="btn btn-success col-md-6">Approve</button><button ng-click="contest.changeStatus(2,row)" type="button" class="btn btn-primary col-md-6">Cancel</button></div>
-                                <div ng-if="contest.show && row.status === 1"><button ng-click="contest.changeStatus(0,row)" type="button" class="btn btn-secondary col-md-6">Reset</button><button ng-click="contest.changeStatus(2,row)" type="button" class="btn btn-danger col-md-6">Cancel</button></div>
-                                <div ng-if="contest.show && row.status === 2"><button ng-click="contest.changeStatus(0,row)" type="button" class="btn btn-secondary col-md-6">Reset</button><button ng-click="contest.changeStatus(1,row)" type="button" class="btn btn-success col-md-6">Approve</button></div>
-                                <div ng-if="!contest.show"><button type="button" class="btn btn-secondary col-md-12" disabled>{{contest.showstatus(row.status)}}</button></div>
+                                <div ng-if="contest.show && row.status === 0"><button type="button" class="btn btn-secondary col-md-12" disabled>{{contest.showStatus(row.status)}}</button></div>
+                                <div ng-if="contest.show && row.status === 1"><button ng-click="contest.changeStatus(2,row)" type="button" class="btn btn-outline-success col-md-6">Publish</button><button ng-click="contest.changeStatus(3,row)" type="button" class="btn btn-outline-danger col-md-6">Cancel</button></div>
+                                <div ng-if="contest.show && row.status === 2"><button ng-click="contest.changeStatus(3,row)" type="button" class="btn btn-outline-danger col-md-12">Cancel</button></div>
+                                <div ng-if="contest.show && row.status === 3"><button ng-click="contest.changeStatus(2,row)" type="button" class="btn btn-outline-success col-md-12">Publish</button></div>
+                                <div ng-if="!contest.show"><button type="button" class="btn btn-secondary col-md-12" disabled>{{contest.showStatus(row.status)}}</button></div>
+
                             </td>
                             <td data-title="'Starts At'" sortable="'StartAt'">{{row.startAt}}</td>
                             <td data-title="'Ends At'" sortable="'EndAt'">{{row.endAt}}</td>

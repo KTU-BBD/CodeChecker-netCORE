@@ -103,8 +103,6 @@
         }
 
         awc.saveAssignment = function () {
-            var d = new Date();
-            awc.assignment.updatedAt = d.toISOString();
             $http.post(updateAssignmentUrl, awc.assignment)
                 .then(function (response) {
                     toastr.success(response.data);

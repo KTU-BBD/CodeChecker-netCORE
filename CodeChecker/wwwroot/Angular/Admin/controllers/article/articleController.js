@@ -6,6 +6,7 @@
         var Api = $resource('/api/admin/article/getall/');
         var deleteArticleUrl = "/api/admin/article/deletearticle/";
         var recoverContestUrl = "/api/admin/article/recoverarticle/";
+        var createArticleUrl = "api/admin/Article/CreateArticle/";
 
 
         ac.ajaxGet = function () {
@@ -34,7 +35,7 @@
                 }
             }
             if (article.deletedAt != null) {
-                toastr.error("Contest is deleted");
+                toastr.error("Article is deleted");
             } else {
                 $state.go('app.articles.one', { id: article.id });
             }
@@ -49,6 +50,55 @@
             }
             return false;
         } 
+
+       
+
+        var createArticleLocal = function (title) {
+            if (title == null) {
+                toastr.error("Title cannot be empty");
+            } else {
+                var TitleToSend = {"Title":title}
+                $http.post(createArticleUrl, TitleToSend)
+                    .then(function (response) {
+                        $state.go('app.articles.one', { id: response.data });
+                        toastr.success("Article created");
+                    }
+                    , function (err) {
+                        toastr.error(err.data);
+                    })
+                    .finally(function () {
+
+                    });
+            }
+        }
+
+        ac.createArticle = function () {
+            $uibModal.open({
+                templateUrl: '/Html/Admin/Modal/createArticle.html',
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'md',
+                controller: function ($scope) {
+                    $scope.close = function () {
+                        var top = $uibModalStack.getTop();
+                        if (top) {
+                            $uibModalStack.dismiss(top.key);
+                        }
+                    };
+                    $scope.submit = function () {
+                        createArticleLocal($scope.name);
+                        $scope.close()
+                    };
+                }
+            }).result.then(function () {
+
+            }, function (res) {
+
+            });
+        }
+
+
 
         var deleteArticleLocal = function (id) {
             var idMatch;
@@ -74,30 +124,33 @@
         }
 
         ac.delete = function (id) {
+            if (ac.show) {
+                deleteArticleLocal(id);
+            } else {
+                $uibModal.open({
+                    templateUrl: '/Html/Admin/Modal/deleteItemAck.html',
+                    animation: false,
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    size: 'md',
+                    controller: function ($scope) {
+                        $scope.close = function () {
+                            var top = $uibModalStack.getTop();
+                            if (top) {
+                                $uibModalStack.dismiss(top.key);
+                            }
+                        };
+                        $scope.submit = function () {
+                            deleteArticleLocal(id);
+                            $scope.close()
+                        };
+                    }
+                }).result.then(function () {
 
-            $uibModal.open({
-                templateUrl: '/Html/Admin/Modal/deleteItemAck.html',
-                animation: false,
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                size: 'md',
-                controller: function ($scope) {
-                    $scope.close = function () {
-                        var top = $uibModalStack.getTop();
-                        if (top) {
-                            $uibModalStack.dismiss(top.key);
-                        }
-                    };
-                    $scope.submit = function () {
-                        deleteArticleLocal(id);
-                        $scope.close()
-                    };
-                }
-            }).result.then(function () {
+                }, function (res) {
 
-            }, function (res) {
-
-            });
+                });
+            }
         }
 
         ac.recover = function (id) {

@@ -62,8 +62,9 @@
                         <div class="col-md-9">
                             <select id="select" name="select" class="form-control" ng-model="scc.contest.status">
                                 <option ng-selected="scc.contest.status == 0" ng-value="0" >Created</option>
-                                <option ng-selected="scc.contest.status == 1" ng-value="1" >Approved</option>
-                                <option ng-selected="scc.contest.status == 2" ng-value="2" >Cancelled</option>
+                                <option ng-selected="scc.contest.status == 1" ng-value="1" >Submited</option>
+                                <option ng-selected="scc.contest.status == 2" ng-value="2">Approved</option>
+                                <option ng-selected="scc.contest.status == 3" ng-value="" >Cancelled</option>
                             </select>
                         </div>
                     </div>
@@ -88,9 +89,10 @@
                 </form>
             </div>
             <div class="card-footer">
-                <button ng-click="scc.saveContest()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                <button ng-click="scc.saveContest()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-dot-circle-o"></i> Save Changes</button>
                 <button ng-click="scc.reset()" class="btn btn-sm btn-warning" ui-sref-active="active" ui-sref="app.contests.one(scc.contest.id)"><i class="fa fa-ban"></i> Reset</button>
                 <button ng-click="scc.deleteContest(scc.contest.id)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i>Delete</button>
+                <button ng-if="scc.contest.status == 0 || scc.contest.status == 3" ng-click="scc.publish()" class="btn btn-sm btn-success"><i class="fa fa-trash-o"></i>Submit</button>
             </div>
         </div>
 

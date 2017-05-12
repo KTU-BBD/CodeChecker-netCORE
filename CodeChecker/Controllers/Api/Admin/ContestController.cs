@@ -37,7 +37,7 @@ namespace CodeChecker.Controllers.Api.Admin
             {
                 var contests = _contestRepo.GetPagedDataIncludeDeleted(filterData);
                 if (contests != null)
-                    return Ok(contests);
+                return Ok(contests);
             }
             else
             {
@@ -88,7 +88,7 @@ namespace CodeChecker.Controllers.Api.Admin
                     return Ok(contest);
                 }
                 else {
-                    return Unauthorized();
+                    return BadRequest("Unauthorized");
                 }
             }
             catch (Exception ex)
@@ -121,47 +121,77 @@ namespace CodeChecker.Controllers.Api.Admin
        
         [HttpPost]
         public IActionResult Update([FromBody] EditContestPostViewModel updatedContest)
-        {
-            
-                try
+        { 
+            try
+            {
+                if (ModelState.IsValid)
                 {
                     var contest = _contestRepo.GetContestFull(updatedContest.Id);
-                    if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                    if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                     {
-                    
                         var updated = Mapper.Map(updatedContest, contest);
-                        if (User.IsInRole("Contributor"))
-                        {
                         updated.Status = contest.Status;
-                        }
-                    _contestRepo.Update(updated);
-                        return Ok(Mapper.Map<EditContestPostViewModel>(updated));
+                        updated.UpdatedAt = DateTime.Now;
+                        _contestRepo.Update(updated);
+                        return Ok("Updated");
                     }
-
-                    return Unauthorized();
-            }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                    return BadRequest(ex);
+                            
+                    if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User))
+                    {
+                        if (contest.Status == ContestStatus.Submited || contest.Status == ContestStatus.Approved)
+                        {
+                            return BadRequest("You are not allowed to edit contest after submission");
+                        }
+                        var updated = Mapper.Map(updatedContest, contest);
+                        updated.Status = contest.Status;
+                        updated.UpdatedAt = DateTime.Now;
+                        _contestRepo.Update(updated);
+                        return Ok("Updated");
+                    }
                 }
-            
+                else {
+                    return BadRequest("Bad contest data");
+                }
+                    return BadRequest("Unauthorized");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
-
-        [Authorize("CanEditContests")]
         [HttpPost("{id}")]
         public IActionResult ChangeStatus(int id, [FromBody] ContestStatus status)
         {
-            var contest = _contestRepo.Get(id);
-            contest.Status = status;
-            _contestRepo.Update(contest);
-            return Ok();
+            try
+            {
+                var article = _contestRepo.Get(id);
+                if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    article.Status = status;
+                    _contestRepo.Update(article);
+                    return Ok("Status changed");
+                }
+                if (User.IsInRole("Contributor") && article.Creator.Id == _userManager.GetUserId(User))
+                {
+                    if (article.Status == ContestStatus.Submited || article.Status == ContestStatus.Approved)
+                    {
+                        return BadRequest("You are not allowed to change status after submission");
+                    }
+                    article.Status = status;
+                    _contestRepo.Update(article);
+                    return Ok("Status changed");
+                }
+                return BadRequest("Unauthorized");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
         }
 
         [HttpPost("{id}")]
         public IActionResult DeleteContest(int id)
         {
-
             try
             {
                 var contest = _contestRepo.GetContestFull(id);
@@ -182,7 +212,6 @@ namespace CodeChecker.Controllers.Api.Admin
         [HttpPost("{id}")]
         public IActionResult RecoverContest(int id)
         {
-
             try
             {
                 var contest = _contestRepo.GetContestFullWithDeleted(id);
@@ -202,7 +231,5 @@ namespace CodeChecker.Controllers.Api.Admin
                 return BadRequest("Error");
             }
         }
-        
-
     }
 }

@@ -39,10 +39,13 @@
     <Content Include="wwwroot\Angular\Front\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Angular\Front\Modules\topUsersSidebarModule.js" />
     <Content Include="wwwroot\Html\Admin\directiveView\unauthorized.html" />
+    <Content Include="wwwroot\Html\Admin\modal\createArticle.html" />
     <Content Include="wwwroot\Html\Admin\modal\createContest.html" />
     <Content Include="wwwroot\Html\Admin\modal\createItem.html" />
     <Content Include="wwwroot\Html\Admin\modal\deleteItem.html" />
     <Content Include="wwwroot\Html\Admin\modal\deleteItemAck.html" />
+    <Content Include="wwwroot\Html\Admin\modal\publishArticle.html" />
+    <Content Include="wwwroot\Html\Admin\modal\submitItem.html" />
     <Content Include="wwwroot\Html\Admin\pages\article\article.html" />
     <Content Include="wwwroot\Html\Admin\pages\article\articles.html" />
     <Content Include="wwwroot\Html\Admin\pages\contest\contest.html" />

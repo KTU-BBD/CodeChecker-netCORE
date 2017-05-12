@@ -86,10 +86,11 @@ namespace CodeChecker.Controllers.Api.Admin
                 if (User.IsInRole("Contributor") && assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
                     var updated = Mapper.Map(updatedAssignment, assignment);
-
+                    updated.UpdatedAt = DateTime.Now;
                     _assignmentRepo.Update(updated);
                     return Ok("Updated");
                 }
+
                 else {
                     return BadRequest("Unauthorized");
                 }

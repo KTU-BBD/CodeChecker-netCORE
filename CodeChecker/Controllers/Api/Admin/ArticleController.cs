@@ -20,11 +20,13 @@ namespace CodeChecker.Controllers.Api.Admin
     {
         private readonly ArticleRepository _articleRepo;
         private UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationUserRepository _userRepo;
 
-        public ArticleController(ArticleRepository articleRepo, UserManager<ApplicationUser> userManager)
+        public ArticleController(ArticleRepository articleRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
         {
             _articleRepo = articleRepo;
             _userManager = userManager;
+            _userRepo = userRepo;
         }
 
         [HttpGet]
@@ -80,18 +82,22 @@ namespace CodeChecker.Controllers.Api.Admin
 
             try
             {
-                var article = _articleRepo.GetArticleFull(updatedArticle.Id);
-                if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                if (ModelState.IsValid)
                 {
-                    var updated = Mapper.Map(updatedArticle, article);
-                    updated.Status = updatedArticle.Status;
-                    _articleRepo.Update(updated);
-                    return Ok("Article updated");
-                }
+                    var article = _articleRepo.GetArticleFull(updatedArticle.Id);
+                    if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                    {
+                        var updated = Mapper.Map(updatedArticle, article);
+                        updated.Status = updatedArticle.Status;
+                        updated.UpdatedAt = DateTime.Now;
+                        _articleRepo.Update(updated);
+                        return Ok("Article updated");
+                    }
 
                     if (User.IsInRole("Contributor") && article.Creator.Id == _userManager.GetUserId(User))
                     {
-                        if (article.Status == ArticleStatus.Submited || article.Status == ArticleStatus.Published) {
+                        if (article.Status == ArticleStatus.Submited || article.Status == ArticleStatus.Published)
+                        {
                             return BadRequest("You are not allowed to edit article after submission");
                         }
                         var updated = Mapper.Map(updatedArticle, article);
@@ -99,7 +105,10 @@ namespace CodeChecker.Controllers.Api.Admin
                         _articleRepo.Update(updated);
                         return Ok("Article updated");
                     }
-
+                }
+                else {
+                    return BadRequest("Bad article data");
+                }
                 return BadRequest("Unauthorized");
             }
             catch (Exception ex)
@@ -154,14 +163,58 @@ namespace CodeChecker.Controllers.Api.Admin
             }
         }
 
-        [Authorize("CanEditArticles")]
+        
         [HttpPost("{id}")]
         public IActionResult ChangeStatus(int id, [FromBody] ArticleStatus status)
         {
-            var article = _articleRepo.Get(id);
-            article.Status = status;
-            _articleRepo.Update(article);
-            return Ok();
+            try
+            {
+                var article = _articleRepo.Get(id);
+                if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    article.Status = status;
+                    _articleRepo.Update(article);
+                    return Ok("Status changed");
+                }
+                if (User.IsInRole("Contributor") && article.Creator.Id == _userManager.GetUserId(User))
+                {
+                    if (article.Status == ArticleStatus.Submited || article.Status == ArticleStatus.Published)
+                    {
+                        return BadRequest("You are not allowed to change status after submission");
+                    }
+                    article.Status = status;
+                    _articleRepo.Update(article);
+                    return Ok("Status changed");
+                }
+                return BadRequest("Unauthorized");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpPost("")]
+        public IActionResult CreateArticle([FromBody]ArticleTitleViewModel model)
+        {
+            try
+            {
+                if (model.Title != null) {
+                    var newArticle = new Article();
+
+                    var assignedUser = _userRepo.GetById(_userManager.GetUserId(User));
+                    newArticle.Creator = assignedUser;
+                    newArticle.Title = model.Title;
+                    _articleRepo.Insert(newArticle);
+                    return Ok(newArticle.Id);
+                }
+                return BadRequest("The title of your article cannot be empty");
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest("Error");
+            }
         }
     }
 }

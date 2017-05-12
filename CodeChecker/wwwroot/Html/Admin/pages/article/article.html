@@ -64,9 +64,10 @@
                 </form>
             </div>
             <div class="card-footer">
-                <button ng-click="savc.saveArticle()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.articles.one(savc.article.id)"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                <button ng-click="savc.saveArticle()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.articles.one(savc.article.id)"><i class="fa fa-dot-circle-o"></i> Save Changes</button>
                 <button ng-click="savc.reset()" class="btn btn-sm btn-warning" ui-sref-active="active" ui-sref="app.articles.one(savc.article.id)"><i class="fa fa-ban"></i> Reset</button>
                 <button ng-click="savc.deleteArticle(savc.article.id)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i>Delete</button>
+                <button ng-if="savc.article.status == 0 || savc.article.status == 3" ng-click="savc.publish()" class="btn btn-sm btn-success"><i class="fa fa-trash-o"></i>Submit</button>
             </div>
         </div>
     </div>
