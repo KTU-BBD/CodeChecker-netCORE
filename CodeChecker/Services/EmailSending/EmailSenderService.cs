@@ -17,7 +17,7 @@ namespace CodeChecker.Services.EmailSending
             _settings = settings.Value.MailSettings;
         }
 
-        public async Task SendEmailAsync<TModel>(string email, string subject, string template, TModel model)
+        public async Task SendEmailAsync<TModel>(string email, string name, string subject, string template, TModel model)
         {
             var emailMessage = new MimeMessage();
 
@@ -27,8 +27,8 @@ namespace CodeChecker.Services.EmailSending
                 TextBody = _viewRender.Render(model, template, false)
             };
 
-            emailMessage.From.Add(new MailboxAddress("test1", "test2@example.com"));
-            emailMessage.To.Add(new MailboxAddress("test3", email));
+            emailMessage.From.Add(new MailboxAddress(_settings.SenderName, _settings.SenderMail));
+            emailMessage.To.Add(new MailboxAddress(name, email));
             emailMessage.Subject = subject;
             emailMessage.Body = bodyBuilder.ToMessageBody();
 

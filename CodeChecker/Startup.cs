@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CodeChecker.Data;
-using CodeChecker.Models.AccountViewModels;
 using CodeChecker.Models.AssetViewModels;
 using CodeChecker.Models.ContestViewModels;
 using CodeChecker.Models.Models;
@@ -18,8 +17,6 @@ using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using AutoMapper;
 using CodeChecker.Middleware;
 using CodeChecker.Models.ArticleViewModel;
@@ -30,10 +27,7 @@ using CodeChecker.Models.SubmissionViewModels;
 using CodeChecker.Services.CodeSubmit;
 using CodeChecker.Services.EmailSending;
 using CodeChecker.Tasks;
-using idunno.Authentication;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Authentication;
 
 namespace CodeChecker
 {
@@ -87,7 +81,8 @@ namespace CodeChecker
                     Address = Configuration.GetSection("Email")["Address"],
                     UserName = Configuration.GetSection("Email")["UserName"],
                     Password = Configuration.GetSection("Email")["Password"],
-                    From = Configuration.GetSection("Email")["From"],
+                    SenderName = Configuration.GetSection("Email")["SenderName"],
+                    SenderMail = Configuration.GetSection("Email")["SenderMail"],
                     Port = Convert.ToInt32(Configuration.GetSection("Email")["Port"])
                 };
             });
