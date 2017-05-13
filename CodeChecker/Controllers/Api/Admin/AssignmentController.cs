@@ -47,6 +47,8 @@ namespace CodeChecker.Controllers.Api.Admin
                         return BadRequest("Adding assignments after contest submission is not allowed");
                     }
                     assignment.Contest = con;
+                    var userId = _userManager.GetUserId(User);
+                    assignment.Creator = _userRepo.GetById(userId);
                     _assignmentRepo.Insert(assignment);
                     var assignmentToReturn = Mapper.Map<ShortAssignmentViewModel>(assignment);
                     return Ok(assignmentToReturn);
@@ -75,6 +77,9 @@ namespace CodeChecker.Controllers.Api.Admin
 
             catch (Exception ex)
             {
+                Debug.WriteLine("!!!!!!!!!!!!!"); Debug.WriteLine("!!!!!!!!!!!!!");
+                Debug.WriteLine(ex);
+                Debug.WriteLine("!!!!!!!!!!!!!"); Debug.WriteLine("!!!!!!!!!!!!!");
                 return BadRequest("Error");
             }
         }

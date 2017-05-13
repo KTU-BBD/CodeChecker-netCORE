@@ -117,7 +117,7 @@
                 .then(function (response) {
                     toastr.success(response.data);
                     $state.go('app.contests.one', {id:awc.assignment.contest.id});
-                }, function () {
+                }, function (error) {
                     toastr.error(error.data);
                 }).finally(function (response) {
                 });
