@@ -41,7 +41,6 @@
                 scc.notBusy = true;
             });
 
-
         scc.reset = function () {
             $http.get(apiUrl)
                 .then(function (response) {
@@ -238,6 +237,8 @@
             }
             return false;
         } 
+
+        
 
     }
 })();

@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
 using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
+using CodeChecker.Models.Models.Enums;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -18,15 +19,21 @@ namespace CodeChecker.Controllers.Api.Admin
         private InputRepository _inputRepository;
         private readonly ApplicationUserRepository _userRepo;
         private OutputRepository _outputRepository;
+        private AssignmentRepository _assignmentRepo;
+        private ContestRepository _contestRepo;
         UserManager<ApplicationUser> _userManager;
 
 
-        public InputController(InputRepository inputRepository, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo, OutputRepository outputRepository)
+        public InputController(InputRepository inputRepository, UserManager<ApplicationUser> userManager, 
+            ApplicationUserRepository userRepo, OutputRepository outputRepository, AssignmentRepository assignmentRepo,
+            ContestRepository contestRepo)
         {
             _inputRepository = inputRepository;
             _userRepo = userRepo;
             _userManager = userManager;
             _outputRepository = outputRepository;
+            _assignmentRepo = assignmentRepo;
+            _contestRepo = contestRepo;
         }
 
         [HttpPost()]
@@ -36,6 +43,12 @@ namespace CodeChecker.Controllers.Api.Admin
             {
 
                 var input = _inputRepository.GetByIdWithOutput(model.Id);
+                var assignment = _assignmentRepo.GetAssignmentFull(input.Assignment.Id);
+                var con = _contestRepo.GetContestFull(assignment.Contest.Id);
+                if (con.Status == ContestStatus.Approved || con.Status == ContestStatus.Submited)
+                {
+                    return BadRequest("Updating tests after contest submission is not allowed");
+                }
                 if (User.IsInRole("Contributor") && input.Assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
                     var updated = Mapper.Map(model, input);
@@ -61,6 +74,12 @@ namespace CodeChecker.Controllers.Api.Admin
             {
 
                 var input = _inputRepository.GetByIdWithOutput(model.Id);
+                var assignment = _assignmentRepo.GetAssignmentFull(input.Assignment.Id);
+                var con = _contestRepo.GetContestFull(assignment.Contest.Id);
+                if (con.Status == ContestStatus.Approved || con.Status == ContestStatus.Submited)
+                {
+                    return BadRequest("Deleting tests after contest submission is not allowed");
+                }
                 if (User.IsInRole("Contributor") && input.Assignment.Creator.Id == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Administrator"))
                 {
                     _outputRepository.Delete(input.Output);

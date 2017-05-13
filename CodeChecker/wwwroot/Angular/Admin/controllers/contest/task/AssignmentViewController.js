@@ -106,7 +106,7 @@
             $http.post(updateAssignmentUrl, awc.assignment)
                 .then(function (response) {
                     toastr.success(response.data);
-                }, function () {
+                }, function (error) {
                     toastr.error(error.data);
                 }).finally(function (response) {
                 });
