@@ -99,6 +99,7 @@
     <Folder Include="wwwroot\Angular\Admin\controllers\article" />
     <Folder Include="wwwroot\Angular\Admin\controllers\user" />
     <Folder Include="wwwroot\assets" />
+    <Folder Include="wwwroot\assets\" />
     <Folder Include="wwwroot\Html\Admin\pages\article" />
     <Folder Include="wwwroot\Html\Admin\pages\contest\task" />
     <Folder Include="wwwroot\Html\Admin\pages\user" />
