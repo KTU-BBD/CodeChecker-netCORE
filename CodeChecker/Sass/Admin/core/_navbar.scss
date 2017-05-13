@@ -18,6 +18,7 @@ header.navbar {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: $navbar-brand-logo-size;
+    margin-left: 15px;
     @include borders($navbar-brand-border);
   }
 

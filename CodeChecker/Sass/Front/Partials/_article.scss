@@ -1,0 +1,11 @@
+﻿.articles {
+
+  .article {
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0;;
+  }
+
+  &-pagination {
+    padding: 15px 0;
+  }
+}
