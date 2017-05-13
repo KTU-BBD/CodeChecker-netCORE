@@ -1,6 +1,5 @@
 ﻿<div class="articles">
-    <div ng-repeat="article in articles">
-        <div class="article">
+    <div ng-repeat="article in articles" class="article">
             <div class="title">
                 <h3><a href="/#!/{{article.id}}">{{article.title}}</a></h3>
                 <div>Author: <span colourise="{{article.creator.rating}}">{{article.creator.userName}}</span></div>
@@ -10,10 +9,9 @@
             <div class="options clearfix">
                 <a href="/#!/{{article.id}}" class="pull-right">Read more</a>
             </div>
-        </div>
     </div>
 
-    <div style="text-align: center;">
+    <div class="text-center articles-pagination">
 
     <button ng-disabled="currentPage <= 1" data-ng-click="swapPage(-1)" class="btn btn-success">Previous</button>
     <span>Current page: {{currentPage}}</span>

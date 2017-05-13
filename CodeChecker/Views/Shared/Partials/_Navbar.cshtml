@@ -1,8 +1,8 @@
 <section id="header" ng-app="app-navbar">
     <div class="clearfix">
         <div class="logo pull-left">
-            <a class="logo-text" href="/">
-                WAT
+            <a href="/">
+                <img src="assets/logo-smaller.png" alt="SITY Logo"/>
             </a>
         </div>
         <div class="pull-right">
@@ -39,16 +39,22 @@
     </div>
 </section>
 
-<section id="menu">
-    <ul class="menu">
-        <li class="current active">
-            <a href="@Url.Action("Index", "Home")">Home</a>
-        </li>
-        <li>
-            <a href="@Url.Action("Index", "Contest")">Contests</a>
-        </li>
-        <li>
-            <a href="@Url.Action("Index", "Gym")">Gym</a>
-        </li>
-    </ul>
-</section>
+
+
+<div class="col-12">
+<div class="row">
+    <section id="menu">
+        <ul>
+            <li class="@(Url.RouteUrl(ViewContext.RouteData.Values) == Url.Action("Index", "Home") ? "active" : "")">
+                <a href="@Url.Action("Index", "Home")">Home</a>
+            </li>
+            <li class="@(Url.RouteUrl(ViewContext.RouteData.Values) == Url.Action("Index", "Contest") ? "active" : "")">
+                <a class="" href="@Url.Action("Index", "Contest")">Contests</a>
+            </li>
+            <li class="@(Url.RouteUrl(ViewContext.RouteData.Values) == Url.Action("Index", "Gym") ? "active" : "")">
+                <a href="@Url.Action("Index", "Gym")">Gym</a>
+            </li>
+        </ul>
+    </section>
+</div>
+</div>

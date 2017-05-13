@@ -268,4 +268,4 @@ __pycache__/
 # tools/
 static/
 bower_components/
-wwwroot/assets/
+CodeChecker/wwwroot/assets/
