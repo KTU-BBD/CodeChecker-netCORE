@@ -77,9 +77,6 @@ namespace CodeChecker.Controllers.Api.Admin
 
             catch (Exception ex)
             {
-                Debug.WriteLine("!!!!!!!!!!!!!"); Debug.WriteLine("!!!!!!!!!!!!!");
-                Debug.WriteLine(ex);
-                Debug.WriteLine("!!!!!!!!!!!!!"); Debug.WriteLine("!!!!!!!!!!!!!");
                 return BadRequest("Error");
             }
         }
