@@ -1,11 +1,11 @@
 ﻿<div class="content">
-    <h2>Upcomming gym contests</h2>
+    <h2>Available gym contests</h2>
     <table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
         <tr ng-repeat="row in $data track by row.id" id="contest-{{row.id}}">
             <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'">{{row.name}}</td>
             <td data-title="'Creator'" filter="{'Creator.UserName': 'text'}" sortable="'Creator.UserName'"><span colourise="{{row.creator.rating}}">{{row.creator.userName}}</span></td>
             <td>
-                <a class="btn btn-info enter" ng-href="Gym#!/{{row.id}}">View gym</a>
+                <a class="btn btn-info enter" ng-href="Gym#!/{{row.id}}">View contest</a>
             </td>
 
         </tr>

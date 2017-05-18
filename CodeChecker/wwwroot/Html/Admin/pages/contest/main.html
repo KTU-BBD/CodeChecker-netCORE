@@ -27,14 +27,13 @@
                             <td data-title="'Deleted'" sortable="'DeletedAt'">
                                 <div ng-if="contest.show && row.deletedAt"><button ng-click="contest.recover(row.id)" type="button" class="btn btn-outline-success col-md-12">Recover</button></div>
                                 <div ng-if="!contest.show && row.deletedAt"><button ng-click="contest.recover(row.id)" type="button" class="btn btn-outline-danger col-md-12" disabled>Deleted</button></div>
-                                <div ng-if="!row.deletedAt"><button ng-click="contest.delete(row.id)" type="button" class="btn btn-danger col-md-12">Delete</button></div>
+                                <div ng-if="!row.deletedAt"><button ng-click="contest.delete(row.id)" type="button" class="btn btn-danger col-md-12">Control</button></div>
                             </td>
                         </tr>
                     </table>
                 </div>
             </div>
-        </div>app.contests
+        </div>
         <!--/.col-->
-        ui-sref-active="active" ui-sref="app.contests.all" ui-sref-opts="{reload: true}"
     </div>
 </div>

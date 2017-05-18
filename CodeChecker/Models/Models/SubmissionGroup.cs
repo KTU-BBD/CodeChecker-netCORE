@@ -10,6 +10,8 @@ namespace CodeChecker.Models.Models
         public long Memory { get; set; }
         public double Time { get; set; }
         public string Language { get; set; }
+        public long Points { get; set; }
+        public Contest Contest { get; set; }
 
         public ICollection<Submission> Submissions { get; set; }
 

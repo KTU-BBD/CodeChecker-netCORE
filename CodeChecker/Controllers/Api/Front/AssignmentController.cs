@@ -71,7 +71,7 @@ namespace CodeChecker.Controllers.Api.Front
 
             if (currentUser == null)
             {
-                return BadRequest("You need to login to view task");
+                return BadRequest("You need to login to view assignment");
             }
             var userWithContests = _userRepo.GetUserWithContest(currentUser);
 
@@ -87,7 +87,7 @@ namespace CodeChecker.Controllers.Api.Front
                 }
             }
 
-            return BadRequest("Cannot view this task");
+            return BadRequest("Cannot view this assignment");
         }
 
         [HttpPost]

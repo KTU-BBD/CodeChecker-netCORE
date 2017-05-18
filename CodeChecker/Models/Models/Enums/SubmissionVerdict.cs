@@ -10,6 +10,6 @@
         CompilationError,
         RuntimeError,
         Running,
-        ServerError,
+        ServerError
     }
 }

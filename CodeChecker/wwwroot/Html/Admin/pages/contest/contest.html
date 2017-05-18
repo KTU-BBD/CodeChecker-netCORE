@@ -4,8 +4,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="col-md-3 pull-left"><button ui-sref-active="active" ui-sref="app.contests.all" class="col-md-12 btn btn-sm btn-outline-secondary">Back</button></div>
-                <div class="col-md-7 col-md-pull-2 pull-left"><strong>Contest {{scc.contest.name}}</strong></div>
-                <div ng-if="scc.contest.status == 0 || scc.contest.status == 3" class="col-md-2 pull-left"><button ng-click="scc.createAssignment()" class="col-md-12 btn btn-sm btn-primary">Add Task</button></div>
+                <div class="col-md-6 col-md-pull-2 pull-left"><strong>Contest {{scc.contest.name}}</strong></div>
+                <div ng-if="scc.contest.status == 0 || scc.contest.status == 3" class="col-md-3 pull-left"><button ng-click="scc.createAssignment()" class="col-md-12 btn btn-sm btn-primary">Add Assignment</button></div>
             </div>
             <div class="card-block">
                 <form action="" method="post" enctype="multipart/form-data" class="form-2orizontal ">
@@ -118,11 +118,11 @@
     <div class="col-md-6">
         <div class="card" ng-repeat="assignment in scc.contest.assignments">
             <div class="card-header">
-                <strong>Task {{$index+1}}</strong>
+                <strong>Assignment {{$index+1}}</strong>
             </div>
             <div class="card-block">
                 <div class="form-group row">
-                    <label class="col-md-3 form-control-label">Task Name</label>
+                    <label class="col-md-3 form-control-label">Assignment Name</label>
                     <div class="col-md-9">
                         <p class="form-control-static">{{assignment.name}}</p>
                     </div>

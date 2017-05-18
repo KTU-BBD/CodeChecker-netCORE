@@ -12,7 +12,7 @@ namespace CodeChecker.Models.Models
         public string InputType { get; set; }
         public string OutputType { get; set; }
         public ApplicationUser Creator { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } //TODO REMOVE IsActive
         public int SolvedCount { get; set; }
         public int MaxPoints { get; set; }
         public ICollection<Input> Inputs { get; set; }

@@ -320,6 +320,8 @@ namespace CodeChecker.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<long?>("ContestId");
+
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Language");
@@ -328,6 +330,8 @@ namespace CodeChecker.Migrations
 
                     b.Property<string>("Message");
 
+                    b.Property<long>("Points");
+
                     b.Property<double>("Time");
 
                     b.Property<DateTime>("UpdatedAt");
@@ -335,6 +339,8 @@ namespace CodeChecker.Migrations
                     b.Property<int>("Verdict");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContestId");
 
                     b.ToTable("SubmissionGroups");
                 });
@@ -550,6 +556,13 @@ namespace CodeChecker.Migrations
                     b.HasOne("CodeChecker.Models.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("CodeChecker.Models.Models.SubmissionGroup", b =>
+                {
+                    b.HasOne("CodeChecker.Models.Models.Contest", "Contest")
+                        .WithMany()
+                        .HasForeignKey("ContestId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
