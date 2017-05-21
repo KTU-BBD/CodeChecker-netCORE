@@ -2,8 +2,17 @@
     <h3 class="text-center">{{contest.name}}</h3>
     <div class="info text-center">
         <div class="timer">Starts at: {{contest.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</div>
-        <div>Time till start:
-            <timer end-time="contest.startAt">{{days}} d, {{hours}}:{{minutes}}:{{seconds}}</timer>
+        <div class="timer">Ends at: {{contest.endAt|date:"yyyy-MM-dd HH:mm:ss"}}</div>
+        <div>Time till end:
+            <timer end-time="contest.endAt">{{days}} d, {{hhours}}:{{mminutes}}:{{sseconds}}</timer>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left">
+                <a class="btn btn-info enter" ng-href="Contest#!/submissions/{{contest.id}}">View submissions</a>
+            </div>
+            <div class="pull-right">
+                <a class="btn btn-info enter" ng-href="Contest#!/standings/{{contest.id}}">View standings</a>
+            </div>
         </div>
     </div>
     <hr>

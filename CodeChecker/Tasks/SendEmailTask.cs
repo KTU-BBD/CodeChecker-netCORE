@@ -22,7 +22,7 @@ namespace CodeChecker.Tasks
         /// <param name="name">Receiver name</param>
         /// <param name="subject">Subject of email</param>
         /// <param name="template">Template name</param>
-        /// <param name="model">Data which will be passed to email</param>
+        /// <param name="model">Data which will be passed to email template</param>
         /// <typeparam name="TModel"></typeparam>
         public async void Run<TModel>(string email, string name, string subject, string template, TModel model)
         {

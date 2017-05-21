@@ -9,9 +9,10 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170520141055_SubmissionAddSubmitee")]
+    partial class SubmissionAddSubmitee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -284,7 +285,11 @@ namespace CodeChecker.Migrations
 
                     b.Property<long>("AssignmentId");
 
+                    b.Property<string>("Code");
+
                     b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("Language");
 
                     b.Property<long>("Memory");
 
@@ -317,8 +322,6 @@ namespace CodeChecker.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<long?>("AssignmentId");
-
-                    b.Property<string>("Code");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -567,7 +570,7 @@ namespace CodeChecker.Migrations
                         .HasForeignKey("AssignmentId");
 
                     b.HasOne("CodeChecker.Models.Models.ApplicationUser", "Submitee")
-                        .WithMany("SubmissionGroups")
+                        .WithMany()
                         .HasForeignKey("SubmiteeId");
                 });
 

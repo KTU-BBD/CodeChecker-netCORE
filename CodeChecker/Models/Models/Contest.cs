@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using CodeChecker.Models.Models.Enums;
 
 namespace CodeChecker.Models.Models
@@ -26,6 +27,16 @@ namespace CodeChecker.Models.Models
         public Contest()
         {
             Status = ContestStatus.Created;
+        }
+
+        public bool IsContestEnded()
+        {
+            return EndAt < DateTime.Now || Type == ContestType.Gym;
+        }
+
+        public bool IsUserJoinedContest(ApplicationUser user)
+        {
+            return ContestParticipants != null && ContestParticipants.Any(c => c.UserId == user.Id);
         }
     }
 }

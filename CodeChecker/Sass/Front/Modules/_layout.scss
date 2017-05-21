@@ -37,3 +37,10 @@ body {
     display: inline-block;
     vertical-align: middle;
 }
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+}

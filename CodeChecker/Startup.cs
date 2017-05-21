@@ -173,7 +173,10 @@ namespace CodeChecker
                 cfg.CreateMap<Assignment, AssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Input, InputViewModel>().ReverseMap();
                 cfg.CreateMap<Output, OutputViewModel>().ReverseMap();
-                cfg.CreateMap<Submission, LastSubmissionViewModel>().ReverseMap();
+                cfg.CreateMap<SubmissionGroup, LastSubmissionViewModel>().ReverseMap();
+                cfg.CreateMap<List<SubmissionGrouppingList>, List<SubmissionGrouppingListViewModel>>().ReverseMap();
+                cfg.CreateMap<SubmissionGroup, SubmissionViewModel>().ReverseMap();
+                cfg.CreateMap<List<SubmissionGroup>, List<SubmissionViewModel>>().ReverseMap();
             });
 
             app.UseStaticFiles();
@@ -202,6 +205,7 @@ namespace CodeChecker
             services.AddScoped<InputRepository>();
             services.AddScoped<OutputRepository>();
             services.AddScoped<ArticleRepository>();
+            services.AddScoped<SubmissionGroupRepository>();
         }
 
         private void Services(IServiceCollection services)

@@ -17,8 +17,6 @@ namespace CodeChecker.Models.Models
         public SubmissionGroup SubmissionGroup { get; set; }
         public long SubmissionGroupId { get; set; }
 
-        public string Code { get; set; }
-        public string Language { get; set; }
         public SubmissionVerdict Verdict { get; set; }
         public int TimeMs { get; set; }
         public long Memory { get; set; }

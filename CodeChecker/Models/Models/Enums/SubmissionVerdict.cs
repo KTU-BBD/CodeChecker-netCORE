@@ -4,7 +4,7 @@
     {
         Error,
         Success,
-        WrongAnser,
+        WrongAnswer,
         TimeOverflow,
         MemoryOverflow,
         CompilationError,

@@ -1,5 +1,11 @@
 <div class="content">
     <h3 class="text-center">{{assignment.name}}</h3>
+    <div class="info text-center">
+        <div>Memory limit: {{assignment.memoryLimit}} MB</div>
+        <div>Time limit: {{assignment.timeLimit}} ms</div>
+        <div>Input type: {{assignment.inputType}}</div>
+        <div>Output type: {{assignment.outputType}}</div>
+    </div>
     <hr>
     <div class="description" ng-bind-html="assignment.description"></div>
     <hr>
@@ -16,7 +22,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-md-3 form-control-label">Script code</label>
+        <label class="col-md-3 form-control-label">Solution code</label>
         <div class="col-md-9">
             <div data-ng-model="task.code" ui-ace></div>
         </div>
