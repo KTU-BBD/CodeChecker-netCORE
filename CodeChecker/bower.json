@@ -12,9 +12,7 @@
     "oclazyload": "latest",
     "angular-breadcrumb": "latest",
     "angular-loading-bar": "latest",
-    "simple-line-icons": "latest",
-    "chart.js": "^2.3.0",
-    "angular-chart.js": "^1.0.3"
+    "simple-line-icons": "latest"
   },
   "resolutions": {
     "angular": "1.6.5-build.5353+sha.136a42a",

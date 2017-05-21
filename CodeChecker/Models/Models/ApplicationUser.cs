@@ -19,6 +19,7 @@ namespace CodeChecker.Models.Models
         public ICollection<SubmissionGroup> SubmissionGroups { get; set; }
         public ICollection<Contest> Contests { get; set; }
         public ICollection<Article> Articles { get; set; }
+        public ICollection<UserStatistic> UserStatistics { get; set; }
 
         public override string ToString()
         {

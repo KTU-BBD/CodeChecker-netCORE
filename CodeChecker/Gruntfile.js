@@ -28,6 +28,8 @@
                         "<%= config.VENDOR_PATH  %>/ng-file-upload/ng-file-upload.js",
                         "<%= config.VENDOR_PATH  %>/angular-ui-ace/ui-ace.js",
                         "<%= config.VENDOR_PATH  %>/moment/min/moment.min.js",
+                        "<%= config.NPM_VENDOR_PATH %>/n3-charts/build/LineChart.js",
+                        "<%= config.NPM_VENDOR_PATH %>/d3/d3.min.js",
                         "<%= config.VENDOR_PATH  %>/angular-resource/angular-resource.js",
                         "<%= config.VENDOR_PATH  %>/angular-moment/angular-moment.js",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-tpls.js",
@@ -44,6 +46,7 @@
                         "<%= config.NPM_VENDOR_PATH %>/ng-table/bundles/ng-table.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css",
                         "<%= config.VENDOR_PATH  %>/angular-toastr/dist/angular-toastr.css",
+                        "<%= config.NPM_VENDOR_PATH %>/n3-charts/build/LineChart.css",
                         "<%= config.VENDOR_PATH  %>/font-awesome/css/font-awesome.css",
                         "<%= config.VENDOR_PATH  %>/angular-bootstrap/ui-bootstrap-csp.css"
                     ]

@@ -27,6 +27,7 @@ namespace CodeChecker.Data
         public DbSet<Asset> Assets { get; set; }
         public DbSet<SubmissionGroup> SubmissionGroups { get; set; }
         public DbSet<Article> Articles { get; set; }
+        public DbSet<UserStatistic> UserStatistics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

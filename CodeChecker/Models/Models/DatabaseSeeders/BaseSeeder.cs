@@ -1,4 +1,5 @@
-﻿using CodeChecker.Data;
+﻿using System;
+using CodeChecker.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
         private readonly AssignmentResultSeeder _assignmentResultSeeder;
         private readonly TagSeeder _tagSeeder;
         private readonly ArticleSeeder _articleSeeder;
+        private readonly ApplicationDbContext _dbContext;
 
         public BaseSeeder(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
@@ -27,6 +29,7 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             _assignmentResultSeeder = new AssignmentResultSeeder(context);
             _tagSeeder = new TagSeeder(context);
             _articleSeeder = new ArticleSeeder(context);
+            _dbContext = context;
         }
 
         // Do not change the order of called methods
@@ -40,6 +43,33 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
             await _assignmentSeeder.SeedDatabase();
             await _assignmentResultSeeder.SeedDatabase();
             await _articleSeeder.SeedDatabase();
+        }
+
+        public void SendStatistic()
+        {
+            var date = DateTime.Now;
+
+            _dbContext.Database.BeginTransaction();
+            try
+            {
+                foreach (var applicationUser in _dbContext.Users)
+                {
+                    _dbContext.Add(new UserStatistic()
+                    {
+                        CreatedAt = date,
+                        Rating = applicationUser.Rating,
+                        User = applicationUser
+                    });
+                }
+
+                _dbContext.SaveChanges();
+                _dbContext.Database.CommitTransaction();
+            }
+            catch
+            {
+                _dbContext.Database.RollbackTransaction();
+            }
+
         }
     }
 }

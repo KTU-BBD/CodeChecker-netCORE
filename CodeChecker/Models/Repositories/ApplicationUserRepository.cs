@@ -61,7 +61,7 @@ namespace CodeChecker.Models.Repositories
 
         public ApplicationUser GetByUsername(string username)
         {
-            return _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            return _context.Users.Include(u => u.UserStatistics).Include(u => u.ProfileImage).Include(u => u.SubmissionGroups).FirstOrDefault(u => u.UserName.Equals(username));
         }
 
         public IQueryable<ApplicationUser> GetPagedData(DataFilterViewModel filter)
