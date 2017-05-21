@@ -35,6 +35,13 @@ namespace CodeChecker.Tasks
                 .ThenInclude(o => o.Output)
                 .FirstOrDefault(a => a.Id == codeAssignment.AssignmentId);
 
+            var submiteeUser = _context.Users.FirstOrDefault(u => u.Id == codeAssignment.SubmiterId);
+
+            if (submiteeUser == null || assignment == null)
+            {
+                return;
+            }
+
             var submissionGroup = new SubmissionGroup();
 
             _context.SubmissionGroups.Add(submissionGroup);
@@ -42,14 +49,9 @@ namespace CodeChecker.Tasks
             int testNumber = 1;
             foreach (var assignmentInput in assignment.Inputs)
             {
-
-                Console.WriteLine("Input text:" + assignmentInput.Text);
-                Console.WriteLine("Output text:" + assignmentInput.Output.Text);
                 var submission = new Submission()
                 {
                     AssignmentId = codeAssignment.AssignmentId,
-                    Code = codeAssignment.AssignmentSubmit.Code,
-                    Language = codeAssignment.AssignmentSubmit.Language,
                     UserId = codeAssignment.SubmiterId,
                     SubmissionGroup = submissionGroup,
                 };
@@ -70,8 +72,11 @@ namespace CodeChecker.Tasks
                     submission.Output = results.Output;
                     submission.Memory = results.Memory;
                     submissionGroup.Memory = submission.Memory;
+                    submissionGroup.Code = codeAssignment.AssignmentSubmit.Code;
+                    submissionGroup.Assignment = assignment;
                     submissionGroup.Time = results.TimeSpent;
                     submissionGroup.Language = results.Language;
+                    submissionGroup.Submitee = submiteeUser;
 
                     if (results.Verdict.Equals("COMPILATION_ERROR"))
                     {
@@ -95,7 +100,7 @@ namespace CodeChecker.Tasks
                     }
                     else if (results.Verdict.Equals("OK") && !assignmentInput.Output.Text.Equals(results.Output))
                     {
-                        submission.Verdict = SubmissionVerdict.WrongAnser;
+                        submission.Verdict = SubmissionVerdict.WrongAnswer;
                         solvedAll = false;
                     }
 
@@ -147,10 +152,62 @@ namespace CodeChecker.Tasks
                 assignment.Contest.UnsuccessfulSubmit++;
             }
 
+            if (Math.Abs(submissionGroup.Time) < 0.02)
+            {
+                submissionGroup.Time = 0.01;
+            }
+
+            submissionGroup.Points = SubmissionPointCalculator(submissionGroup, submiteeUser);
+
             _context.Update(assignment.Contest);
             _context.Update(submissionGroup);
 
             _context.SaveChanges();
+
+            assignment = null;
+        }
+
+        private long SubmissionPointCalculator(SubmissionGroup submission, ApplicationUser submitee)
+        {
+            if (submission.Assignment.Contest.IsContestEnded())
+            {
+                return 0;
+            }
+
+            if (submission.Assignment.Contest.StartAt > DateTime.Now &&
+                submission.Assignment.Contest.EndAt < DateTime.Now)
+            {
+                return 0;
+            }
+
+            if (submission.Verdict == SubmissionVerdict.WrongAnswer)
+            {
+                return -40;
+            }
+
+            var contestLength = submission.Assignment.Contest.EndAt.Subtract(submission.Assignment.Contest.StartAt)
+                .TotalSeconds;
+
+            var timeLeft = submission.Assignment.Contest.EndAt.Subtract(DateTime.Now).TotalSeconds;
+
+
+            var percentagePoints = timeLeft / contestLength;
+
+            var points = (long) (submission.Assignment.MaxPoints * 0.2 +
+                                 0.8 * percentagePoints * submission.Assignment.MaxPoints);
+
+            var failedSubmitPoints = _context.SubmissionGroups.Where(s => s.Submitee.Id == submission.Submitee.Id &&
+                                                                          s.Assignment.Id == submission.Assignment.Id &&
+                                                                          s.Verdict == SubmissionVerdict.WrongAnswer)
+                .Sum(s => s.Points);
+
+            if (submission.Assignment.MaxPoints * 0.2 > failedSubmitPoints + points)
+            {
+                return (long) (submission.Assignment.MaxPoints * 0.2);
+            }
+
+            return (long) (submission.Assignment.MaxPoints * 0.2 +
+                           0.8 * percentagePoints * submission.Assignment.MaxPoints) + failedSubmitPoints;
         }
     }
 }

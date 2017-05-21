@@ -75,6 +75,16 @@ namespace CodeChecker.Models.Repositories
                 .FirstOrDefault(c => c.Id == contestId && (c.Type == ContestType.Gym || c.EndAt < DateTime.Now));
         }
 
+        public Contest GetWithAssignments(long contestId)
+        {
+           return Query()
+                .Include(c => c.ContestParticipants)
+                .ThenInclude(c => c.User)
+                .ThenInclude(u => u.SubmissionGroups)
+                .Include(c => c.Assignments)
+                .FirstOrDefault(c => c.Id == contestId);
+        }
+
         public Contest GetContestFull(long contestId)
         {
             return Query()

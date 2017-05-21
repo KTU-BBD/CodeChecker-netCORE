@@ -9,9 +9,10 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170521110530_SubmissionGroupColumnMigration")]
+    partial class SubmissionGroupColumnMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -363,24 +364,6 @@ namespace CodeChecker.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("CodeChecker.Models.Models.UserStatistic", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<long>("Rating");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserStatistics");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -587,13 +570,6 @@ namespace CodeChecker.Migrations
                     b.HasOne("CodeChecker.Models.Models.ApplicationUser", "Submitee")
                         .WithMany("SubmissionGroups")
                         .HasForeignKey("SubmiteeId");
-                });
-
-            modelBuilder.Entity("CodeChecker.Models.Models.UserStatistic", b =>
-                {
-                    b.HasOne("CodeChecker.Models.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

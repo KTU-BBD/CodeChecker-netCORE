@@ -9,9 +9,10 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170520094754_SubmissionAddAssignment")]
+    partial class SubmissionAddAssignment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -284,7 +285,11 @@ namespace CodeChecker.Migrations
 
                     b.Property<long>("AssignmentId");
 
+                    b.Property<string>("Code");
+
                     b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("Language");
 
                     b.Property<long>("Memory");
 
@@ -318,8 +323,6 @@ namespace CodeChecker.Migrations
 
                     b.Property<long?>("AssignmentId");
 
-                    b.Property<string>("Code");
-
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Language");
@@ -330,8 +333,6 @@ namespace CodeChecker.Migrations
 
                     b.Property<long>("Points");
 
-                    b.Property<string>("SubmiteeId");
-
                     b.Property<double>("Time");
 
                     b.Property<DateTime>("UpdatedAt");
@@ -341,8 +342,6 @@ namespace CodeChecker.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AssignmentId");
-
-                    b.HasIndex("SubmiteeId");
 
                     b.ToTable("SubmissionGroups");
                 });
@@ -361,24 +360,6 @@ namespace CodeChecker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("CodeChecker.Models.Models.UserStatistic", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<long>("Rating");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserStatistics");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -583,17 +564,6 @@ namespace CodeChecker.Migrations
                     b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
                         .WithMany()
                         .HasForeignKey("AssignmentId");
-
-                    b.HasOne("CodeChecker.Models.Models.ApplicationUser", "Submitee")
-                        .WithMany("SubmissionGroups")
-                        .HasForeignKey("SubmiteeId");
-                });
-
-            modelBuilder.Entity("CodeChecker.Models.Models.UserStatistic", b =>
-                {
-                    b.HasOne("CodeChecker.Models.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

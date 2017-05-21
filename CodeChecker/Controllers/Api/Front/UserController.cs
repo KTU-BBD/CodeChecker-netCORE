@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using CodeChecker.Services.FileUpload;
 using Microsoft.AspNetCore.Authorization;
@@ -136,7 +137,19 @@ namespace CodeChecker.Controllers.Api.Front
                 return BadRequest("User not found");
             }
 
-            return Ok(Mapper.Map<UserProfileViewModel>(results));
+            return Ok(Mapper.Map<ProfileViewViewModel>(results));
+        }
+
+        [HttpGet("{username}")]
+        public IActionResult Statistics(string username)
+        {
+            var results = _repository.GetByUsername(username);
+
+            if (results == null)
+            {
+                return BadRequest("User not found");
+            }
+            return Ok(Mapper.Map<IEnumerable<UserStatisticViewModel>>(results.UserStatistics.OrderBy(c => c.CreatedAt).Take(31)));
         }
     }
 }

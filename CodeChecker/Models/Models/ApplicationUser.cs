@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using CodeChecker.Models.Models.Enums;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CodeChecker.Models.Models
@@ -14,8 +16,10 @@ namespace CodeChecker.Models.Models
         public string LastName { get; set; }
 
         public ICollection<ContestParticipant> ContestParticipants { get; set; }
+        public ICollection<SubmissionGroup> SubmissionGroups { get; set; }
         public ICollection<Contest> Contests { get; set; }
         public ICollection<Article> Articles { get; set; }
+        public ICollection<UserStatistic> UserStatistics { get; set; }
 
         public override string ToString()
         {

@@ -11,7 +11,9 @@ namespace CodeChecker.Models.Models
         public double Time { get; set; }
         public string Language { get; set; }
         public long Points { get; set; }
-        public Contest Contest { get; set; }
+        public Assignment Assignment { get; set; }
+        public ApplicationUser Submitee { get; set; }
+        public string Code { get; set; }
 
         public ICollection<Submission> Submissions { get; set; }
 

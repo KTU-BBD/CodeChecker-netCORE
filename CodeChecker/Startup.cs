@@ -17,16 +17,20 @@ using CodeChecker.Models.Repositories;
 using CodeChecker.Models.UserViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using AutoMapper;
 using CodeChecker.Middleware;
 using CodeChecker.Models.ArticleViewModel;
 using CodeChecker.Models.AssignmentViewModels;
 using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
+using CodeChecker.Models.Models.Enums;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Models.SubmissionViewModels;
 using CodeChecker.Services.CodeSubmit;
 using CodeChecker.Services.EmailSending;
 using CodeChecker.Tasks;
+using Hangfire;
 using Microsoft.AspNetCore.Http;
 
 namespace CodeChecker
@@ -58,6 +62,9 @@ namespace CodeChecker
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -151,6 +158,12 @@ namespace CodeChecker
                 cfg.CreateMap<List<ApplicationUser>, List<TopUserViewModel>>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserIdViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserViewModel>().ReverseMap();
+                cfg.CreateMap<ApplicationUser, ProfileViewViewModel>()
+                    .ForMember(c => c.TotalSubmissions, o => o.MapFrom(src => src.SubmissionGroups.Count))
+                    .ForMember(c => c.SuccesfullSubmissions, o => o.MapFrom(src => src.SubmissionGroups.Count(c => c.Verdict == SubmissionVerdict.Success)))
+                    .ForMember(c => c.UnsuccesfullSubmissions, o => o.MapFrom(src => src.SubmissionGroups.Count(c => c.Verdict != SubmissionVerdict.Success)))
+                    .ReverseMap();
+                cfg.CreateMap<UserStatistic, UserStatisticViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, ProfileUpdateViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, UserProfileViewModel>().ReverseMap();
                 cfg.CreateMap<ApplicationUser, PersonalProfileViewModel>().ReverseMap();
@@ -173,13 +186,23 @@ namespace CodeChecker
                 cfg.CreateMap<Assignment, AssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Input, InputViewModel>().ReverseMap();
                 cfg.CreateMap<Output, OutputViewModel>().ReverseMap();
-                cfg.CreateMap<Submission, LastSubmissionViewModel>().ReverseMap();
+                cfg.CreateMap<SubmissionGroup, LastSubmissionViewModel>().ReverseMap();
+                cfg.CreateMap<List<SubmissionGrouppingList>, List<SubmissionGrouppingListViewModel>>().ReverseMap();
+                cfg.CreateMap<SubmissionGroup, SubmissionViewModel>().ReverseMap();
+                cfg.CreateMap<List<SubmissionGroup>, List<SubmissionViewModel>>().ReverseMap();
             });
 
             app.UseStaticFiles();
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+
+            app.UseHangfireServer();
+
+
+            RecurringJob.AddOrUpdate(() => seeder.SendStatistic(),
+                Cron.Daily
+            );
 
             app.UseMvc(routes =>
             {
@@ -189,6 +212,7 @@ namespace CodeChecker
             });
 
             seeder.EnsureSeedData().Wait();
+
         }
 
         private void Repositories(IServiceCollection services)
@@ -203,6 +227,7 @@ namespace CodeChecker
             services.AddScoped<OutputRepository>();
             services.AddScoped<ArticleRepository>();
             services.AddScoped<FAQRepository>();
+            services.AddScoped<SubmissionGroupRepository>();
         }
 
         private void Services(IServiceCollection services)
@@ -212,6 +237,7 @@ namespace CodeChecker
             services.AddTransient<EmailSenderService>();
             services.AddTransient<ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<HttpClient>();
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

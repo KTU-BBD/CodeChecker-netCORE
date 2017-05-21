@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -24,6 +25,7 @@ namespace CodeChecker.Controllers.Api.Front
         private readonly AssignmentRepository _assignmentRepo;
         private readonly ApplicationUserRepository _userRepo;
         private readonly SubmissionRepository _submissionRepo;
+        private readonly SubmissionGroupRepository _submissionGroupRepo;
         private CodeSubmitService _codeSubmitService;
         private CodeTestTask _codeTestTask;
         private ApplicationDbContext _context;
@@ -31,7 +33,7 @@ namespace CodeChecker.Controllers.Api.Front
         public AssignmentController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
             ApplicationDbContext context, ContestParticipantRepository contestParticipantRepo,
             ApplicationUserRepository userRepo, AssignmentRepository assignmentRepo,
-            CodeSubmitService codeSubmitService, SubmissionRepository submissionRepo, CodeTestTask codeTestTask)
+            CodeSubmitService codeSubmitService, SubmissionRepository submissionRepo, CodeTestTask codeTestTask, SubmissionGroupRepository submissionGroupRepo)
         {
             _contestRepo = contestRepo;
             _userManager = userManager;
@@ -41,6 +43,7 @@ namespace CodeChecker.Controllers.Api.Front
             _codeSubmitService = codeSubmitService;
             _submissionRepo = submissionRepo;
             _codeTestTask = codeTestTask;
+            _submissionGroupRepo = submissionGroupRepo;
             _context = context;
         }
 
@@ -62,7 +65,7 @@ namespace CodeChecker.Controllers.Api.Front
                 var mappedAssignment = Mapper.Map<AssignmentViewModel>(assignment);
                 if (currentUser != null)
                 {
-                    var lastSubmission = _submissionRepo.GetLastUserSubmissionInContest(currentUser, assignment);
+                    var lastSubmission = _submissionGroupRepo.GetLastUserSubmissionInContest(currentUser, assignment);
                     mappedAssignment.LastSubmission = Mapper.Map<LastSubmissionViewModel>(lastSubmission);
                 }
 
@@ -80,7 +83,7 @@ namespace CodeChecker.Controllers.Api.Front
                 if (participant.UserId == userWithContests.Id)
                 {
                     var mappedAssignment = Mapper.Map<AssignmentViewModel>(assignment);
-                    var lastSubmission = _submissionRepo.GetLastUserSubmissionInContest(userWithContests, assignment);
+                    var lastSubmission = _submissionGroupRepo.GetLastUserSubmissionInContest(currentUser, assignment);
                     mappedAssignment.LastSubmission = Mapper.Map<LastSubmissionViewModel>(lastSubmission);
 
                     return Ok(mappedAssignment);
@@ -93,10 +96,6 @@ namespace CodeChecker.Controllers.Api.Front
         [HttpPost]
         public async Task<IActionResult> Submit([FromBody] AssignmentSubmitViewModel assignmentSubmit)
         {
-            //TODO Implemenet feature to calculate points
-            //TODO AND DO NOT FORGET TO IGNORE GYM POINTS
-
-
             var currentUser = await GetCurrentUserAsync();
             if (currentUser == null)
             {
@@ -122,17 +121,17 @@ namespace CodeChecker.Controllers.Api.Front
                 return BadRequest("Assignment not found");
             }
 
-            var canSubmit = false;
-            foreach (var contest in userWithContest.ContestParticipants)
+            var isSubmited = _submissionGroupRepo.Query()
+                .Any(s => s.Assignment.Id == assignmentSubmit.AssignmentId &&
+                          s.Submitee.Id == currentUser.Id &&
+                          s.Verdict == SubmissionVerdict.Success);
+
+            if (isSubmited)
             {
-                if (contest.ContestId == assignment.Contest.Id)
-                {
-                    canSubmit = true;
-                    break;
-                }
+                return BadRequest("You already solved this assignment");
             }
 
-            if (assignment.Contest.Type != ContestType.Gym && assignment.Contest.EndAt > DateTime.Now && !canSubmit)
+            if (assignment.Contest.Type != ContestType.Gym && assignment.Contest.EndAt > DateTime.Now && assignment.Contest.IsUserJoinedContest(currentUser))
             {
                 return BadRequest("You can't submit your code");
             }

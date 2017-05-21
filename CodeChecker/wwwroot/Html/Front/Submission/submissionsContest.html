@@ -1,0 +1,21 @@
+<div class="submissions" style="max-width: 100%; overflow-x: auto;">
+    <h4>Contest "{{contest.name}}" standings</h4>
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th ng-repeat="assignment in contest.assignments">{{assignment.name}}</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="participant in contest.contestParticipants">
+            <th scope="row"><span colourise="{{participant.user.rating}}">{{participant.user.userName}}</span></th>
+            <th ng-repeat="assignment in contest.assignments">
+            <span>{{points(participant.user.submissionGroups, assignment.id)}}</span>
+            </th>
+            <th>{{totalSum(participant.user.submissionGroups, contest.assignments)}}</th>
+        </tr>
+        </tbody>
+    </table>
+</div>

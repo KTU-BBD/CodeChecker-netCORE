@@ -1,0 +1,30 @@
+<div class="submissions">
+    <h4>All submissions</h4>
+    <div class="text-right" data-ng-click="refresh()"><i class="fa fa-refresh" aria-hidden="true"></i></div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Submitee</th>
+            <th>Assignment</th>
+            <th>Message</th>
+            <th>Language</th>
+            <th>Memory</th>
+            <th>Time</th>
+            <th>Verdict</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-click="viewSubmission(submission.id)" ng-repeat="submission in submissions">
+            <th scope="row">{{submission.id}}</th>
+            <td class="ellipsis"><span colourise="{{submission.submitee.rating}}">{{submission.submitee.userName}}</span></td>
+            <td class="ellipsis">{{submission.assignment.name}}</td>
+            <td class="ellipsis">{{submission.message}}</td>
+            <td class="ellipsis">{{submission.language}}</td>
+            <td class="ellipsis">{{submission.memory}} kB</td>
+            <td class="ellipsis">{{submission.time}} s</td>
+            <td class="ellipsis"><span verdict="{{submission.verdict}}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

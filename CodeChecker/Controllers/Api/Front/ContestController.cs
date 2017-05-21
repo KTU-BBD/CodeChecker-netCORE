@@ -37,15 +37,6 @@ namespace CodeChecker.Controllers.Api.Front
         [HttpGet("")]
         public async Task<IActionResult> All([FromQuery] DataFilterViewModel filterData)
         {
-            var model = new CreateDeleteMessageViewModel
-            {
-                Reason = "Test reason is test",
-                CreatorName = "Jonas Ketvirtis",
-                ItemName = "Test article",
-                ItemId = 3
-            };
-            _sendEmailTask.Run("test3@email.test", model.CreatorName, "subject", "ArticleRejection", model);
-
             var contests = _contestRepo.GetActiveContestPagedData(filterData);
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
