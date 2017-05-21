@@ -11,6 +11,7 @@ using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using CodeChecker.Models.EmailMessageModels;
 
 namespace CodeChecker.Controllers.Api.Front
 {
@@ -36,12 +37,12 @@ namespace CodeChecker.Controllers.Api.Front
         [HttpGet("")]
         public async Task<IActionResult> All([FromQuery] DataFilterViewModel filterData)
         {
-            var model = new ArticleRejectionViewModel
+            var model = new CreateDeleteMessageViewModel
             {
                 Reason = "Test reason is test",
                 CreatorName = "Jonas Ketvirtis",
-                ArticleName = "Test article",
-                ArticleId = 3
+                ItemName = "Test article",
+                ItemId = 3
             };
             _sendEmailTask.Run("test3@email.test", model.CreatorName, "subject", "ArticleRejection", model);
 

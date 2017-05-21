@@ -27,6 +27,7 @@
     <Content Include="wwwroot\Angular\Admin\controllers\article\singleArticleViewController.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\charts.js" />
     <Content Include="wwwroot\Angular\Admin\controllers\contest\singleContestViewController.js" />
+    <Content Include="wwwroot\Angular\Admin\controllers\faq\faqViewController.js" />
     <Content Include="wwwroot\Angular\Admin\Controllers\main.js" />
     <Content Include="wwwroot\Angular\Admin\controllers\user\singleUserViewController.js" />
     <Content Include="wwwroot\Angular\Admin\controllers\user\UserViewController.js" />
@@ -39,6 +40,7 @@
     <Content Include="wwwroot\Angular\Front\Directives\topUsers_directive.js" />
     <Content Include="wwwroot\Angular\Front\Modules\topUsersSidebarModule.js" />
     <Content Include="wwwroot\Html\Admin\directiveView\unauthorized.html" />
+    <Content Include="wwwroot\Html\Admin\modal\addMessage.html" />
     <Content Include="wwwroot\Html\Admin\modal\createArticle.html" />
     <Content Include="wwwroot\Html\Admin\modal\createContest.html" />
     <Content Include="wwwroot\Html\Admin\modal\createItem.html" />
@@ -49,6 +51,7 @@
     <Content Include="wwwroot\Html\Admin\pages\article\article.html" />
     <Content Include="wwwroot\Html\Admin\pages\article\articles.html" />
     <Content Include="wwwroot\Html\Admin\pages\contest\contest.html" />
+    <Content Include="wwwroot\Html\Admin\pages\faq\faqs.html" />
     <Content Include="wwwroot\Html\Admin\pages\user\user.html" />
     <Content Include="wwwroot\Html\Admin\pages\user\users.html" />
     <Content Include="wwwroot\Html\Front\DirectiveView\topUsers_directive.html" />

@@ -7,11 +7,10 @@
 
 <div style="text-align: center">
     <p>
-        We are sorry to announce, but your article @Model.ItemName was not approved.</br>
-        Reason why your article was not approved: </br>
+        We announce that your article @Model.ItemName was approved.</br></br>
+
         <strong>@Model.Reason</strong>
-    </p>
-    <p>You may try to submit article again</p>
+    </p></br>
     <div>
         <a target="_blank" href="http://@Context.Request.Host/Admin#!/articles/@Model.ItemId" class="button">Click here to open article</a>
     </div>

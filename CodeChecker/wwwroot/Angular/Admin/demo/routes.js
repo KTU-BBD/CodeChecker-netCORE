@@ -193,5 +193,38 @@ angular
     params: {
         id: null
     }
+        })
+
+
+.state('app.faq', {
+    url: "/articles",
+    abstract: true,
+    template: '<ui-view></ui-view>',
+    ncyBreadcrumb: {
+        label: 'Articles'
+    },
 })
+.state('app.faq.all', {
+    url: '/all',
+    templateUrl: 'Html/Admin/pages/faq/faqs.html',
+    ncyBreadcrumb: {
+        label: 'All Articles'
+    },
+    controller: 'FAQController',
+    controllerAs: 'fc'
+})
+.state('app.faq.one', {
+    url: '/:id',
+    templateUrl: 'Html/Admin/pages/faq/faq.html',
+    ncyBreadcrumb: {
+        label: 'Article'
+    },
+    controller: 'SingleFAQController',
+    controllerAs: 'sfc',
+    params: {
+        id: null
+    }
+})
+
+
 }]);

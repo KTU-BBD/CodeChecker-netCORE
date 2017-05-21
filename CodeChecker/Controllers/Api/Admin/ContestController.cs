@@ -12,6 +12,9 @@ using System.Diagnostics;
 using CodeChecker.Models.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using CodeChecker.Tasks;
+using CodeChecker.Models.ArticleViewModel;
+using CodeChecker.Models.EmailMessageModels;
 
 namespace CodeChecker.Controllers.Api.Admin
 {
@@ -20,14 +23,16 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly ContestRepository _contestRepo;
         private readonly ApplicationUserRepository _userRepo;
         private UserManager<ApplicationUser> _userManager;
+        private readonly SendEmailTask _sendEmailTask;
 
 
         public ContestController(ContestRepository contestRepo, UserManager<ApplicationUser> userManager,
-            ApplicationUserRepository userRepo)
+            ApplicationUserRepository userRepo, SendEmailTask sendEmailTask)
         {
             _contestRepo = contestRepo;
             _userRepo = userRepo;
             _userManager = userManager;
+            _sendEmailTask = sendEmailTask;
         }
 
         [HttpGet("")]
@@ -179,6 +184,59 @@ namespace CodeChecker.Controllers.Api.Admin
                     }
                     article.Status = status;
                     _contestRepo.Update(article);
+                    return Ok("Status changed");
+                }
+                return BadRequest("Unauthorized");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
+        }
+
+        [HttpPost("{id}")]
+        public IActionResult ChangeStatusWMessage(int id, [FromBody] ChangeContestStatusWMessage obj)
+        {
+            try
+            {
+                var contest = _contestRepo.GetContestFull(id);
+                if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    contest.Status = obj.Status;
+                    _contestRepo.Update(contest);
+                    var assignedUser = _userRepo.GetById(contest.Creator.Id);
+                    
+                    var model = new CreateDeleteMessageViewModel
+                    {
+                        Reason = obj.Message,
+                        CreatorName = assignedUser.UserName,
+                        ItemName = contest.Name,
+                        ItemId = contest.Id
+                    };
+                    if (obj.Status == ContestStatus.Approved)
+                    {
+                        var subject = "Contest approved";
+                        var msg = "ContestApproval";
+                        _sendEmailTask.Run(assignedUser.Email, assignedUser.UserName, subject, msg, model);
+                    }
+                    if (obj.Status == ContestStatus.Cancelled)
+                    {
+                        var subject = "Contest cancelled";
+                        var msg = "ContestRejection";
+                        _sendEmailTask.Run(assignedUser.Email, assignedUser.UserName, subject, msg, model);
+                    }
+
+                    
+                    return Ok("Status changed");
+                }
+                if (User.IsInRole("Contributor") && contest.Creator.Id == _userManager.GetUserId(User))
+                {
+                    if (contest.Status == ContestStatus.Submited || contest.Status == ContestStatus.Approved)
+                    {
+                        return BadRequest("You are not allowed to change status after submission");
+                    }
+                    contest.Status = obj.Status;
+                    _contestRepo.Update(contest);
                     return Ok("Status changed");
                 }
                 return BadRequest("Unauthorized");

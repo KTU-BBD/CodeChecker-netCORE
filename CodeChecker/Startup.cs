@@ -202,6 +202,7 @@ namespace CodeChecker
             services.AddScoped<InputRepository>();
             services.AddScoped<OutputRepository>();
             services.AddScoped<ArticleRepository>();
+            services.AddScoped<FAQRepository>();
         }
 
         private void Services(IServiceCollection services)

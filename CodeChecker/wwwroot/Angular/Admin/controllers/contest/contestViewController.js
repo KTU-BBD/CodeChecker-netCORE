@@ -18,10 +18,10 @@ angular
         }
         
         cvc.showStatus = function (num){
-            if (num == 0) { return "Created"}
-            if (num == 1) { return "Submited" }
-            if (num == 2) { return "Aprooved" }
-            if (num == 3) { return "Cancelled" }
+            if (num === 0) { return "Created"}
+            if (num === 1) { return "Submited" }
+            if (num === 2) { return "Aprooved" }
+            if (num === 3) { return "Cancelled" }
         }
 
         cvc.ajaxGet();
@@ -42,7 +42,7 @@ angular
                     var contest = cvc.tableParams.data[i];
                 }
             }
-            if (contest.deletedAt != null) {
+            if (contest.deletedAt !== null) {
                 toastr.error("Contest is deleted");
             } else {
                 $state.go('app.contests.one', { id: contest.id});
@@ -183,8 +183,12 @@ angular
             }
         }
 
-        cvc.changeStatus = function (value, contest) {
-            $http.post("/api/admin/contest/ChangeStatus/" + contest.id, value)
+        var changeStatusLocalWMessage = function (value, contest, message) {
+            var obj = {
+                "status": value,
+                "message": message
+            }
+            $http.post("/api/admin/contest/ChangeStatusWMessage/" + contest.id, obj)
                 .then(function (response) {
                     findAndReplace(cvc.tableParams.data, contest, value);
                 }
@@ -194,6 +198,54 @@ angular
                 });
 
         }
+
+        var changeStatusLocal = function (value, contest) {
+
+            $http.post("/api/admin/contest/ChangeStatus/" + contest.id, value)
+                .then(function (response) {
+                    findAndReplace(cvc.tableParams.data, contest, value);
+                }
+                , function (err) { })
+                .finally(function () {
+
+                });
+
+        }
+        
+        cvc.changeStatus = function (value, contest) {
+            if (!cvc.show) {
+                changeStatusLocal(value, contest);
+            } else {
+                $uibModal.open({
+                    templateUrl: '/Html/Admin/Modal/addMessage.html',
+                    animation: false,
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    size: 'md',
+                    controller: function ($scope) {
+                        $scope.close = function () {
+                            var top = $uibModalStack.getTop();
+                            if (top) {
+                                $uibModalStack.dismiss(top.key);
+                            }
+                        };
+                        $scope.submit = function () {
+                            changeStatusLocalWMessage(value, contest, $scope.message);
+                            
+                            $scope.close()
+                        };
+                    }
+                }).result.then(function () {
+
+                }, function (res) {
+
+                });
+            }
+        }
+
+
+
+
 
         function contains(a) {
             var i = a.length;

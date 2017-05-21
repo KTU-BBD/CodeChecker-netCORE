@@ -2,10 +2,13 @@
 
 using AutoMapper;
 using CodeChecker.Models.ArticleViewModel;
+using CodeChecker.Models.ArticleViewModels;
+using CodeChecker.Models.EmailMessageModels;
 using CodeChecker.Models.Models;
 using CodeChecker.Models.Models.Enums;
 using CodeChecker.Models.Repositories;
 using CodeChecker.Models.ServiceViewModels;
+using CodeChecker.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +24,14 @@ namespace CodeChecker.Controllers.Api.Admin
         private readonly ArticleRepository _articleRepo;
         private UserManager<ApplicationUser> _userManager;
         private readonly ApplicationUserRepository _userRepo;
+        private readonly SendEmailTask _sendEmailTask;
 
-        public ArticleController(ArticleRepository articleRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
+        public ArticleController(SendEmailTask sendEmailTask, ArticleRepository articleRepo, UserManager<ApplicationUser> userManager, ApplicationUserRepository userRepo)
         {
             _articleRepo = articleRepo;
             _userManager = userManager;
             _userRepo = userRepo;
+            _sendEmailTask = sendEmailTask;
         }
 
         [HttpGet]
@@ -164,6 +169,58 @@ namespace CodeChecker.Controllers.Api.Admin
         }
 
         
+        [HttpPost("{id}")]
+        public IActionResult ChangeStatusWMessage(int id, [FromBody] ChangeArticleStatusWMessage obj)
+        {
+            try
+            {
+                var article = _articleRepo.GetArticleFull(id);
+                if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                {
+                    article.Status = obj.Status;
+                    _articleRepo.Update(article);
+                    var assignedUser = _userRepo.GetById(article.Creator.Id);
+
+                    var model = new CreateDeleteMessageViewModel
+                    {
+                        Reason = obj.Message,
+                        CreatorName = assignedUser.UserName,
+                        ItemName = article.Title,
+                        ItemId = article.Id
+                    };
+                    if (obj.Status == ArticleStatus.Published)
+                    {
+                        var subject = "Article approved";
+                        var msg = "ArticleApproval";
+                        _sendEmailTask.Run(assignedUser.Email, assignedUser.UserName, subject, msg, model);
+                    }
+                    if (obj.Status == ArticleStatus.Cancelled)
+                    {
+                        var subject = "Article cancelled";
+                        var msg = "ArticleRejection";
+                        _sendEmailTask.Run(assignedUser.Email, assignedUser.UserName, subject, msg, model);
+                    }
+
+                    return Ok("Status changed");
+                }
+                if (User.IsInRole("Contributor") && article.Creator.Id == _userManager.GetUserId(User))
+                {
+                    if (article.Status == ArticleStatus.Submited || article.Status == ArticleStatus.Published)
+                    {
+                        return BadRequest("You are not allowed to change status after submission");
+                    }
+                    article.Status = obj.Status;
+                    _articleRepo.Update(article);
+                    return Ok("Status changed");
+                }
+                return BadRequest("Unauthorized");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error");
+            }
+        }
+
         [HttpPost("{id}")]
         public IActionResult ChangeStatus(int id, [FromBody] ArticleStatus status)
         {

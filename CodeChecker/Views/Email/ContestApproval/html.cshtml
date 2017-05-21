@@ -1,0 +1,17 @@
+﻿@model CodeChecker.Models.EmailMessageModels.CreateDeleteMessageViewModel
+@{
+    Layout = "~/Views/Shared/_Email.cshtml";
+}
+
+<h2 style="text-align: center;">Hello @Model.CreatorName!</h2>
+
+<div style="text-align: center">
+    <p>
+        We announce that your contest @Model.ItemName was approved.</br></br>
+        
+        <strong>@Model.Reason</strong>
+    </p></br>
+    <div>
+        <a target="_blank" href="http://@Context.Request.Host/Admin#!/contests/contest/@Model.ItemId" class="button">Click here to open contest</a>
+    </div>
+</div>

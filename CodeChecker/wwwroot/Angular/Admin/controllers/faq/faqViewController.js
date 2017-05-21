@@ -1,25 +1,25 @@
 ﻿angular
     .module('app')
-    .controller('ArticleController', function (NgTableParams, $scope, $resource, Auth, $http, $state, $window, $uibModal, $uibModalStack, toastr) {
-        
+    .controller('FAQController', function (NgTableParams, $scope, $resource, Auth, $http, $state, $window, $uibModal, $uibModalStack, toastr) {
+
         var ac = this;
-        var Api = $resource('/api/admin/article/getall/');
-        var deleteArticleUrl = "/api/admin/article/deletearticle/";
-        var recoverContestUrl = "/api/admin/article/recoverarticle/";
-        var createArticleUrl = "api/admin/Article/CreateArticle/";
+        var Api = $resource('/api/admin/faq/getall/');
+        var deleteArticleUrl = "/api/admin/faq/deletefaq/";
+        var recoverContestUrl = "/api/admin/faq/recoverfaq/";
+        var createArticleUrl = "api/admin/faq/Createfaq/";
 
 
-        ac.ajaxGet = function () {
+       fc.ajaxGet = function () {
             $http.get("/api/admin/user/current")
                 .then(function (response) {
-                    ac.currentUser = response.data;
+                    fc.currentUser = response.data;
                 }).finally(function () {
-                    ac.show = contains(ac.currentUser.roles);
+                    fc.show = contains(fc.currentUser.roles);
                 });
-        }
+       }
 
-        ac.ajaxGet();
-        
+       fc.ajaxGet();
+
         this.tableParams = new NgTableParams({}, {
             getData: function (params) {
                 return Api.query(params.url()).$promise.then(function (data) {
@@ -28,10 +28,10 @@
             }
         });
 
-        ac.goToArticle = function (id) {
-            for (var i = 0; i < ac.tableParams.data.length; i++) {
-                if (ac.tableParams.data[i].id === id) {
-                    var article = ac.tableParams.data[i];
+        fc.goToArticle = function (id) {
+            for (var i = 0; i < fc.tableParams.data.length; i++) {
+                if (fc.tableParams.data[i].id === id) {
+                    var article = fc.tableParams.data[i];
                 }
             }
             if (article.deletedAt !== null) {
@@ -49,15 +49,15 @@
                 }
             }
             return false;
-        } 
+        }
 
-       
+
 
         var createArticleLocal = function (title) {
             if (title === null) {
                 toastr.error("Title cannot be empty");
             } else {
-                var TitleToSend = {"Title":title}
+                var TitleToSend = { "Title": title }
                 $http.post(createArticleUrl, TitleToSend)
                     .then(function (response) {
                         $state.go('app.articles.one', { id: response.data });
@@ -72,7 +72,7 @@
             }
         }
 
-        ac.createArticle = function () {
+        fc.createArticle = function () {
             $uibModal.open({
                 templateUrl: '/Html/Admin/Modal/createArticle.html',
                 animation: false,
@@ -102,19 +102,19 @@
 
         var deleteArticleLocal = function (id) {
             var idMatch;
-            for (var i = 0; i < ac.tableParams.data.length; i++) {
-                if (ac.tableParams.data[i].id === id) {
+            for (var i = 0; i < fc.tableParams.data.length; i++) {
+                if (fc.tableParams.data[i].id === id) {
                     idMatch = i;
 
                 }
             }
             $http.post(deleteArticleUrl + id)
-            
+
                 .then(function (response) {
                     toastr.success(response.data);
                     var d = new Date();
                     d.toISOString();
-                    ac.tableParams.data[idMatch].deletedAt = d.toISOString();
+                    fc.tableParams.data[idMatch].deletedAt = d.toISOString();
                 }
                 , function (err) {
                     toastr.error(err.data);
@@ -123,8 +123,8 @@
                 });
         }
 
-        ac.delete = function (id) {
-            if (ac.show) {
+        fc.delete = function (id) {
+            if (fc.show) {
                 deleteArticleLocal(id);
             } else {
                 $uibModal.open({
@@ -153,17 +153,17 @@
             }
         }
 
-        ac.recover = function (id) {
+        fc.recover = function (id) {
             var idMatch;
-            for (var i = 0; i < ac.tableParams.data.length; i++) {
-                if (ac.tableParams.data[i].id === id) {
+            for (var i = 0; i < fc.tableParams.data.length; i++) {
+                if (fc.tableParams.data[i].id === id) {
                     idMatch = i;
                 }
             }
             $http.post(recoverContestUrl + id)
                 .then(function (response) {
                     toastr.success(response.data);
-                    ac.tableParams.data[idMatch].deletedAt = null;
+                    fc.tableParams.data[idMatch].deletedAt = null;
                 }
                 , function (err) {
                     toastr.error(err.data);
@@ -181,7 +181,7 @@
             console.log(message);
             $http.post("/api/admin/article/ChangeStatusWMessage/" + article.id, obj)
                 .then(function (response) {
-                    findAndReplace(ac.tableParams.data, article, value);
+                    findAndReplace(fc.tableParams.data, article, value);
                     toastr.success("Status changed");
                 }
                 , function (err) {
@@ -195,7 +195,7 @@
         var changeStatusLocal = function (value, article) {
             $http.post("/api/admin/article/ChangeStatus/" + article.id, value)
                 .then(function (response) {
-                    findAndReplace(ac.tableParams.data, article, value);
+                    findAndReplace(fc.tableParams.data, article, value);
                     toastr.success("Status changed");
                 }
                 , function (err) {
@@ -206,8 +206,8 @@
                 });
         }
 
-        ac.changeStatus = function (value, article) {
-            if (!ac.show) {
+        fc.changeStatus = function (value, article) {
+            if (!fc.show) {
                 changeStatusLocal(value, article);
             } else {
                 $uibModal.open({
@@ -238,7 +238,7 @@
 
 
 
-        
+
 
         ac.showStatus = function (num) {
             if (num === 0) { return "Created" }
@@ -256,4 +256,4 @@
         }
 
     }
-);
+    );

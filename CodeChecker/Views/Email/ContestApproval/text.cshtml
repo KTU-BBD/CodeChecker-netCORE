@@ -1,0 +1,13 @@
+﻿@model CodeChecker.Models.EmailMessageModels.CreateDeleteMessageViewModel
+
+@{
+    Layout = null;
+}
+Hello @Model.CreatorName!
+
+We announce that your contest @Model.ItemName was approved!
+</br>
+@Model.Reason
+</br>
+
+Click here to open your contest[http://@Context.Request.Host/Admin#!/contests/contest/@Model.ItemId]
