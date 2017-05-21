@@ -4,7 +4,7 @@
     angular.module("app-contest")
         .controller("submissionController", submissionController);
 
-    function submissionController($routeParams, $http, $scope, toastr, $uibModal) {
+    function submissionController($routeParams, $http, $scope, toastr, $uibModal,$uibModalStack) {
         var apiUrl = "/api/front/submission/contestSubmssions/" + $routeParams.contestId;
 
         $scope.refresh = function(hideToster) {
