@@ -225,9 +225,6 @@ angular
         id: null
     }
 })
-
-
-})
     .state('app.contacts', {
       url: "/contacts",
       abstract: true,
@@ -235,7 +232,7 @@ angular
       ncyBreadcrumb: {
         label: 'Contacts'
       }
-    })
+})
     .state('app.contacts.all', {
       url: '/all',
       templateUrl: 'Html/Admin/pages/contact/contacts.html',
@@ -244,7 +241,7 @@ angular
       },
       controller: 'ContactController',
       controllerAs: 'cc'
-    })
+})
     .state('app.contacts.one', {
       url: '/:id',
       templateUrl: 'Html/Admin/pages/contact/contact.html',
@@ -256,5 +253,5 @@ angular
       params: {
         id: null
       }
-    })
+})
 }]);
