@@ -64,7 +64,7 @@ namespace CodeChecker.Models.Repositories
             return Query()
                 .Include(c => c.ContestParticipants)
                 .Include(c => c.Assignments)
-                .FirstOrDefault(c => c.Id == contestId && c.Type == ContestType.Contest && c.StartAt < DateTime.Now);
+                .FirstOrDefault(c => c.Id == contestId && c.Status == ContestStatus.Approved && c.Type == ContestType.Contest && c.StartAt < DateTime.Now);
         }
 
         public Contest GetGymWithAssignments(long contestId)
