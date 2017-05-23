@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Gym";
+    ViewData["NgApp"] = "app-faq";
+}
+
+<div class="row">
+    <div class="col-md-9" ng-view></div>
+
+    <div class="col-md-3" ng-controller="sidebarController as sc">
+        <top-users display-when="sc.notBusy"></top-users>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript" asp-append-version="true" src="~/Angular/Front/app-faq.js"></script>
+    <script type="text/javascript" asp-append-version="true" src="~/Angular/Front/Directives/topUsers_directive.js"></script>
+    <script type="text/javascript" asp-append-version="true" src="~/Angular/Front/Modules/topUsersSidebarModule.js"></script>
+    <script type="text/javascript" asp-append-version="true" src="~/Angular/Front/Directives/disableOnClick_directive.js"></script>
+    <script type="text/javascript" asp-append-version="true" src="~/Angular/Front/Modules/disableOnClickModule.js"></script>
+    <script type="text/javascript" asp-append-version="true" src="~/Angular/Front/Controllers/faq/faqController.js"></script>
+    
+}

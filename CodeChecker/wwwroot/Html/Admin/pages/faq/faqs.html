@@ -4,33 +4,22 @@
 
             <div class="card">
                 <div class="card-header">
-                    <div class="col-md-10 col-md-pull-2 pull-left"><strong>Articles</strong></div>
-                    <div class="col-md-2 pull-left"><button ng-click="fc.createfaq()" class="col-md-12 btn btn-sm btn-primary">Create Article</button></div>
+                    <div class="col-md-10 col-md-pull-2 pull-left"><strong>Questions</strong></div>
+                    <div class="col-md-2 pull-left"><button ng-click="fc.createFaq()" class="col-md-12 btn btn-sm btn-primary">Create question</button></div>
                 </div>
                 <div class="card-block">
                     <table ng-table="fc.tableParams" class="table table-bordered table-striped table-condensed">
                         <tr ng-repeat="row in $data track by row.id" class="contest-{{row.id}}">
                             <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
-                            <td data-title="'Question'" filter="{Question: 'text'}" sortable="'Question'"><button class="btn-link" ng-click="fc.goTofaq(row.id)">{{row.title}}</button></td>
-                            <td data-title="'Creator'" filter="{'Creator.UserName': 'text'}" sortable="'Creator.UserName'"><a ui-sref-active="active" ui-sref="app.faq.one({id:row.creator.id})"><span colourise="{{row.creator.rating}}">{{row.creator.userName}}</span></a></td>
-                            <td data-title="'Status'" sortable="'Status'">
-                                <div ng-if="fc.show && row.status === 0"><button type="button" class="btn btn-secondary col-md-12" disabled>{{fc.showStatus(row.status)}}</button></div>
-                                <div ng-if="fc.show && row.status === 1"><button ng-click="fc.changeStatus(2,row)" type="button" class="btn btn-outline-success col-md-6">Publish</button><button ng-click="fc.changeStatus(3,row)" type="button" class="btn btn-outline-danger col-md-6">Cancel</button></div>
-                                <div ng-if="fc.show && row.status === 2"><button ng-click="fc.changeStatus(3,row)" type="button" class="btn btn-outline-danger col-md-12">Cancel</button></div>
-                                <div ng-if="fc.show && row.status === 3"><button ng-click="fc.changeStatus(2,row)" type="button" class="btn btn-outline-success col-md-12">Publish</button></div>
-                                <div ng-if="!fc.show"><button type="button" class="btn btn-secondary col-md-12" disabled>{{fc.showStatus(row.status)}}</button></div>
-                            </td>
-                            <td data-title="'Created At'" sortable="'CreatedAt'">{{row.createdAt}}</td>
-                            <td data-title="'Updated At'" sortable="'UpdatedAt'">{{row.updatedAt}}</td>
-                            <td data-title="'Deleted'" sortable="'DeletedAt'">
-                                <div ng-if="fc.show && row.deletedAt"><button ng-click="fc.recover(row.id)" type="button" class="btn btn-outline-success col-md-12">Recover</button></div>
-                                <div ng-if="!fc.show && row.deletedAt"><button ng-click="fc.recover(row.id)" type="button" class="btn btn-outline-danger col-md-12" disabled>Deleted</button></div>
-                                <div ng-if="!row.deletedAt"><button ng-click="fc.delete(row.id)" type="button" class="btn btn-danger col-md-12">Delete</button></div>
+                            <td data-title="'Question'" filter="{Question: 'text'}" sortable="'Question'"><button class="btn-link" ng-click="fc.goToFAQ(row.id)">{{row.question}}</button></td>
+                            <td data-title="'Creator'" filter="{'Creator.UserName': 'text'}" sortable="'Creator.UserName'"><span colourise="{{row.creator.rating}}">{{row.creator.userName}}</span></td>
+                            <td data-title="'Deleted'">
+                                <div><button ng-click="fc.delete(row.id)" type="button" class="btn btn-outline-danger col-md-12">Delete</button></div>
                             </td>
                         </tr>
                     </table>
                 </div>
             </div>
-        </div>app.articles
+        </div>
     </div>
 </div>

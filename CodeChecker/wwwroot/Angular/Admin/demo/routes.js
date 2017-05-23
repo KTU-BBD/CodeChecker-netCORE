@@ -197,18 +197,18 @@ angular
 
 
 .state('app.faq', {
-    url: "/articles",
+    url: "/faqs",
     abstract: true,
     template: '<ui-view></ui-view>',
     ncyBreadcrumb: {
-        label: 'Articles'
+        label: 'FAQs'
     },
 })
 .state('app.faq.all', {
     url: '/all',
     templateUrl: 'Html/Admin/pages/faq/faqs.html',
     ncyBreadcrumb: {
-        label: 'All Articles'
+        label: 'All FAQs'
     },
     controller: 'FAQController',
     controllerAs: 'fc'
@@ -217,10 +217,10 @@ angular
     url: '/:id',
     templateUrl: 'Html/Admin/pages/faq/faq.html',
     ncyBreadcrumb: {
-        label: 'Article'
+        label: 'FAQ'
     },
-    controller: 'SingleFAQController',
-    controllerAs: 'sfc',
+    controller: 'SingleFaqViewController',
+    controllerAs: 'sfvc',
     params: {
         id: null
     }

@@ -32,6 +32,7 @@ using CodeChecker.Services.EmailSending;
 using CodeChecker.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
+using CodeChecker.Models.FAQViewModel;
 
 namespace CodeChecker
 {
@@ -190,6 +191,7 @@ namespace CodeChecker
                 cfg.CreateMap<List<SubmissionGrouppingList>, List<SubmissionGrouppingListViewModel>>().ReverseMap();
                 cfg.CreateMap<SubmissionGroup, SubmissionViewModel>().ReverseMap();
                 cfg.CreateMap<List<SubmissionGroup>, List<SubmissionViewModel>>().ReverseMap();
+                cfg.CreateMap<Faq, EditFaqViewModel>().ReverseMap();
             });
 
             app.UseStaticFiles();

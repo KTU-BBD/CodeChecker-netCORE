@@ -1,0 +1,15 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Enter your question</h3>
+</div>
+
+<form name="faqQuestion" class="css-form" novalidate>
+    <div class="modal-body" id="modal-body">
+        <div class="input-group">
+            <input type="text" class="form-control" required tabindex="1" id="question" data-ng-model="question" placeholder="question..." aria-describedby="basic-addon1">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="Submit" data-ng-click="submit()">
+        <button class="btn btn-warning" type="button" data-ng-click="close()">Cancel</button>
+    </div>
+</form>

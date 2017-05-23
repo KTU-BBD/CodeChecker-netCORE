@@ -1,5 +1,7 @@
 ﻿using CodeChecker.Data;
 using CodeChecker.Models.Models;
+using CodeChecker.Models.ServiceViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +15,41 @@ namespace CodeChecker.Models.Repositories
         {
         }
 
-        //public override IQueryable<Faq> Query()
-        //{
-        //    return base.Query().Include(a => a.Creator).Where(c => c.DeletedAt == null);
-        //}
+        public IQueryable<Faq> GetPagedDataIncludeDeleted(DataFilterViewModel filter)
+        {
+            return GetPagedData(entities, filter).Include(c => c.Creator);
+        }
+
+        public IQueryable<Faq> QueryDeleted()
+        {
+            return base.Query();
+        }
+
+        public IQueryable<Faq> QueryDeletedWithCreator()
+        {
+            return base.Query()
+                    .Include(c => c.Creator)
+                ;
+        }
+
+        public Faq GetFaqFull(long id)
+        {
+            return Query()
+                    .Include(c => c.Creator)
+                    .FirstOrDefault(c => c.Id == id)
+                ;
+        }
+
+        public Faq GetArticleFullWithDeleted(long id)
+        {
+            return base.Query()
+                    .Include(c => c.Creator)
+                    .FirstOrDefault(c => c.Id == id)
+                ;
+        }
 
 
+        
 
     }
 }

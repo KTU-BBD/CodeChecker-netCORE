@@ -2,11 +2,10 @@
     .module('app')
     .controller('FAQController', function (NgTableParams, $scope, $resource, Auth, $http, $state, $window, $uibModal, $uibModalStack, toastr) {
 
-        var ac = this;
+        var fc = this;
         var Api = $resource('/api/admin/faq/getall/');
-        var deleteArticleUrl = "/api/admin/faq/deletefaq/";
-        var recoverContestUrl = "/api/admin/faq/recoverfaq/";
-        var createArticleUrl = "api/admin/faq/Createfaq/";
+        var deleteFaqUrl = "/api/admin/faq/deletefaq/";
+        var createFaqUrl = "api/admin/faq/CreateFAQ/";
 
 
        fc.ajaxGet = function () {
@@ -14,7 +13,6 @@
                 .then(function (response) {
                     fc.currentUser = response.data;
                 }).finally(function () {
-                    fc.show = contains(fc.currentUser.roles);
                 });
        }
 
@@ -28,42 +26,22 @@
             }
         });
 
-        fc.goToArticle = function (id) {
-            for (var i = 0; i < fc.tableParams.data.length; i++) {
-                if (fc.tableParams.data[i].id === id) {
-                    var article = fc.tableParams.data[i];
-                }
-            }
-            if (article.deletedAt !== null) {
-                toastr.error("Article is deleted");
-            } else {
-                $state.go('app.articles.one', { id: article.id });
-            }
+        fc.goToFAQ = function (id) {
+            $state.go('app.faq.one', { id: id });
         }
-
-        function contains(a) {
-            var i = a.length;
-            while (i--) {
-                if (a[i] === "Administrator" || a[i] === "Moderator") {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-
-
-        var createArticleLocal = function (title) {
-            if (title === null) {
-                toastr.error("Title cannot be empty");
+        
+        var createFaqLocal = function (question) {
+            if (question === null) {
+                toastr.error("Question cannot be empty");
             } else {
-                var TitleToSend = { "Title": title }
-                $http.post(createArticleUrl, TitleToSend)
+                var QuestionToSend = { "Question": question }
+                $http.post(createFaqUrl, QuestionToSend)
                     .then(function (response) {
-                        $state.go('app.articles.one', { id: response.data });
-                        toastr.success("Article created");
+                        $state.go('app.faq.one', { id: response.data });
+                        toastr.success("Faq created");
                     }
                     , function (err) {
+                        console.log(question);
                         toastr.error(err.data);
                     })
                     .finally(function () {
@@ -72,9 +50,9 @@
             }
         }
 
-        fc.createArticle = function () {
+        fc.createFaq = function () {
             $uibModal.open({
-                templateUrl: '/Html/Admin/Modal/createArticle.html',
+                templateUrl: '/Html/Admin/Modal/createFaq.html',
                 animation: false,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
@@ -87,7 +65,7 @@
                         }
                     };
                     $scope.submit = function () {
-                        createArticleLocal($scope.name);
+                        createFaqLocal($scope.question);
                         $scope.close()
                     };
                 }
@@ -97,24 +75,18 @@
 
             });
         }
-
-
-
-        var deleteArticleLocal = function (id) {
-            var idMatch;
-            for (var i = 0; i < fc.tableParams.data.length; i++) {
-                if (fc.tableParams.data[i].id === id) {
-                    idMatch = i;
-
-                }
-            }
-            $http.post(deleteArticleUrl + id)
+        
+        var deleteFaqLocal = function (id) {
+            
+            $http.post(deleteFaqUrl + id)
 
                 .then(function (response) {
+                    for (var i = 0; i < fc.tableParams.data.length; i++) {
+                        if (fc.tableParams.data[i].id === id) {
+                            fc.tableParams.data.splice(i, 1);
+                        }
+                    }
                     toastr.success(response.data);
-                    var d = new Date();
-                    d.toISOString();
-                    fc.tableParams.data[idMatch].deletedAt = d.toISOString();
                 }
                 , function (err) {
                     toastr.error(err.data);
@@ -141,7 +113,7 @@
                             }
                         };
                         $scope.submit = function () {
-                            deleteArticleLocal(id);
+                            deleteFaqLocal(id);
                             $scope.close()
                         };
                     }
@@ -152,100 +124,7 @@
                 });
             }
         }
-
-        fc.recover = function (id) {
-            var idMatch;
-            for (var i = 0; i < fc.tableParams.data.length; i++) {
-                if (fc.tableParams.data[i].id === id) {
-                    idMatch = i;
-                }
-            }
-            $http.post(recoverContestUrl + id)
-                .then(function (response) {
-                    toastr.success(response.data);
-                    fc.tableParams.data[idMatch].deletedAt = null;
-                }
-                , function (err) {
-                    toastr.error(err.data);
-                })
-                .finally(function () {
-                });
-        }
-
-        var changeStatusLocalWMessage = function (value, article, message) {
-            var obj = {
-                "status": value,
-                "message": message
-            }
-            console.log(value);
-            console.log(message);
-            $http.post("/api/admin/article/ChangeStatusWMessage/" + article.id, obj)
-                .then(function (response) {
-                    findAndReplace(fc.tableParams.data, article, value);
-                    toastr.success("Status changed");
-                }
-                , function (err) {
-                    toastr.error("Error");
-                })
-                .finally(function () {
-
-                });
-        }
-
-        var changeStatusLocal = function (value, article) {
-            $http.post("/api/admin/article/ChangeStatus/" + article.id, value)
-                .then(function (response) {
-                    findAndReplace(fc.tableParams.data, article, value);
-                    toastr.success("Status changed");
-                }
-                , function (err) {
-                    toastr.error("Error");
-                })
-                .finally(function () {
-
-                });
-        }
-
-        fc.changeStatus = function (value, article) {
-            if (!fc.show) {
-                changeStatusLocal(value, article);
-            } else {
-                $uibModal.open({
-                    templateUrl: '/Html/Admin/Modal/addMessage.html',
-                    animation: false,
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    size: 'md',
-                    controller: function ($scope) {
-                        $scope.close = function () {
-                            var top = $uibModalStack.getTop();
-                            if (top) {
-                                $uibModalStack.dismiss(top.key);
-                            }
-                        };
-                        $scope.submit = function () {
-                            changeStatusLocalWMessage(value, article, $scope.message);
-                            $scope.close()
-                        };
-                    }
-                }).result.then(function () {
-
-                }, function (res) {
-
-                });
-            }
-        }
-
-
-
-
-
-        ac.showStatus = function (num) {
-            if (num === 0) { return "Created" }
-            if (num === 1) { return "Submited" }
-            if (num === 2) { return "Published" }
-            if (num === 3) { return "Cancelled" }
-        }
+        
 
         var findAndReplace = function (arr, con, val) {
             for (var x in arr) {
@@ -256,4 +135,4 @@
         }
 
     }
-    );
+);

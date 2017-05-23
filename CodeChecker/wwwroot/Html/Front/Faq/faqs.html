@@ -1,0 +1,19 @@
+﻿<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="col-md-10 col-md-pull-2 pull-left"><strong>Frequently asked questions</strong></div>
+                </div>
+                <div class="card-block">
+                    <table ng-table="fc.tableParams" class="table table-bordered table-striped table-condensed">
+                        <tr ng-repeat="row in $data track by row.id" class="contest-{{row.id}}">
+                            <td data-title="'Question'" filter="{Question: 'text'}" sortable="'Question'"><a class="btn btn-link" ng-href="Faq#!/{{row.id}}">{{row.question}}</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

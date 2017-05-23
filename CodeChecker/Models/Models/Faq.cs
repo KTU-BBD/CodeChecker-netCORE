@@ -1,6 +1,6 @@
 ﻿namespace CodeChecker.Models.Models
 {
-    public class Faq: SoftDeletable
+    public class Faq : BaseModel
     {
         public string Question { get; set; }
         public string ShortDescription { get; set; }

@@ -1,0 +1,38 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-block">
+                <form action="" method="post" enctype="multipart/form-data" class="form-2orizontal ">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Article Title</label>
+                        <div class="col-md-9">
+                            <input type="text" id="text-input" name="text-input" class="form-control" value=" {{sfvc.faq.question}}" placeholder="{{sfvc.faq.question}}" ng-model="sfvc.faq.question">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Creator</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static"><span colourise="{{sfvc.faq.creator.rating}}">{{sfvc.faq.creator.userName}}</span></p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Short Description</label>
+                        <div class="col-md-9">
+                            <textarea froala="froalaOptions" ng-model="sfvc.faq.shortDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label" for="text-input">Long Description</label>
+                        <div class="col-md-9">
+                            <textarea froala="froalaOptions" ng-model="sfvc.faq.longDescription"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button ng-click="sfvc.saveFaq()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.faq.one(sfc.faq.id)"><i class="fa fa-dot-circle-o"></i> Save Changes</button>
+                <button ng-click="sfvc.reset()" class="btn btn-sm btn-warning" ui-sref-active="active" ui-sref="app.faq.one(sfc.faq.id)"><i class="fa fa-ban"></i> Reset</button>
+            </div>
+        </div>
+    </div>
+</div>
