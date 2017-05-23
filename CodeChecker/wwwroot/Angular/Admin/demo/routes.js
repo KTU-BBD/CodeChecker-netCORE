@@ -227,4 +227,34 @@ angular
 })
 
 
+})
+    .state('app.contacts', {
+      url: "/contacts",
+      abstract: true,
+      template: '<ui-view></ui-view>',
+      ncyBreadcrumb: {
+        label: 'Contacts'
+      }
+    })
+    .state('app.contacts.all', {
+      url: '/all',
+      templateUrl: 'Html/Admin/pages/contact/contacts.html',
+      ncyBreadcrumb: {
+        label: 'All contacts'
+      },
+      controller: 'ContactController',
+      controllerAs: 'cc'
+    })
+    .state('app.contacts.one', {
+      url: '/:id',
+      templateUrl: 'Html/Admin/pages/contact/contact.html',
+      ncyBreadcrumb: {
+        label: 'Contact'
+      },
+      controller: 'SingleContactViewController',
+      controllerAs: 'scvc',
+      params: {
+        id: null
+      }
+    })
 }]);

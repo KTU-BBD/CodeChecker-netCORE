@@ -9,9 +9,10 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170521135133_UserStatistics")]
+    partial class UserStatistics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -182,30 +183,6 @@ namespace CodeChecker.Migrations
                     b.ToTable("AssignmentTags");
                 });
 
-            modelBuilder.Entity("CodeChecker.Models.Models.Contact", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Message");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("ResponseMessage");
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contacts");
-                });
-
             modelBuilder.Entity("CodeChecker.Models.Models.Contest", b =>
                 {
                     b.Property<long>("Id")
@@ -258,32 +235,6 @@ namespace CodeChecker.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ContestParticipants");
-                });
-
-            modelBuilder.Entity("CodeChecker.Models.Models.Faq", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("CreatorId");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("LongDescription");
-
-                    b.Property<string>("Question");
-
-                    b.Property<string>("ShortDescription");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.ToTable("Faq");
                 });
 
             modelBuilder.Entity("CodeChecker.Models.Models.Input", b =>
@@ -596,13 +547,6 @@ namespace CodeChecker.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CodeChecker.Models.Models.Faq", b =>
-                {
-                    b.HasOne("CodeChecker.Models.Models.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-                });
-
             modelBuilder.Entity("CodeChecker.Models.Models.Input", b =>
                 {
                     b.HasOne("CodeChecker.Models.Models.Assignment", "Assignment")
@@ -649,7 +593,7 @@ namespace CodeChecker.Migrations
             modelBuilder.Entity("CodeChecker.Models.Models.UserStatistic", b =>
                 {
                     b.HasOne("CodeChecker.Models.Models.ApplicationUser", "User")
-                        .WithMany("UserStatistics")
+                        .WithMany()
                         .HasForeignKey("UserId");
                 });
 

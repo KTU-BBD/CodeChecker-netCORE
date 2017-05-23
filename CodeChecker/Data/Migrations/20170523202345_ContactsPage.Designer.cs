@@ -9,9 +9,10 @@ using CodeChecker.Models.Models.Enums;
 namespace CodeChecker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170523202345_ContactsPage")]
+    partial class ContactsPage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -258,32 +259,6 @@ namespace CodeChecker.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ContestParticipants");
-                });
-
-            modelBuilder.Entity("CodeChecker.Models.Models.Faq", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("CreatorId");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("LongDescription");
-
-                    b.Property<string>("Question");
-
-                    b.Property<string>("ShortDescription");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.ToTable("Faq");
                 });
 
             modelBuilder.Entity("CodeChecker.Models.Models.Input", b =>
@@ -594,13 +569,6 @@ namespace CodeChecker.Migrations
                         .WithMany("ContestParticipants")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CodeChecker.Models.Models.Faq", b =>
-                {
-                    b.HasOne("CodeChecker.Models.Models.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
                 });
 
             modelBuilder.Entity("CodeChecker.Models.Models.Input", b =>
