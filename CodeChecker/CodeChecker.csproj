@@ -101,17 +101,27 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\EmailMessageModels" />
+    <Folder Include="Models\FAQViewModel" />
     <Folder Include="Sass\Admin\" />
     <Folder Include="Sass\Admin\bootstrap\utilities" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Contest\" />
+    <Folder Include="Views\Email\ArticleApproval" />
+    <Folder Include="Views\Email\ContestApproval" />
+    <Folder Include="Views\Email\ContestRejection" />
+    <Folder Include="Views\Faq" />
     <Folder Include="Views\Shared\Partials\" />
     <Folder Include="wwwroot\Angular\Admin\controllers\article" />
+    <Folder Include="wwwroot\Angular\Admin\controllers\faq" />
     <Folder Include="wwwroot\Angular\Admin\controllers\user" />
+    <Folder Include="wwwroot\Angular\Front\Controllers\faq" />
     <Folder Include="wwwroot\Html\Admin\pages\article" />
     <Folder Include="wwwroot\Html\Admin\pages\contest\task" />
+    <Folder Include="wwwroot\Html\Admin\pages\faq" />
     <Folder Include="wwwroot\Html\Admin\pages\user" />
     <Folder Include="wwwroot\Html\Front\DirectiveView" />
+    <Folder Include="wwwroot\Html\Front\Faq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="wwwroot\Angular\Contest\**" />

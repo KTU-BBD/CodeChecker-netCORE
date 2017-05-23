@@ -57,10 +57,10 @@
             <li class="@(Url.RouteUrl(ViewContext.RouteData.Values) == Url.Action("Index", "Submission") ? "active" : "")">
                 <a href="@Url.Action("Index", "Submission")">Submissions</a>
             </li>
-            <li class="">
+            <li class="@(Url.RouteUrl(ViewContext.RouteData.Values) == Url.Action("Index", "Faq") ? "active" : "")">
                 <a href="@Url.Action("Index", "Faq")">Faq</a>
             </li>
-            <li class="">
+            <li class="@(Url.RouteUrl(ViewContext.RouteData.Values) == Url.Action("Index", "Contact") ? "active" : "")">
                 <a href="@Url.Action("Index", "Contact")">Contact Us</a>
             </li>
         </ul>

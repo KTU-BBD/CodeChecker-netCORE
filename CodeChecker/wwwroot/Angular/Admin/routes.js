@@ -27,9 +27,9 @@ angular
   })
   .state('app.main', {
     url: '/dashboard',
-    templateUrl: 'Html/Admin/main.html',
-    controller: 'ProfileEditController',
-    controllerAs: 'profileCnt',
+    templateUrl: 'Html/Admin/pages/contest/main.html',
+    controller: 'ContestViewController',
+    controllerAs: 'contest',
     //page title goes here
     ncyBreadcrumb: {
       label: 'Home',
