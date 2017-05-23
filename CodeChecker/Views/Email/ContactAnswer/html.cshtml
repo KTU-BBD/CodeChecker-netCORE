@@ -1,0 +1,18 @@
+﻿@model CodeChecker.Models.Models.Contact
+@{
+    Layout = "~/Views/Shared/_Email.cshtml";
+}
+
+<h2 style="text-align: center;">Hello @Model.Name!</h2>
+
+<div style="text-align: center">
+    <p>
+        We received your question:<br>
+        <strong>@Model.Message</strong>
+    </p>
+    <p>
+        Our answer:<br>
+        <strong>@Model.ResponseMessage</strong>
+    </p>
+    <p>Thanks for your interest in our project SITY</p>
+</div>

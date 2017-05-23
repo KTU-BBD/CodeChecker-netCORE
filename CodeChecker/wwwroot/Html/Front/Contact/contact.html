@@ -1,0 +1,36 @@
+<div class="contact">
+    <h2>Contact us</h2>
+    <div class="form" ng-hide="contacted">
+        <p>Here you can leave your questions about system or other related questions</p>
+        <p>All answers to your question will be sent directly to given email.</p>
+        <br>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="name">Name</label>
+            <div class="col-md-9">
+                <input id="name" data-ng-model="contact.name" name="name" class="form-control" placeholder="Enter your full name"
+                       type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="email">Email</label>
+            <div class="col-md-9">
+                <input id="email" data-ng-model="contact.email" name="email" class="form-control" placeholder="Enter your email"
+                       type="email"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="message">Email</label>
+            <div class="col-md-9">
+                <textarea  id="message" data-ng-model="contact.message" name="message" class="form-control" placeholder="Enter your message"
+                           type="message"></textarea>
+            </div>
+        </div>
+        <div class="form-group text-right">
+                <button class="btn btn-success join" ng-click="submitContact()">Submit</button>
+        </div>
+    </div>
+
+    <div class="form-sent text-center" ng-show="contacted">
+        <h3>Thank your for contacting us. We'll try to respond to you as soon as possible.</h3>
+    </div>
+</div>

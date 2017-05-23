@@ -9,5 +9,10 @@ namespace CodeChecker.Models.Models
         public string Message { get; set; }
         public string ResponseMessage { get; set; }
         public ContactStatus Status { get; set; }
+
+        public Contact()
+        {
+            Status = ContactStatus.Created;
+        }
     }
 }

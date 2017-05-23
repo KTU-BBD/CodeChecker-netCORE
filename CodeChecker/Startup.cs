@@ -24,6 +24,7 @@ using CodeChecker.Middleware;
 using CodeChecker.Models.ArticleViewModel;
 using CodeChecker.Models.AssignmentViewModels;
 using CodeChecker.Models.AssignmentViewModels.InputOutputViewModels;
+using CodeChecker.Models.ContactViewModel;
 using CodeChecker.Models.Models.Enums;
 using CodeChecker.Models.ServiceViewModels;
 using CodeChecker.Models.SubmissionViewModels;
@@ -184,6 +185,7 @@ namespace CodeChecker
                 cfg.CreateMap<Assignment, EditAssignmentPostViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
                 cfg.CreateMap<Assignment, AssignmentViewModel>().ReverseMap();
+                cfg.CreateMap<Contact, ContactUpdateViewModel>().ReverseMap();
                 cfg.CreateMap<Input, InputViewModel>().ReverseMap();
                 cfg.CreateMap<Output, OutputViewModel>().ReverseMap();
                 cfg.CreateMap<SubmissionGroup, LastSubmissionViewModel>().ReverseMap();
@@ -227,6 +229,7 @@ namespace CodeChecker
             services.AddScoped<OutputRepository>();
             services.AddScoped<ArticleRepository>();
             services.AddScoped<SubmissionGroupRepository>();
+            services.AddScoped<ContactRepository>();
         }
 
         private void Services(IServiceCollection services)

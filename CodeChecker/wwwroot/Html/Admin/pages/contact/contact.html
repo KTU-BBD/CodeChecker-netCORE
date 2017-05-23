@@ -1,0 +1,64 @@
+﻿<div class="row" ng-show="scvc.showContent">
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="col-md-3 pull-left"><button ui-sref-active="active" ui-sref="app.contacts.all" class="col-md-12 btn btn-sm btn-outline-secondary">Back</button></div>
+                <div class="col-md-7 col-md-pull-2 pull-left"><strong>{{scvc.contact.name}}</strong></div>
+            </div>
+            <div class="card-block">
+                <form action="" method="post" class="form-2orizontal ">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Sent at</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{scvc.contact.createdAt}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Status</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{scvc.showStatus(scvc.contact.status)}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Last update at</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{scvc.contact.updatedAt}}</p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Name</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{scvc.contact.name}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Email</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{{scvc.contact.email}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Message</label>
+                        <div class="col-md-9">
+                        <textarea id="message" class="form-control" type="message">{{scvc.contact.message}}</textarea>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">Response message</label>
+                        <div class="col-md-9">
+                        <textarea id="response" class="form-control" data-ng-model="scvc.contact.responseMessage" type="responseMessage">{{scvc.contact.responseMessage}}</textarea>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="card-footer">
+                <button ng-click="scvc.saveContact()" class="btn btn-sm btn-primary" ui-sref-active="active" ui-sref="app.contact.one(scvc.contact.id)"><i class="fa fa-dot-circle-o"></i> Answer</button>
+            </div>
+        </div>
+    </div>
+</div>

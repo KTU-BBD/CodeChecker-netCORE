@@ -1,0 +1,29 @@
+﻿<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="col-md-10 col-md-pull-2 pull-left"><strong>Contacts</strong></div>
+                </div>
+                <div class="card-block">
+                    <table ng-table="cc.tableParams" class="table table-bordered table-striped table-condensed">
+                        <tr ng-repeat="row in $data track by row.id" class="contest-{{row.id}}">
+                            <td data-title="'Id'" filter="{Id: 'number'}" sortable="'Id'">{{row.id}}</td>
+                            <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><button class="btn-link" ng-click="cc.goToContact(row.id)">{{row.name}}</button></td>
+                            <td data-title="'Email'" filter="{Email: 'text'}" sortable="'Email'"><button class="btn-link" ng-click="cc.goToContact(row.id)">{{row.email}}</button></td>
+                            <td data-title="'Message'" filter="{'Message': 'text'}" sortable="'Message'" class="ellipsis">{{row.message}}</td>
+                            <td data-title="'Status'" sortable="'Status'">
+                                <div><button type="button" class="btn btn-secondary col-md-12" disabled>{{cc.showStatus(row.status)}}</button></div>
+                            </td>
+                            <td data-title="'Sent'" sortable="'CreatedAt'">{{row.createdAt}}</td>
+                            <td data-title="'View'" >
+                                <button ng-click="cc.goToContact(row.id)" type="button" class="btn btn-info col-md-12">View</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
