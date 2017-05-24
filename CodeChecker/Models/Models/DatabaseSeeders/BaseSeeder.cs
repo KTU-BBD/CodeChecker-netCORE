@@ -35,14 +35,14 @@ namespace CodeChecker.Models.Models.DatabaseSeeders
         // Do not change the order of called methods
         public async Task EnsureSeedData()
         {
-            await _assetSeeder.SeedDatabase();
+            //await _assetSeeder.SeedDatabase();
             await _roleSeeder.SeedDatabase();
-            await _tagSeeder.SeedDatabase();
+            //await _tagSeeder.SeedDatabase();
             await _userSeeder.SeedDatabase();
-            await _contestSeeder.SeedDatabase();
-            await _assignmentSeeder.SeedDatabase();
-            await _assignmentResultSeeder.SeedDatabase();
-            await _articleSeeder.SeedDatabase();
+            //await _contestSeeder.SeedDatabase();
+            //await _assignmentSeeder.SeedDatabase();
+            //await _assignmentResultSeeder.SeedDatabase();
+            //await _articleSeeder.SeedDatabase();
         }
 
         public void SendStatistic()
