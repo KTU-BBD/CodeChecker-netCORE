@@ -4,7 +4,7 @@
         <tr ng-repeat="row in $data track by row.id" id="contest-{{row.id}}">
             <td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'">{{row.name}}</td>
             <td data-title="'Creator'" filter="{'Creator.UserName': 'text'}" sortable="'Creator.UserName'"><span colourise="{{row.creator.rating}}">{{row.creator.userName}}</span></td>
-            <td>
+            <td style="width: 0;">
                 <a class="btn btn-info enter" ng-href="Gym#!/{{row.id}}">View contest</a>
             </td>
 

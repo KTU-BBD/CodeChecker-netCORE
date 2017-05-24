@@ -7,7 +7,7 @@
             <td data-title="'Starts at'" sortable="'StartAt'">{{row.startAt|date:"yyyy-MM-dd HH:mm:ss"}}</td>
             <td data-title="'Time left'"><timer end-time="row.startAt" finish-callback="openContest(row.id)">{{days}} d, {{hhours}}:{{mminutes}}:{{sseconds}}</timer></td>
             <td data-title="'Length'">{{row.length|number:1}} h</td>
-            <td>
+            <td style="width: 0;">
                 <button ng-show="!row.joined" class="btn btn-success join" ng-disabled="row.joined" ng-click="joinContest(row.id, row.isPublic)">Join contest</button>
                 <a class="btn btn-info enter" ng-class="{disabled: !row.isStarted}" ng-show="row.joined" ng-href="Contest#!/{{row.id}}">View contest</a>
             </td>
