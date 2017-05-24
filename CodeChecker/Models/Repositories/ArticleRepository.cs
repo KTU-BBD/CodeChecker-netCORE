@@ -45,7 +45,11 @@ namespace CodeChecker.Models.Repositories
                 newsPerPage = 20;
             }
 
-            return Query().Where(a => a.Status == status).Skip(page * newsPerPage).Take(newsPerPage);
+            return Query()
+                .Where(a => a.Status == status)
+                .OrderByDescending(c => c.CreatedAt)
+                .Skip(page * newsPerPage)
+                .Take(newsPerPage);
         }
 
 
