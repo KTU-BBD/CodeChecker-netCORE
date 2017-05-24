@@ -45,7 +45,9 @@ namespace CodeChecker.Tasks
             var submissionGroup = new SubmissionGroup
             {
                 Assignment = assignment,
-                Submitee = submiteeUser
+                Submitee = submiteeUser,
+                Code = codeAssignment.AssignmentSubmit.Code,
+                Language = codeAssignment.AssignmentSubmit.Language
             };
 
             _context.SubmissionGroups.Add(submissionGroup);
@@ -76,10 +78,7 @@ namespace CodeChecker.Tasks
                     submission.Output = results.Output;
                     submission.Memory = results.Memory;
                     submissionGroup.Memory = submission.Memory;
-                    submissionGroup.Code = codeAssignment.AssignmentSubmit.Code;
-                    submissionGroup.Assignment = assignment;
                     submissionGroup.Time = results.TimeSpent;
-                    submissionGroup.Language = results.Language;
 
                     if (results.Verdict.Equals("COMPILATION_ERROR"))
                     {
