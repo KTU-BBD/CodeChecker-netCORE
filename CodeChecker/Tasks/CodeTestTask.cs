@@ -42,18 +42,22 @@ namespace CodeChecker.Tasks
                 return;
             }
 
-            var submissionGroup = new SubmissionGroup();
+            var submissionGroup = new SubmissionGroup
+            {
+                Assignment = assignment,
+                Submitee = submiteeUser
+            };
 
             _context.SubmissionGroups.Add(submissionGroup);
             _context.SaveChanges();
             int testNumber = 1;
             foreach (var assignmentInput in assignment.Inputs)
             {
-                var submission = new Submission()
+                var submission = new Submission
                 {
                     AssignmentId = codeAssignment.AssignmentId,
                     UserId = codeAssignment.SubmiterId,
-                    SubmissionGroup = submissionGroup,
+                    SubmissionGroup = submissionGroup
                 };
 
                 try
@@ -76,7 +80,6 @@ namespace CodeChecker.Tasks
                     submissionGroup.Assignment = assignment;
                     submissionGroup.Time = results.TimeSpent;
                     submissionGroup.Language = results.Language;
-                    submissionGroup.Submitee = submiteeUser;
 
                     if (results.Verdict.Equals("COMPILATION_ERROR"))
                     {
