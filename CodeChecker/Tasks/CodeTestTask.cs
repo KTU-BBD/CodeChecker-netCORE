@@ -100,7 +100,7 @@ namespace CodeChecker.Tasks
                         submission.Verdict = SubmissionVerdict.MemoryOverflow;
                         solvedAll = false;
                     }
-                    else if (results.Verdict.Equals("OK") && !assignmentInput.Output.Text.Equals(results.Output))
+                    else if (results.Verdict.Equals("OK") && !assignmentInput.Output.Text.Trim().Equals(results.Output.Trim()))
                     {
                         submission.Verdict = SubmissionVerdict.WrongAnswer;
                         solvedAll = false;
