@@ -27,7 +27,7 @@ namespace CodeChecker.Models.Repositories
 
         public IEnumerable<Contest> GetActiveGymPagedData(DataFilterViewModel filterData)
         {
-            var query = Query().Where(c => c.EndAt < DateTime.Now || c.Type == ContestType.Gym);
+            var query = Query().Where(c => (c.EndAt < DateTime.Now || c.Type == ContestType.Gym) && c.Status == ContestStatus.Approved);
 
             return GetPagedData(query, filterData)
                 .Include(c => c.Creator)

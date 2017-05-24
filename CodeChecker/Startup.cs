@@ -178,6 +178,7 @@ namespace CodeChecker
                 cfg.CreateMap<Contest, ContestViewModel>()
                     .ForMember(c => c.IsPublic, o => o.MapFrom(src => string.IsNullOrEmpty(src.Password)))
                     .ForMember(c => c.IsStarted, o => o.MapFrom(src => src.StartAt < DateTime.Now))
+                    .ForMember(c => c.Length, o => o.MapFrom(src => src.EndAt.Subtract(src.StartAt).TotalHours))
                     .ReverseMap();
                 cfg.CreateMap<Contest, ContestWithAssignmentViewModel>();
                 cfg.CreateMap<Assignment, ShortAssignmentViewModel>().ReverseMap();
