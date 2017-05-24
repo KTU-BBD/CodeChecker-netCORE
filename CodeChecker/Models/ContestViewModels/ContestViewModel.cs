@@ -11,6 +11,7 @@ namespace CodeChecker.Models.ContestViewModels
         public string Name { get; set; }
         public DateTime StartAt { get; set; }
         public DateTime EndAt { get; set; }
+        public double Length { get; set; }
         public UserViewModel Creator { get; set; }
         public bool Joined { get; set; }
         public bool IsPublic { get; set; }

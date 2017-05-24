@@ -55,6 +55,11 @@ namespace CodeChecker.Tasks
             int testNumber = 1;
             foreach (var assignmentInput in assignment.Inputs)
             {
+                if (string.IsNullOrEmpty(assignmentInput.Text))
+                {
+                    continue;
+                }
+
                 var submission = new Submission
                 {
                     AssignmentId = codeAssignment.AssignmentId,
@@ -165,8 +170,6 @@ namespace CodeChecker.Tasks
             _context.Update(submissionGroup);
 
             _context.SaveChanges();
-
-            assignment = null;
         }
 
         private long SubmissionPointCalculator(SubmissionGroup submission, ApplicationUser submitee)
