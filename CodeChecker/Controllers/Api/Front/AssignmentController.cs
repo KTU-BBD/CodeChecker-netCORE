@@ -83,6 +83,11 @@ namespace CodeChecker.Controllers.Api.Front
                 if (participant.UserId == userWithContests.Id)
                 {
                     var mappedAssignment = Mapper.Map<AssignmentViewModel>(assignment);
+                    if (assignment.Contest.EndAt < DateTime.Now && assignment.Contest.Type == ContestType.Contest)
+                    {
+                        mappedAssignment.ContestId = assignment.Contest.Id;
+                    }
+
                     var lastSubmission = _submissionGroupRepo.GetLastUserSubmissionInContest(currentUser, assignment);
                     mappedAssignment.LastSubmission = Mapper.Map<LastSubmissionViewModel>(lastSubmission);
 

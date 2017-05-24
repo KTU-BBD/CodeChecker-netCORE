@@ -11,6 +11,7 @@ namespace CodeChecker.Models.AssignmentViewModels
 
         public string InputType { get; set; }
         public string OutputType { get; set; }
+        public long ContestId { get; set; }
 
         public LastSubmissionViewModel LastSubmission { get; set; }
     }
