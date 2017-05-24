@@ -86,7 +86,15 @@ namespace CodeChecker.Tasks
                     submission.Output = results.Output;
                     submission.Memory = results.Memory;
                     submissionGroup.Memory = submission.Memory;
-                    submissionGroup.Time = results.TimeSpent;
+
+                    if (Math.Abs(results.TimeSpent) < 0.02)
+                    {
+                        submissionGroup.Time = 0.01;
+                    }
+                    else
+                    {
+                        submissionGroup.Time = results.TimeSpent;
+                    }
 
                     if (results.Verdict.Equals("COMPILATION_ERROR"))
                     {
@@ -160,11 +168,6 @@ namespace CodeChecker.Tasks
             {
                 Debug.WriteLine($"Error while solving assignment: {assignment.Id} {assignment.Name}");
                 assignment.Contest.UnsuccessfulSubmit++;
-            }
-
-            if (Math.Abs(submissionGroup.Time) < 0.02)
-            {
-                submissionGroup.Time = 0.01;
             }
 
             submissionGroup.Points = SubmissionPointCalculator(submissionGroup, submiteeUser);
