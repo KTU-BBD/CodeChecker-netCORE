@@ -18,7 +18,7 @@ namespace CodeChecker.Models.Repositories
 
         public IEnumerable<Contest> GetActiveContestPagedData(DataFilterViewModel filterData)
         {
-            var query = Query().Where(c => c.EndAt > DateTime.Now && c.Type == ContestType.Contest);
+            var query = Query().Where(c => c.EndAt > DateTime.Now && c.Type == ContestType.Contest && c.Status == ContestStatus.Approved);
 
             return GetPagedData(query, filterData)
                 .Include(c => c.Creator)
