@@ -125,15 +125,21 @@ namespace CodeChecker.Controllers.Api.Admin
         {
             try
             {
-                if (question != null)
+                if ((User.IsInRole("Administrator") || User.IsInRole("Moderator")))
                 {
-                    var neqFAQ = new Faq();
+                    if (question != null)
+                    {
+                        var neqFAQ = new Faq();
 
-                    var assignedUser = _userRepo.GetById(_userManager.GetUserId(User));
-                    neqFAQ.Creator = assignedUser;
-                    neqFAQ.Question = question.Question;
-                    _faqRepository.Insert(neqFAQ);
-                    return Ok(neqFAQ.Id);
+                        var assignedUser = _userRepo.GetById(_userManager.GetUserId(User));
+                        neqFAQ.Creator = assignedUser;
+                        neqFAQ.Question = question.Question;
+                        _faqRepository.Insert(neqFAQ);
+                        return Ok(neqFAQ.Id);
+                    }
+                }
+                else {
+                    return BadRequest("Unauthorized");
                 }
                 return BadRequest("The question of your faq cannot be empty");
             }
