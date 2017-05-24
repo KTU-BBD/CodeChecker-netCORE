@@ -30,10 +30,13 @@ namespace CodeChecker.Tasks
         public async Task RunTask(CodeAssignmentViewModel codeAssignment)
         {
             var solvedAll = true;
-            var assignment = _context.Assignments.Include(a => a.Contest)
-                .Include(a => a.Inputs)
-                .ThenInclude(o => o.Output)
-                .FirstOrDefault(a => a.Id == codeAssignment.AssignmentId);
+            var assignment = await _context.Assignments.Include(a => a.Contest)
+                .FirstOrDefaultAsync(a => a.Id == codeAssignment.AssignmentId);
+
+            var inputs = _context.Inputs.Include(i => i.Output)
+                .Where(i => i.Assignment == assignment)
+                .AsNoTracking()
+                .ToList();
 
             var submiteeUser = _context.Users.FirstOrDefault(u => u.Id == codeAssignment.SubmiterId);
 
@@ -53,7 +56,7 @@ namespace CodeChecker.Tasks
             _context.SubmissionGroups.Add(submissionGroup);
             _context.SaveChanges();
             int testNumber = 1;
-            foreach (var assignmentInput in assignment.Inputs)
+            foreach (var assignmentInput in inputs)
             {
                 if (string.IsNullOrEmpty(assignmentInput.Text))
                 {
